@@ -1,1 +1,0 @@
-# LEX_SYNDIC_V2
