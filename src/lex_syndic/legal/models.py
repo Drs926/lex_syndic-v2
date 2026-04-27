@@ -46,6 +46,7 @@ ComparisonType = Literal[
     "unknown",
 ]
 RiskLevel = Literal["low", "medium", "high", "unknown"]
+RuleOutcome = Literal["conforme", "risque", "non_conforme", "unknown"]
 
 _SOURCE_KINDS = {"accord", "projet", "reference", "unknown"}
 _COMPLIANCE_STATUSES = {"conforme", "risque", "non_conforme", "unknown"}
@@ -83,6 +84,7 @@ _COMPARISON_TYPES = {
     "unknown",
 }
 _RISK_LEVELS = {"low", "medium", "high", "unknown"}
+_RULE_OUTCOMES = {"conforme", "risque", "non_conforme", "unknown"}
 
 
 def _validate_choice(field_name: str, value: str, allowed: set[str]) -> None:
@@ -170,3 +172,17 @@ class ComparisonResult:
     def __post_init__(self) -> None:
         _validate_choice("comparison_type", self.comparison_type, _COMPARISON_TYPES)
         _validate_choice("risk_level", self.risk_level, _RISK_LEVELS)
+
+
+@dataclass(frozen=True)
+class RuleCheckResult:
+    """Canonical minimal result for one deterministic rule evaluation."""
+
+    result_id: str = ""
+    clause_id: str = ""
+    rule_code: str = ""
+    outcome: RuleOutcome = "unknown"
+    message: str = ""
+
+    def __post_init__(self) -> None:
+        _validate_choice("outcome", self.outcome, _RULE_OUTCOMES)

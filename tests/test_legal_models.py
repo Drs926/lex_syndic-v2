@@ -12,6 +12,7 @@ from lex_syndic.legal.models import (
     LegalDocument,
     LegalReference,
     Norm,
+    RuleCheckResult,
 )
 
 
@@ -105,6 +106,29 @@ def test_comparison_result_remains_importable_and_typed() -> None:
         "comparison_type": "modified_modality",
         "risk_level": "medium",
     }
+
+
+def test_rule_check_result_is_instantiable_and_serializable() -> None:
+    result = RuleCheckResult(
+        result_id="rule-001",
+        clause_id="clause-001",
+        rule_code="R001",
+        outcome="risque",
+        message="Clause a verifier.",
+    )
+
+    assert asdict(result) == {
+        "result_id": "rule-001",
+        "clause_id": "clause-001",
+        "rule_code": "R001",
+        "outcome": "risque",
+        "message": "Clause a verifier.",
+    }
+
+
+def test_rule_check_result_rejects_unknown_outcome() -> None:
+    with pytest.raises(ValueError, match="outcome must be one of"):
+        RuleCheckResult(outcome="invalide")  # type: ignore[arg-type]
 
 
 def test_clause_rejects_unknown_topic() -> None:

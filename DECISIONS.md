@@ -57,9 +57,10 @@ Contexte : `Clause` canonique V2 est un prérequis explicite pour `MIG-003+`.
 Le dépôt V2 ne doit pas importer le double pipeline V1, mais peut s'inspirer
 de `models/legal_clause.py` et de la taxonomie de `models/canonical_clause.py`.
 Décision : `src/lex_syndic/legal/models.py` définit en MIG-002 un socle minimal
-et immuable comprenant `LegalDocument`, `Clause`, `LegalReference`, `Norm` et
-un `ComparisonResult` conservé comme placeholder typé. La taxonomie de thèmes
-canonique est gelée sur les 10 valeurs de `canonical_clause.py`.
+et immuable comprenant `LegalDocument`, `Clause`, `LegalReference`, `Norm`,
+`RuleCheckResult` et un `ComparisonResult` conservé comme placeholder typé. La
+taxonomie de thèmes canonique est gelée sur les 10 valeurs de
+`canonical_clause.py`.
 Conséquences :
 - Aucun pipeline n'est introduit en MIG-002.
 - Aucun import runtime depuis V1 n'est autorisé.

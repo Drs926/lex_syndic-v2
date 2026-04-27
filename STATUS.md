@@ -24,7 +24,7 @@ fonctionnelle (placeholders) :
 | Module | État |
 |--------|------|
 | `core` | Squelette (`config.py`, `exceptions.py`, `types.py`). Importable avec `src/` dans `sys.path`. |
-| `legal` | MIG-002 terminé. `models.py` contient les modèles canoniques immuables `LegalDocument`, `Clause`, `LegalReference`, `Norm` et un `ComparisonResult` typé, avec tests dédiés verts. |
+| `legal` | MIG-002 terminé. `models.py` contient les modèles canoniques immuables `LegalDocument`, `Clause`, `LegalReference`, `Norm`, `RuleCheckResult` et un `ComparisonResult` typé, avec tests dédiés verts. |
 | `ingestion` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
 | `analysis` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
 | `comparison` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
