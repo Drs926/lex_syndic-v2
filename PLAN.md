@@ -8,13 +8,14 @@ Feuille de route opérationnelle de V2.
   `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`.
 - Aucun code migré. Aucun test ajouté. Aucune dépendance ajoutée.
 
-## Phase 1 — Outillage minimum (à stabiliser)
+## Phase 1 — Outillage minimum (terminée)
 
 - `pyproject.toml` créé : `lex-syndic` v2.0.0, Python ≥ 3.11, pytest ≥ 8.0.
+- Backend d'installation editable corrigé : `setuptools.build_meta`.
 - Pipeline de tests initialisé : `tests/conftest.py` + `tests/test_package_import.py`.
-- Les 17 tests de `tests/test_package_import.py` sont définis, mais leur exécution
-  n'est pas reproductible dans l'environnement courant tant que `pytest` n'est
-  pas disponible sur l'interpréteur local utilisé par `python`.
+- Commande reproduite avec succès le 2026-04-27 :
+  `python -m pytest tests/test_package_import.py -v -p no:cacheprovider`
+  → `17 passed`.
 - Audit V1→V2 produit : `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md`.
 
 ## Phase 2 — Migration contrôlée depuis V1
@@ -32,7 +33,7 @@ Chaque lot respecte `MIGRATION_POLICY.md` :
 
 | Lot | Module cible | Contenu | Critère de sortie | État |
 |-----|--------------|---------|-------------------|------|
-| `MIG-001` | `core` | Packaging, pyproject.toml, pipeline de tests, squelettes importables. | `python -m pytest` passe. 17 tests verts. | **À STABILISER** |
+| `MIG-001` | `core` | Packaging, pyproject.toml, pipeline de tests, squelettes importables. | `python -m pytest` passe. 17 tests verts. | **TERMINÉ** |
 | `MIG-002` | `legal` | Modèles juridiques `LegalDocument`, `Clause`, `LegalReference`, `Norm`. | Modèles instanciables, sérialisation testée. | En attente |
 | `MIG-003` | `ingestion` | Lecture fichiers, extraction texte, normalisation. | Pipeline d'entrée testé sur jeux de données fixes. | En attente |
 | `MIG-004` | `analysis` | Segmentation de clauses, classification thématique, extraction de références. | Sortie `AnalyzedClause` testée. | En attente |

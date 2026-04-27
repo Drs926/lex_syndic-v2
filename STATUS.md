@@ -10,10 +10,10 @@ Dernière mise à jour : 2026-04-27.
 |---------|-----------|
 | Architecture | **Documentée** (`docs/architecture/software_architecture_v2.md`). |
 | Code métier | **Non migré.** Aucun module n'implémente de logique fonctionnelle. |
-| Tests | **Présents mais non validés dans l'environnement courant.** `tests/test_package_import.py` contient 17 tests, mais `python -m pytest` échoue actuellement avec `No module named pytest`. |
-| Packaging | **Déclaré mais non validé en exécution ici.** `pyproject.toml` existe, mais l'interpréteur `python` courant ne dispose pas de `pytest`. |
+| Tests | **Opérationnels.** `python -m pytest tests/test_package_import.py -v -p no:cacheprovider` a passé : `17 passed` le 2026-04-27. |
+| Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'installation locale permet l'exécution de `pytest`. |
 | Gouvernance | **En place** (fichiers racine `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`, `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`). |
-| Migration V1 | **Lot MIG-001 à stabiliser.** `MIG-002` à `MIG-010` listés dans `PLAN.md` non démarrés. |
+| Migration V1 | **Lot MIG-001 terminé.** `MIG-002` à `MIG-010` listés dans `PLAN.md` non démarrés. |
 | Audit V1→V2 | **Produit.** `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` — 42 fichiers classés, 10 lots ordonnés. |
 
 ## Détail par module canonique
@@ -48,5 +48,4 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-Stabiliser et vérifier `MIG-001` dans un environnement où `python -m pytest`
-est reproductible, puis seulement ouvrir `MIG-002`.
+`MIG-001` est vérifié. Ne pas ouvrir `MIG-002` sans décision explicite séparée.
