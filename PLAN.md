@@ -1,0 +1,68 @@
+# PLAN
+
+Feuille de route opérationnelle de V2.
+
+## Phase 0 — Stabilisation gouvernance (terminée)
+
+- Fichiers racine renseignés : `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`,
+  `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`.
+- Aucun code migré. Aucun test ajouté. Aucune dépendance ajoutée.
+
+## Phase 1 — Outillage minimum (à stabiliser)
+
+- `pyproject.toml` créé : `lex-syndic` v2.0.0, Python ≥ 3.11, pytest ≥ 8.0.
+- Pipeline de tests initialisé : `tests/conftest.py` + `tests/test_package_import.py`.
+- Les 17 tests de `tests/test_package_import.py` sont définis, mais leur exécution
+  n'est pas reproductible dans l'environnement courant tant que `pytest` n'est
+  pas disponible sur l'interpréteur local utilisé par `python`.
+- Audit V1→V2 produit : `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md`.
+
+## Phase 2 — Migration contrôlée depuis V1
+
+La migration depuis V1 se fait **par lots numérotés** `MIG-001` à `MIG-010`.
+Chaque lot respecte `MIGRATION_POLICY.md` :
+
+- périmètre limité à un module canonique de `software_architecture_v2.md` ;
+- code repris **réécrit** ou **adapté** (pas de copie aveugle) ;
+- tests obligatoires avant fusion ;
+- pas d'introduction de technologie hors architecture ;
+- entrée correspondante dans `DECISIONS.md`.
+
+### Lots de migration
+
+| Lot | Module cible | Contenu | Critère de sortie | État |
+|-----|--------------|---------|-------------------|------|
+| `MIG-001` | `core` | Packaging, pyproject.toml, pipeline de tests, squelettes importables. | `python -m pytest` passe. 17 tests verts. | **À STABILISER** |
+| `MIG-002` | `legal` | Modèles juridiques `LegalDocument`, `Clause`, `LegalReference`, `Norm`. | Modèles instanciables, sérialisation testée. | En attente |
+| `MIG-003` | `ingestion` | Lecture fichiers, extraction texte, normalisation. | Pipeline d'entrée testé sur jeux de données fixes. | En attente |
+| `MIG-004` | `analysis` | Segmentation de clauses, classification thématique, extraction de références. | Sortie `AnalyzedClause` testée. | En attente |
+| `MIG-005` | `comparison` | Comparaison clause↔clause et clause↔norme, scoring. | Sortie `ComparisonResult` testée. | En attente |
+| `MIG-006` | `rules` | Règles calculables, seuils, validation conformité. | Sortie `RuleCheckResult` testée. | En attente |
+| `MIG-007` | `retrieval` | Indexation et recherche lexicale interne. | Recherche sur corpus de test reproductible. | En attente |
+| `MIG-008` | `storage` | Persistance fichier, métadonnées, résultats. | Round-trip lecture/écriture testé. | En attente |
+| `MIG-009` | `report` | Synthèse Markdown et JSON. | Génération déterministe testée. | En attente |
+| `MIG-010` | `interface` | Point d'entrée minimal (CLI). | Exécution pipeline complet sur exemple. | En attente |
+
+### Ordre des lots
+
+L'ordre est contraint par le graphe de dépendances de `software_architecture_v2.md` §7.
+Référence détaillée : `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` §9.
+
+```
+MIG-001 → MIG-002 → MIG-003 → MIG-004 → MIG-005 → MIG-006
+                 ↘ MIG-007
+                 ↘ MIG-008
+MIG-005 + MIG-006 → MIG-009 → MIG-010
+```
+
+### Hors plan
+
+Aucun lot ne couvre :
+- backend applicatif,
+- frontend,
+- serveur MCP,
+- graphe,
+- Open WebUI,
+- connecteurs Légifrance ou Judilibre.
+
+Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.

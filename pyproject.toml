@@ -1,0 +1,21 @@
+[project]
+name = "lex-syndic"
+version = "2.0.0"
+description = "Analyse juridique des accords d entreprise - droit du travail francais."
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short -p no:cacheprovider"
