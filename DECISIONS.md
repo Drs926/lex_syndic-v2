@@ -66,3 +66,18 @@ Conséquences :
 - Aucun import runtime depuis V1 n'est autorisé.
 - Les modèles doivent être instanciables et sérialisables par tests avant toute
   ouverture de `MIG-003`.
+
+## DEC-005 — MIG-003 démarre par une ingestion texte pure et bornée
+Date : 2026-04-27
+Statut : Acceptée
+Contexte : L'audit V1 mentionne `extract_text.py` pour MIG-003, mais cette
+source introduit PDF/DOCX et des dépendances externes interdites dans cette
+mission. `legal_segmenter.py` appartient en outre à MIG-004, pas à l'ingestion.
+Décision : MIG-003 commence par une ingestion minimale limitée au texte brut et
+aux fichiers `.txt`, avec normalisation simple des retours ligne et production
+d'un unique `LegalDocument` sans segmentation juridique avancée.
+Conséquences :
+- Aucune dépendance externe n'est ajoutée dans MIG-003.
+- Aucun PDF, DOCX ou pipeline de segmentation n'entre dans ce lot.
+- `source_path` est conservé comme métadonnée légère sur l'instance du document
+  sans modification du modèle canonique `LegalDocument`.
