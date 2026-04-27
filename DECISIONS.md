@@ -81,3 +81,18 @@ Conséquences :
 - Aucun PDF, DOCX ou pipeline de segmentation n'entre dans ce lot.
 - `source_path` est conservé comme métadonnée légère sur l'instance du document
   sans modification du modèle canonique `LegalDocument`.
+
+## DEC-006 — MIG-004 limite l'analyse à une segmentation structurelle minimale
+Date : 2026-04-27
+Statut : Acceptée
+Contexte : `legal_segmenter.py` V1 montre une chaîne de segmentation plus large,
+mais MIG-004 doit rester borné et ne pas dériver vers l'analyse juridique
+complète ni vers les dépendances de lots ultérieurs.
+Décision : MIG-004 segmente uniquement un `LegalDocument` en clauses candidates
+par paragraphes séparés par lignes vides, avec un fallback par lignes non vides
+si un seul bloc existe. Les clauses générées restent neutres : `topic="autre"`,
+`compliance_status="unknown"` et aucune référence normative n'est ajoutée.
+Conséquences :
+- Aucun moteur d'analyse juridique n'est introduit.
+- Aucun `AnalyzedClause` n'est ajouté dans ce lot.
+- La sortie reste un `LegalDocument` enrichi de clauses candidates ordonnées.
