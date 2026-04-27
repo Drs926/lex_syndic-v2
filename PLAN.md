@@ -37,7 +37,7 @@ Chaque lot respecte `MIGRATION_POLICY.md` :
 | `MIG-002` | `legal` | Modèles juridiques `LegalDocument`, `Clause`, `LegalReference`, `Norm`, `RuleCheckResult`. | Modèles instanciables, sérialisation testée. | **TERMINÉ** |
 | `MIG-003` | `ingestion` | Lecture texte brut, chargement `.txt`, normalisation simple, sortie `LegalDocument`. | Ingestion texte testée sans dépendance externe ni segmentation avancée. | **TERMINÉ** |
 | `MIG-004` | `analysis` | Segmentation minimale en clauses candidates, sans analyse juridique ni extraction. | Segmentation déterministe testée sur `LegalDocument` issu de MIG-003. | **TERMINÉ** |
-| `MIG-005` | `comparison` | Comparaison clause↔clause et clause↔norme, scoring. | Sortie `ComparisonResult` testée. | En attente |
+| `MIG-005` | `comparison` | Comparaison minimale clause↔clause entre documents déjà segmentés, sans scoring ni jugement juridique. | Comparaison structurelle testée via `ComparisonResult` canonique et entrées ordonnées. | **TERMINÉ** |
 | `MIG-006` | `rules` | Règles calculables, seuils, validation conformité. | Sortie `RuleCheckResult` testée. | En attente |
 | `MIG-007` | `retrieval` | Indexation et recherche lexicale interne. | Recherche sur corpus de test reproductible. | En attente |
 | `MIG-008` | `storage` | Persistance fichier, métadonnées, résultats. | Round-trip lecture/écriture testé. | En attente |

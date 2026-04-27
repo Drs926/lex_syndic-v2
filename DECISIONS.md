@@ -96,3 +96,22 @@ Conséquences :
 - Aucun moteur d'analyse juridique n'est introduit.
 - Aucun `AnalyzedClause` n'est ajouté dans ce lot.
 - La sortie reste un `LegalDocument` enrichi de clauses candidates ordonnées.
+
+## DEC-007 — MIG-005 limite la comparaison à un diff structurel par position
+Date : 2026-04-27
+Statut : Acceptée
+Contexte : Le modèle canonique MIG-002 expose déjà `ComparisonResult`, mais ne
+porte pas encore de collection dédiée pour un diff complet de document. MIG-005
+doit néanmoins stabiliser une comparaison minimale sans modifier
+`legal/models.py` ni introduire d'analyse juridique.
+Décision : MIG-005 compare deux `LegalDocument` déjà segmentés par ordre
+d'apparition des clauses. La comparaison repose sur une normalisation textuelle
+stricte et produit un `ComparisonResult` canonique enrichi d'entrées runtime
+ordonnées, chacune de type `unchanged`, `rephrased`, `added` ou `removed`.
+Conséquences :
+- Aucun scoring, aucune similarité sémantique et aucune règle juridique ne sont
+  introduits.
+- Le contrat runtime `document.clauses` issu de MIG-004 est consommé sans
+  modifier `LegalDocument`.
+- Une modélisation canonique plus riche des diffs documentaires reste reportée
+  à un lot ultérieur si nécessaire.
