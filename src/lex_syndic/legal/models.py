@@ -1,21 +1,172 @@
-"""Canonical legal model placeholders for LEX_SYNDIC_V2."""
+"""Canonical legal models for LEX_SYNDIC_V2.
 
-from dataclasses import dataclass
-from typing import Optional
+This module intentionally stays small and deterministic in MIG-002.
+It defines only typed, immutable legal data structures used as the
+canonical foundation for later ingestion, analysis, comparison, and rules.
+"""
 
-@dataclass
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Literal
+
+SourceKind = Literal["accord", "projet", "reference", "unknown"]
+ComplianceStatus = Literal["conforme", "risque", "non_conforme", "unknown"]
+CanonicalTopic = Literal[
+    "teletravail",
+    "temps_travail",
+    "remuneration",
+    "conges",
+    "discipline",
+    "sante_securite",
+    "formation",
+    "egalite_professionnelle",
+    "organisation_travail",
+    "autre",
+]
+NormKind = Literal[
+    "loi",
+    "decret",
+    "convention_collective",
+    "accord_entreprise",
+    "jurisprudence",
+    "autre",
+    "unknown",
+]
+ComparisonType = Literal[
+    "unchanged",
+    "rephrased",
+    "modified_quantity",
+    "modified_modality",
+    "modified_condition",
+    "modified_subject",
+    "modified_action",
+    "added",
+    "removed",
+    "unknown",
+]
+RiskLevel = Literal["low", "medium", "high", "unknown"]
+
+_SOURCE_KINDS = {"accord", "projet", "reference", "unknown"}
+_COMPLIANCE_STATUSES = {"conforme", "risque", "non_conforme", "unknown"}
+_CANONICAL_TOPICS = {
+    "teletravail",
+    "temps_travail",
+    "remuneration",
+    "conges",
+    "discipline",
+    "sante_securite",
+    "formation",
+    "egalite_professionnelle",
+    "organisation_travail",
+    "autre",
+}
+_NORM_KINDS = {
+    "loi",
+    "decret",
+    "convention_collective",
+    "accord_entreprise",
+    "jurisprudence",
+    "autre",
+    "unknown",
+}
+_COMPARISON_TYPES = {
+    "unchanged",
+    "rephrased",
+    "modified_quantity",
+    "modified_modality",
+    "modified_condition",
+    "modified_subject",
+    "modified_action",
+    "added",
+    "removed",
+    "unknown",
+}
+_RISK_LEVELS = {"low", "medium", "high", "unknown"}
+
+
+def _validate_choice(field_name: str, value: str, allowed: set[str]) -> None:
+    """Reject values outside the canonical deterministic vocabulary."""
+
+    if value not in allowed:
+        allowed_values = ", ".join(sorted(allowed))
+        raise ValueError(f"{field_name} must be one of: {allowed_values}")
+
+
+@dataclass(frozen=True)
 class LegalDocument:
-    document_id: Optional[str] = None
+    """Canonical representation of one legal document in V2."""
 
-@dataclass
+    document_id: str = ""
+    title: str = ""
+    source_kind: SourceKind = "unknown"
+    language: str = "fr"
+    text: str = ""
+    reference_ids: tuple[str, ...] = field(default_factory=tuple)
+
+    def __post_init__(self) -> None:
+        _validate_choice("source_kind", self.source_kind, _SOURCE_KINDS)
+
+
+@dataclass(frozen=True)
 class Clause:
-    clause_id: Optional[str] = None
+    """Canonical representation of one legal clause."""
 
-@dataclass
+    clause_id: str = ""
+    document_id: str = ""
+    article_id: str = ""
+    title: str = ""
+    topic: CanonicalTopic = "autre"
+    content: str = ""
+    source_kind: SourceKind = "unknown"
+    norm_reference_ids: tuple[str, ...] = field(default_factory=tuple)
+    compliance_status: ComplianceStatus = "unknown"
+
+    def __post_init__(self) -> None:
+        _validate_choice("topic", self.topic, _CANONICAL_TOPICS)
+        _validate_choice("source_kind", self.source_kind, _SOURCE_KINDS)
+        _validate_choice(
+            "compliance_status", self.compliance_status, _COMPLIANCE_STATUSES
+        )
+
+
+@dataclass(frozen=True)
 class LegalReference:
-    reference_id: Optional[str] = None
+    """Reference extracted from or attached to a legal object."""
 
-@dataclass
+    reference_id: str = ""
+    citation: str = ""
+    kind: NormKind = "unknown"
+    source_url: str | None = None
+
+    def __post_init__(self) -> None:
+        _validate_choice("kind", self.kind, _NORM_KINDS)
+
+
+@dataclass(frozen=True)
+class Norm:
+    """Canonical deterministic representation of one legal norm."""
+
+    norm_id: str = ""
+    title: str = ""
+    citation: str = ""
+    kind: NormKind = "unknown"
+    source_url: str | None = None
+
+    def __post_init__(self) -> None:
+        _validate_choice("kind", self.kind, _NORM_KINDS)
+
+
+@dataclass(frozen=True)
 class ComparisonResult:
-    result_id: Optional[str] = None
+    """Minimal compared-clause placeholder kept importable for later lots."""
 
+    result_id: str = ""
+    reference_clause_id: str = ""
+    proposal_clause_id: str = ""
+    comparison_type: ComparisonType = "unknown"
+    risk_level: RiskLevel = "unknown"
+
+    def __post_init__(self) -> None:
+        _validate_choice("comparison_type", self.comparison_type, _COMPARISON_TYPES)
+        _validate_choice("risk_level", self.risk_level, _RISK_LEVELS)
