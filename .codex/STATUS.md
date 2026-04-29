@@ -1,12 +1,12 @@
 # STATUS
 
-TASK_ID: LXS2-20260429-002
-STATE: DONE
-MODE: DOC_ONLY
-VERDICT: OK
+TASK_ID: LXS2-20260429-003
+STATE: READY_FOR_AGENT
+MODE: CODE_ACTION
+OWNER: codex
 UPDATED_AT: 2026-04-29
 
 SUMMARY:
-- Preflight conforme apres verification de `main`, `git status --short` et `git pull`.
-- `README.md` et `STATUS.md` ont ete alignes sur l'etat reel prouve par `LXS2-20260429-001`.
-- `PROMPTS_INDEX.md` a ete complete pour tracer la mission, puis `python -m pytest -q` a reconfirme l'absence d'impact sur le code.
+- Tâche MIG-006 active pour implémenter le module `rules` minimal et testé.
+- Périmètre autorisé : `src/lex_syndic/rules/**`, tests rules, `DECISIONS.md`, `STATUS.md`, `PLAN.md`, `PROMPTS_INDEX.md`, traces `.codex`.
+- Aucun fichier interdit ne doit être modifié.
