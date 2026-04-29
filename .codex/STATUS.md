@@ -1,12 +1,12 @@
 # STATUS
 
-TASK_ID: LXS2-20260429-001
-STATE: DONE
-MODE: PROOF_ONLY
-VERDICT: OK
+TASK_ID: LXS2-20260429-002
+STATE: READY_FOR_AGENT
+MODE: DOC_ONLY
+OWNER: codex
 UPDATED_AT: 2026-04-29
 
 SUMMARY:
-- Preflight conforme apres verification de `main`, `git status --short` et `git pull`.
-- Aucun fichier metier ni fichier de gouvernance racine n'a ete modifie.
-- Les seules modifications de cette mission sont `.codex/STATUS.md`, `.codex/RESULT.md`, `.codex/PROOF.md` et `.codex/HANDOFF.md`.
+- Tâche documentaire active pour aligner README/STATUS/PLAN/PROMPTS_INDEX si nécessaire avec l’état réel prouvé par LXS2-20260429-001.
+- Aucun fichier métier ne doit être modifié.
+- Prochaine action : exécution locale après `git pull`.
