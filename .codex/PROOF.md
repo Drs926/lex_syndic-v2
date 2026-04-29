@@ -1,8 +1,8 @@
 # PROOF
 
-Task: `LXS2-20260429-002`
+Task: `LXS2-20260429-003`
 Date: `2026-04-29`
-Mode: `DOC_ONLY`
+Mode: `CODE_ACTION`
 
 ## Branche courante
 
@@ -39,63 +39,36 @@ Commande:
 Resultat:
 `0 0`
 
-## Fichiers lus
+## Implémentation MIG-006
 
-- `.codex/TASK.md`
-- `AGENTS.md`
-- `README.md`
-- `STATUS.md`
-- `PLAN.md`
-- `PROMPTS_INDEX.md`
-- `OUTPUT_CONTRACT.md`
-- `.codex/RESULT.md`
-- `.codex/PROOF.md`
-- `pyproject.toml`
+Fichiers code:
+- `src/lex_syndic/rules/__init__.py`
+- `src/lex_syndic/rules/simple_rules.py`
+- `tests/test_rules_simple_rules.py`
 
-## Alignement documentaire effectue
+Synthese:
+- `evaluate_clause_rule` produit un unique `RuleCheckResult` deterministe par clause
+- priorite: `compliance_status` explicite, puis clause vide, puis signal textuel trop faible, sinon contenu minimal conforme
+- `evaluate_document_rules` consomme uniquement le contrat runtime `document.clauses`
 
-- `README.md` : remplacement de l'etat obsolete par un etat aligne sur la preuve du 2026-04-29 (`MIG-005` visible, verification locale `pytest`, packaging valide en execution).
-- `STATUS.md` : mise a jour de la date, de la ligne de tests, de la ligne packaging et de la prochaine action de reference.
-- `PROMPTS_INDEX.md` : ajout de l'entree `PROMPT-002`.
+## Gouvernance mise a jour
 
-## Verification apres modification
+- `DECISIONS.md` : ajout de `DEC-008`
+- `PLAN.md` : `MIG-006` passe a `TERMINÉ`
+- `STATUS.md` : etat reel aligne sur `MIG-006`
+- `PROMPTS_INDEX.md` : ajout de `PROMPT-003`
+
+## Verification
 
 Commande:
 `python -m pytest -q`
 
 Resultat:
-- `47 passed in 0.10s`
+- `52 passed in 0.17s`
 - warning additionnel `PytestDeprecationWarning` emis par `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` non renseigne
 
-## Diff stat final
+## Confirmation
 
-Commande:
-`git diff --stat`
-
-Resultat:
-- `.codex/HANDOFF.md | 12 +++++++++---`
-- `.codex/PROOF.md   | 92 ++++++++++++++++++++++++++++++++++-------------------`
-- `.codex/RESULT.md  | 31 +++++++++---------
-- `.codex/STATUS.md  | 10 +++---
-- `PROMPTS_INDEX.md  | 14 ++++++++++++++`
-- `README.md         |  8 +++++---`
-- `STATUS.md         |  8 ++++----`
-- total: `7 files changed, 93 insertions(+), 34 deletions(-)`
-
-## Liste exacte des fichiers modifies
-
-- `README.md`
-- `STATUS.md`
-- `PROMPTS_INDEX.md`
-- `.codex/STATUS.md`
-- `.codex/RESULT.md`
-- `.codex/PROOF.md`
-- `.codex/HANDOFF.md`
-
-## Confirmation de perimetre
-
-- Aucun fichier sous `src/` n'a ete modifie.
-- Aucun fichier sous `tests/` n'a ete modifie.
-- Aucun fichier sous `docs/architecture/` n'a ete modifie.
-- `AGENTS.md` n'a pas ete modifie.
-- `MIGRATION_POLICY.md` n'a pas ete modifie.
+- `RuleCheckResult` est utilise dans `src/lex_syndic/rules/simple_rules.py`
+- aucune dependance externe n'a ete ajoutee
+- aucun fichier interdit n'a ete modifie

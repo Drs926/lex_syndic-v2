@@ -46,3 +46,19 @@ Fichiers modifiés : `README.md`, `STATUS.md`, `PROMPTS_INDEX.md`,
 `.codex/HANDOFF.md`.
 Référence : sortie contractuelle de la session du 2026-04-29 pour
 `LXS2-20260429-002`.
+
+## PROMPT-003 — MIG-006 minimal et teste pour le module rules
+Date : 2026-04-29
+Mission : Implementer `MIG-006` de maniere minimale et testee pour le module
+`rules`, sans dependance externe ni capacite hors lot.
+Périmètre autorisé : `src/lex_syndic/rules/**`, `tests/test_rules*.py`,
+`DECISIONS.md`, `STATUS.md`, `PLAN.md`, `PROMPTS_INDEX.md` et fichiers
+`.codex/`.
+Verdict : OK
+Fichiers modifiés : `src/lex_syndic/rules/__init__.py`,
+`src/lex_syndic/rules/simple_rules.py`, `tests/test_rules_simple_rules.py`,
+`DECISIONS.md`, `STATUS.md`, `PLAN.md`, `PROMPTS_INDEX.md`,
+`.codex/STATUS.md`, `.codex/RESULT.md`, `.codex/PROOF.md`,
+`.codex/HANDOFF.md`.
+Référence : sortie contractuelle de la session du 2026-04-29 pour
+`LXS2-20260429-003`.

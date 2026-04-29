@@ -115,3 +115,23 @@ Conséquences :
   modifier `LegalDocument`.
 - Une modélisation canonique plus riche des diffs documentaires reste reportée
   à un lot ultérieur si nécessaire.
+
+## DEC-008 — MIG-006 limite les règles à un contrôle déterministe minimal
+Date : 2026-04-29
+Statut : Acceptée
+Contexte : `RuleCheckResult` existe déjà depuis MIG-002, mais le module
+`rules` ne contient encore aucune logique métier. MIG-006 doit fournir une
+première couche calculable sans dériver vers l'analyse juridique avancée ni
+introduire de dépendance externe.
+Décision : MIG-006 évalue une clause avec une seule règle déterministe
+prioritaire. Si `compliance_status` est déjà renseigné, il est converti tel
+quel en `RuleCheckResult`. Sinon, une clause vide devient `non_conforme`, une
+clause à signal textuel trop faible devient `risque`, et une clause avec
+contenu exploitable minimal devient `conforme`. L'évaluation documentaire
+consomme uniquement le contrat runtime `document.clauses`.
+Conséquences :
+- Le module `rules` reste borné à des heuristiques structurelles minimales.
+- Aucun raisonnement juridique, scoring avancé, NLP ou source externe n'est
+  introduit.
+- Les sorties sont testées via `RuleCheckResult` avant l'ouverture de
+  `MIG-007`.
