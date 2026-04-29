@@ -1,12 +1,12 @@
 # STATUS
 
-TASK_ID: LXS2-20260429-003
-STATE: DONE
+TASK_ID: LXS2-20260429-004
+STATE: READY_FOR_AGENT
 MODE: CODE_ACTION
-VERDICT: OK
+OWNER: codex
 UPDATED_AT: 2026-04-29
 
 SUMMARY:
-- Preflight conforme apres verification de `main`, `git status --short`, `git pull` et `origin/main...main`.
-- `MIG-006` a ete implemente dans `src/lex_syndic/rules/` avec sortie `RuleCheckResult` deterministe et tests dedies.
-- La suite `python -m pytest -q` passe avec `52 passed in 0.17s`.
+- Tâche MIG-007 active pour implémenter le module `retrieval` minimal et testé.
+- Périmètre autorisé : `src/lex_syndic/retrieval/**`, tests retrieval, `DECISIONS.md`, `STATUS.md`, `PLAN.md`, `PROMPTS_INDEX.md`, traces `.codex`.
+- Aucun fichier interdit ne doit être modifié.
