@@ -1,10 +1,12 @@
-# Status
+# STATUS
 
-PROJECT: lex_syndic-v2
-CURRENT_TASK: LXS2-20260429-001
-STATE: READY_FOR_AGENT
-OWNER: codex
-LAST_UPDATE: 2026-04-29
-LAST_ACTION: First PROOF_ONLY repository state audit task synced.
-NEXT_ACTION: Run Codex or Claude locally after git pull.
-BLOCKER: none
+TASK_ID: LXS2-20260429-001
+STATE: DONE
+MODE: PROOF_ONLY
+VERDICT: OK
+UPDATED_AT: 2026-04-29
+
+SUMMARY:
+- Preflight conforme apres verification de `main`, `git status --short` et `git pull`.
+- Aucun fichier metier ni fichier de gouvernance racine n'a ete modifie.
+- Les seules modifications de cette mission sont `.codex/STATUS.md`, `.codex/RESULT.md`, `.codex/PROOF.md` et `.codex/HANDOFF.md`.
