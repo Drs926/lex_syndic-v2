@@ -17,9 +17,11 @@ Le système assiste l'analyse juridique, il ne la remplace pas.
 
 ## État réel
 
-Voir `STATUS.md`. À ce jour : architecture documentée, code métier non migré,
-socle de tests présent mais non vérifié dans l'environnement courant,
-packaging déclaré via `pyproject.toml` mais non validé en exécution ici.
+Voir `STATUS.md`. À ce jour : architecture documentée, code métier
+partiellement migré jusqu'à `MIG-005`, socle de tests vérifié localement le
+2026-04-29 via `python -m pytest -q` (`47 passed in 0.17s`), packaging déclaré
+dans `pyproject.toml` et validation d'exécution prouvée dans l'environnement
+courant.
 
 ## Documents de gouvernance
 

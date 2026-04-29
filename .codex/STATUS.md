@@ -1,12 +1,12 @@
 # STATUS
 
 TASK_ID: LXS2-20260429-002
-STATE: READY_FOR_AGENT
+STATE: DONE
 MODE: DOC_ONLY
-OWNER: codex
+VERDICT: OK
 UPDATED_AT: 2026-04-29
 
 SUMMARY:
-- Tâche documentaire active pour aligner README/STATUS/PLAN/PROMPTS_INDEX si nécessaire avec l’état réel prouvé par LXS2-20260429-001.
-- Aucun fichier métier ne doit être modifié.
-- Prochaine action : exécution locale après `git pull`.
+- Preflight conforme apres verification de `main`, `git status --short` et `git pull`.
+- `README.md` et `STATUS.md` ont ete alignes sur l'etat reel prouve par `LXS2-20260429-001`.
+- `PROMPTS_INDEX.md` a ete complete pour tracer la mission, puis `python -m pytest -q` a reconfirme l'absence d'impact sur le code.

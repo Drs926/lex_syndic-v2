@@ -1,8 +1,8 @@
 # PROOF
 
-Task: `LXS2-20260429-001`
+Task: `LXS2-20260429-002`
 Date: `2026-04-29`
-Mode: `PROOF_ONLY`
+Mode: `DOC_ONLY`
 
 ## Branche courante
 
@@ -23,20 +23,13 @@ Resultat:
   - `warning: unable to access 'C:\Users\Harib/.config/git/ignore': Permission denied`
   - `warning: unable to access 'C:\Users\Harib/.config/git/ignore': Permission denied`
 
-Conclusion:
-- aucun changement hors scope detecte avant execution
-
-## Synchronisation demandee
+## Synchronisation
 
 Commande:
 `git pull`
 
-Resultat 1:
-- echec en sandbox: `error: cannot open '.git/FETCH_HEAD': Permission denied`
-
-Resultat 2:
-- relance autorisee hors sandbox
-- sortie: `Already up to date.`
+Resultat:
+`Already up to date.`
 
 ## Ecart avec origin/main
 
@@ -46,85 +39,63 @@ Commande:
 Resultat:
 `0 0`
 
-## Historique recent
-
-Commande:
-`git log --oneline --decorate -10`
-
-Resultat:
-- `5eb4deb (HEAD -> main, origin/main, origin/HEAD) Update lex_syndic-v2 status for first proof-only audit task`
-- `0d7c707 Sync first proof-only state audit task into lex_syndic-v2`
-- `c32ff5c Initialize codex handoff rail for lex_syndic-v2`
-- `41d05f8 Initialize codex proof rail for lex_syndic-v2`
-- `7aa1eaa Initialize codex result rail for lex_syndic-v2`
-- `11d5c20 Initialize codex status rail for lex_syndic-v2`
-- `7351ae7 Initialize codex task rail for lex_syndic-v2`
-- `c138f7a Ignore local temporary folders`
-- `a314f2e implement MIG-005 minimal clause comparison`
-- `1d42dd8 implement MIG-004 minimal clause segmentation`
-
-Lecture factuelle:
-- dernier ajout visible lie au rail `.codex`
-- derniere migration visible de code metier: `MIG-005`
-
-## Fichiers suivis
-
-Commande:
-`git ls-files`
-
-Synthese:
-- gouvernance racine presente
-- architecture: `docs/architecture/software_architecture_v2.md`
-- audits: `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md`, `python_package_baseline.md`, `repository_structure.md`
-- code metier present sous `src/lex_syndic/` pour `analysis`, `comparison`, `core`, `ingestion`, `interface`, `legal`, `report`, `retrieval`, `rules`, `storage`
-- tests presents sous `tests/`
-- rail `.codex` present avec `TASK`, `STATUS`, `RESULT`, `PROOF`, `HANDOFF`
-
-## Configuration Python / pytest
-
-Commande:
-`type pyproject.toml`
-
-Resultat synthese:
-- package `lex-syndic` version `2.0.0`
-- Python `>=3.11`
-- dependance optionnelle `pytest>=8.0`
-- packages trouves sous `src`
-- pytest configure sur `tests` avec `-v --tb=short -p no:cacheprovider`
-
-## Verification disponible executee
-
-Commande:
-`python -m pytest -q`
-
-Resultat:
-- `47 passed in 0.17s`
-- warning additionnel `PytestDeprecationWarning` emis par `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` non renseigne
-
 ## Fichiers lus
 
 - `.codex/TASK.md`
 - `AGENTS.md`
 - `README.md`
-- `PLAN.md`
-- `SPEC.md`
 - `STATUS.md`
-- `DECISIONS.md`
-- `MIGRATION_POLICY.md`
-- `OUTPUT_CONTRACT.md`
+- `PLAN.md`
 - `PROMPTS_INDEX.md`
+- `OUTPUT_CONTRACT.md`
+- `.codex/RESULT.md`
+- `.codex/PROOF.md`
 - `pyproject.toml`
 
-## Fichiers modifies
+## Alignement documentaire effectue
 
+- `README.md` : remplacement de l'etat obsolete par un etat aligne sur la preuve du 2026-04-29 (`MIG-005` visible, verification locale `pytest`, packaging valide en execution).
+- `STATUS.md` : mise a jour de la date, de la ligne de tests, de la ligne packaging et de la prochaine action de reference.
+- `PROMPTS_INDEX.md` : ajout de l'entree `PROMPT-002`.
+
+## Verification apres modification
+
+Commande:
+`python -m pytest -q`
+
+Resultat:
+- `47 passed in 0.10s`
+- warning additionnel `PytestDeprecationWarning` emis par `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` non renseigne
+
+## Diff stat final
+
+Commande:
+`git diff --stat`
+
+Resultat:
+- `.codex/HANDOFF.md | 12 +++++++++---`
+- `.codex/PROOF.md   | 92 ++++++++++++++++++++++++++++++++++-------------------`
+- `.codex/RESULT.md  | 31 +++++++++---------
+- `.codex/STATUS.md  | 10 +++---
+- `PROMPTS_INDEX.md  | 14 ++++++++++++++`
+- `README.md         |  8 +++++---`
+- `STATUS.md         |  8 ++++----`
+- total: `7 files changed, 93 insertions(+), 34 deletions(-)`
+
+## Liste exacte des fichiers modifies
+
+- `README.md`
+- `STATUS.md`
+- `PROMPTS_INDEX.md`
 - `.codex/STATUS.md`
 - `.codex/RESULT.md`
 - `.codex/PROOF.md`
 - `.codex/HANDOFF.md`
 
-## Confirmation
+## Confirmation de perimetre
 
-- Aucun fichier metier sous `src/` n'a ete modifie.
-- Aucun fichier de test sous `tests/` n'a ete modifie.
-- Aucun fichier sous `docs/` n'a ete modifie.
-- Aucun fichier de gouvernance racine n'a ete modifie.
+- Aucun fichier sous `src/` n'a ete modifie.
+- Aucun fichier sous `tests/` n'a ete modifie.
+- Aucun fichier sous `docs/architecture/` n'a ete modifie.
+- `AGENTS.md` n'a pas ete modifie.
+- `MIGRATION_POLICY.md` n'a pas ete modifie.

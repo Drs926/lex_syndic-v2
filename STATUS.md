@@ -2,7 +2,7 @@
 
 État réel du dépôt V2 à date.
 
-Dernière mise à jour : 2026-04-27.
+Dernière mise à jour : 2026-04-29.
 
 ## Résumé
 
@@ -10,8 +10,8 @@ Dernière mise à jour : 2026-04-27.
 |---------|-----------|
 | Architecture | **Documentée** (`docs/architecture/software_architecture_v2.md`). |
 | Code métier | **Partiellement migré.** Les modules `legal`, `ingestion`, `analysis` et `comparison` disposent d'un socle minimal testé. |
-| Tests | **Opérationnels.** `python -m pytest tests/test_package_import.py tests/test_legal_models.py tests/test_ingestion_text_loader.py tests/test_analysis_segmenter.py tests/test_comparison_simple_comparator.py -v -p no:cacheprovider` a passé : `47 passed` le 2026-04-27. |
-| Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'installation locale permet l'exécution de `pytest`. |
+| Tests | **Opérationnels.** `python -m pytest -q` a passé : `47 passed in 0.17s` le 2026-04-29. |
+| Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'exécution locale de `pytest` a été revalidée le 2026-04-29. |
 | Gouvernance | **En place** (fichiers racine `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`, `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`). |
 | Migration V1 | **MIG-001 à MIG-005 terminés.** `MIG-006` à `MIG-010` non démarrés. |
 | Audit V1→V2 | **Produit.** `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` — 42 fichiers classés, 10 lots ordonnés. |
@@ -48,4 +48,4 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-`MIG-005` est vérifié. Toute ouverture de `MIG-006` doit rester séparée et explicite.
+`MIG-005` reste la dernière migration métier visible et vérifiée. Toute ouverture de `MIG-006` doit rester séparée et explicite.

@@ -32,3 +32,17 @@ Fichiers modifiés : `README.md`, `CONTEXT.md`, `AGENTS.md`, `PLAN.md`,
 `SPEC.md`, `OUTPUT_CONTRACT.md`, `DECISIONS.md`, `MIGRATION_POLICY.md`,
 `STATUS.md`, `PROMPTS_INDEX.md`.
 Référence : sortie contractuelle de la session du 2026-04-27.
+
+## PROMPT-002 — Alignement documentaire avec la preuve du dépôt
+Date : 2026-04-29
+Mission : Aligner uniquement la documentation de gouvernance avec l'état réel
+prouvé par `LXS2-20260429-001`, sans modifier le code, les tests,
+l'architecture produit ou les migrations.
+Périmètre autorisé : `README.md`, `STATUS.md`, `PLAN.md`, `PROMPTS_INDEX.md`
+et fichiers `.codex/`.
+Verdict : OK
+Fichiers modifiés : `README.md`, `STATUS.md`, `PROMPTS_INDEX.md`,
+`.codex/STATUS.md`, `.codex/RESULT.md`, `.codex/PROOF.md`,
+`.codex/HANDOFF.md`.
+Référence : sortie contractuelle de la session du 2026-04-29 pour
+`LXS2-20260429-002`.
