@@ -1,7 +1,7 @@
 # Task
 
-TASK_ID: LXS2-20260429-001
-MODE: PROOF_ONLY
+TASK_ID: LXS2-20260429-002
+MODE: DOC_ONLY
 TARGET_REPO: Drs926/lex_syndic-v2
 TARGET_BRANCH: main
 BRANCH_KIND: main
@@ -11,13 +11,20 @@ OWNER: codex
 
 ## OBJECTIVE
 
-Réaliser un état des lieux factuel du repo `Drs926/lex_syndic-v2` sans modifier le code, sans modifier la gouvernance existante et sans committer de fichier métier.
+Aligner uniquement la documentation de gouvernance avec l’état réel prouvé par `LXS2-20260429-001`, sans modifier le code, les tests, l’architecture produit ou les migrations.
 
 ## CONTEXT
 
-`lex_syndic-v2` est un projet prioritaire de système d’analyse juridique syndicale. Le repo local a été synchronisé avec `origin/main` au commit `c138f7a8fa6fb1e84feadb30d3bfd9936f18cb95`, puis le rail `.codex` minimal a été ajouté sur GitHub. Le fichier `AGENTS.md` existe déjà et reste souverain pour les règles projet.
+La tâche `LXS2-20260429-001` a validé l’état réel suivant :
 
-Cette première tâche sert uniquement à produire une photographie vérifiable de l’état réel avant toute nouvelle action.
+- branche `main` ;
+- local et `origin/main` alignés ;
+- dernière migration métier visible : `MIG-005` ;
+- `python -m pytest -q` : `47 passed in 0.17s` ;
+- fichiers métiers, tests, docs et gouvernance racine non modifiés pendant la mission PROOF_ONLY ;
+- risque identifié : `README.md` décrit un état de vérification plus ancien que les preuves actuelles.
+
+Cette tâche doit uniquement aligner les documents concernés avec ces preuves. Elle ne doit pas préparer ni lancer `MIG-006`.
 
 ## PREFLIGHT_GATES
 
@@ -26,25 +33,26 @@ Cette première tâche sert uniquement à produire une photographie vérifiable 
 - Confirmer le working tree avec `git status --short`.
 - BLOCK si la branche courante n’est pas `main`.
 - BLOCK si le working tree contient des changements hors scope avant exécution.
-- Faire `git pull` avant l’exécution pour récupérer les fichiers `.codex` ajoutés sur GitHub.
+- Faire `git pull` avant l’exécution.
 
 ## SCOPE
 
-- Lire la structure du repo.
-- Lire les fichiers de gouvernance racine existants : `README.md`, `AGENTS.md`, `PLAN.md`, `SPEC.md`, `STATUS.md`, `DECISIONS.md`, `MIGRATION_POLICY.md`, `OUTPUT_CONTRACT.md`, `PROMPTS_INDEX.md` si présents.
-- Lire les dossiers structurants visibles : `src/`, `tests/`, `docs/` si présents.
-- Identifier les commits récents et la dernière migration visible.
-- Identifier les commandes de vérification disponibles sans installer de dépendance.
-- Exécuter uniquement les commandes de lecture et de vérification explicitement autorisées.
-- Mettre à jour uniquement `.codex/STATUS.md`, `.codex/RESULT.md`, `.codex/PROOF.md` et `.codex/HANDOFF.md`.
+- Lire `README.md`, `STATUS.md`, `PLAN.md`, `PROMPTS_INDEX.md`, `OUTPUT_CONTRACT.md`, `.codex/RESULT.md`, `.codex/PROOF.md`.
+- Modifier uniquement les documents nécessaires pour aligner l’état affiché avec les preuves actuelles.
+- Priorité d’alignement : `README.md` et `STATUS.md` si leur contenu est en retard.
+- Mettre à jour `.codex/STATUS.md`, `.codex/RESULT.md`, `.codex/PROOF.md` et `.codex/HANDOFF.md` pour tracer l’exécution.
+- Exécuter `python -m pytest -q` après modification documentaire si disponible, pour confirmer l’absence d’impact.
 
 ## OUT_OF_SCOPE
 
 - Ne pas modifier `src/`.
 - Ne pas modifier `tests/`.
-- Ne pas modifier `docs/`.
-- Ne pas modifier les fichiers de gouvernance racine.
+- Ne pas modifier `docs/architecture/`.
+- Ne pas modifier `DECISIONS.md` sauf si une contradiction factuelle bloquante est trouvée.
 - Ne pas modifier `AGENTS.md`.
+- Ne pas modifier `MIGRATION_POLICY.md`.
+- Ne pas créer `MIG-006`.
+- Ne pas ajouter de nouvelle capacité produit.
 - Ne pas installer de dépendance.
 - Ne pas créer de branche.
 - Ne pas ouvrir de PR.
@@ -52,6 +60,10 @@ Cette première tâche sert uniquement à produire une photographie vérifiable 
 
 ## FILES_ALLOWED
 
+- README.md
+- STATUS.md
+- PLAN.md
+- PROMPTS_INDEX.md
 - .codex/STATUS.md
 - .codex/RESULT.md
 - .codex/PROOF.md
@@ -61,53 +73,50 @@ Cette première tâche sert uniquement à produire une photographie vérifiable 
 
 - AGENTS.md
 - README.md
-- PLAN.md
-- SPEC.md
 - STATUS.md
-- DECISIONS.md
-- MIGRATION_POLICY.md
-- OUTPUT_CONTRACT.md
+- PLAN.md
 - PROMPTS_INDEX.md
+- OUTPUT_CONTRACT.md
 - pyproject.toml
-- pytest.ini
-- requirements.txt
-- docs/**
-- src/**
-- tests/**
 - .codex/TASK.md
+- .codex/RESULT.md
+- .codex/PROOF.md
+- .codex/HANDOFF.md
 
 ## FILES_FORBIDDEN
 
-- Tout fichier hors `FILES_ALLOWED` en écriture.
-- Tout fichier du repo central `Drs926/agent-control-tower`.
+- src/**
+- tests/**
+- docs/architecture/**
+- AGENTS.md
+- MIGRATION_POLICY.md
+- DECISIONS.md sauf contradiction factuelle bloquante
+- tout fichier du repo central `Drs926/agent-control-tower`
 
 ## COMMANDS_ALLOWED
 
 - git branch --show-current
 - git status --short
-- git log --oneline --decorate -10
+- git pull
 - git rev-list --left-right --count origin/main...main
-- git ls-files
 - git diff --stat
+- git diff -- README.md STATUS.md PLAN.md PROMPTS_INDEX.md .codex/STATUS.md .codex/RESULT.md .codex/PROOF.md .codex/HANDOFF.md
 - type AGENTS.md
 - type README.md
-- type PLAN.md
-- type SPEC.md
 - type STATUS.md
-- type DECISIONS.md
-- type MIGRATION_POLICY.md
-- type OUTPUT_CONTRACT.md
+- type PLAN.md
 - type PROMPTS_INDEX.md
+- type OUTPUT_CONTRACT.md
 - type pyproject.toml
-- type pytest.ini
+- type .codex\RESULT.md
+- type .codex\PROOF.md
 - python -m pytest -q
 
 ## COMMAND_RULES
 
-- Ne lancer `python -m pytest -q` que si un fichier de configuration ou un dossier `tests/` existe.
 - Ne pas exécuter `pip install`.
 - Ne pas modifier l’environnement.
-- Si une commande échoue, documenter l’échec au lieu de corriger.
+- Si `python -m pytest -q` échoue, documenter l’échec au lieu de corriger.
 
 ## EXPECTED_RESULT_FILE
 
@@ -122,11 +131,10 @@ Cette première tâche sert uniquement à produire une photographie vérifiable 
 - branche courante ;
 - état `git status --short` avant action ;
 - écart `origin/main...main` ;
-- liste synthétique des fichiers lus ;
-- commandes exécutées ;
-- résultat des commandes ;
+- diff stat ;
 - liste exacte des fichiers modifiés ;
-- confirmation qu’aucun fichier métier n’a été modifié.
+- résultat `python -m pytest -q` ;
+- confirmation qu’aucun fichier `src/`, `tests/`, `docs/architecture/`, `AGENTS.md`, `MIGRATION_POLICY.md` n’a été modifié.
 
 ## PR_RULES_IF_APPLICABLE
 
@@ -135,10 +143,10 @@ Aucune PR dans cette tâche.
 ## BLOCK_CONDITIONS
 
 - Branche courante différente de `main`.
-- Working tree sale avant exécution hors fichiers `.codex` synchronisés.
-- Besoin de modifier un fichier hors `.codex`.
+- Working tree sale avant exécution.
+- Besoin de modifier un fichier interdit.
+- Besoin de créer ou préparer `MIG-006`.
 - Besoin d’installer une dépendance.
-- Test ou commande destructrice nécessaire.
 
 ## NEXT_ACTION
 
