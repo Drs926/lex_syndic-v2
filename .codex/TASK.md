@@ -1,7 +1,7 @@
 # Task
 
-TASK_ID: LXS2-20260429-002
-MODE: DOC_ONLY
+TASK_ID: LXS2-20260429-003
+MODE: CODE_ACTION
 TARGET_REPO: Drs926/lex_syndic-v2
 TARGET_BRANCH: main
 BRANCH_KIND: main
@@ -11,48 +11,77 @@ OWNER: codex
 
 ## OBJECTIVE
 
-Aligner uniquement la documentation de gouvernance avec l’état réel prouvé par `LXS2-20260429-001`, sans modifier le code, les tests, l’architecture produit ou les migrations.
+Implémenter `MIG-006` de manière minimale et testée : module `rules`, règles calculables simples, sortie `RuleCheckResult`, sans jugement juridique avancé ni dépendance externe.
 
 ## CONTEXT
 
-La tâche `LXS2-20260429-001` a validé l’état réel suivant :
+`PLAN.md` définit `MIG-006` ainsi :
 
-- branche `main` ;
-- local et `origin/main` alignés ;
-- dernière migration métier visible : `MIG-005` ;
-- `python -m pytest -q` : `47 passed in 0.17s` ;
-- fichiers métiers, tests, docs et gouvernance racine non modifiés pendant la mission PROOF_ONLY ;
-- risque identifié : `README.md` décrit un état de vérification plus ancien que les preuves actuelles.
+- module cible : `rules` ;
+- contenu : règles calculables, seuils, validation conformité ;
+- critère de sortie : sortie `RuleCheckResult` testée ;
+- état actuel : en attente.
 
-Cette tâche doit uniquement aligner les documents concernés avec ces preuves. Elle ne doit pas préparer ni lancer `MIG-006`.
+`MIGRATION_POLICY.md` impose : périmètre limité à un module canonique, pas de copie aveugle depuis V1, tests obligatoires, entrée `DECISIONS.md`, sortie contractuelle.
+
+État prouvé avant tâche :
+
+- `MIG-005` dernière migration métier visible ;
+- `RuleCheckResult` existe déjà dans `src/lex_syndic/legal/models.py` ;
+- `src/lex_syndic/rules/__init__.py` est vide ;
+- aucun test spécifique `rules` trouvé ;
+- dernière vérification connue : `python -m pytest -q` → `47 passed`.
 
 ## PREFLIGHT_GATES
 
 - Lire `AGENTS.md`.
+- Lire `MIGRATION_POLICY.md`.
+- Lire `PLAN.md`.
 - Confirmer la branche courante avec `git branch --show-current`.
 - Confirmer le working tree avec `git status --short`.
+- Faire `git pull` avant exécution.
 - BLOCK si la branche courante n’est pas `main`.
 - BLOCK si le working tree contient des changements hors scope avant exécution.
-- Faire `git pull` avant l’exécution.
 
 ## SCOPE
 
-- Lire `README.md`, `STATUS.md`, `PLAN.md`, `PROMPTS_INDEX.md`, `OUTPUT_CONTRACT.md`, `.codex/RESULT.md`, `.codex/PROOF.md`.
-- Modifier uniquement les documents nécessaires pour aligner l’état affiché avec les preuves actuelles.
-- Priorité d’alignement : `README.md` et `STATUS.md` si leur contenu est en retard.
-- Mettre à jour `.codex/STATUS.md`, `.codex/RESULT.md`, `.codex/PROOF.md` et `.codex/HANDOFF.md` pour tracer l’exécution.
-- Exécuter `python -m pytest -q` après modification documentaire si disponible, pour confirmer l’absence d’impact.
+- Implémenter une couche minimale dans `src/lex_syndic/rules/`.
+- Utiliser les modèles canoniques existants, notamment `Clause` et `RuleCheckResult`.
+- Ajouter des règles déterministes simples sans raisonnement juridique avancé.
+- Ajouter des tests dédiés sous `tests/`.
+- Mettre à jour `DECISIONS.md` avec l’entrée MIG-006 obligatoire.
+- Mettre à jour `STATUS.md`, `PLAN.md` et `PROMPTS_INDEX.md` pour refléter MIG-006 uniquement si la migration passe.
+- Mettre à jour `.codex/STATUS.md`, `.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
+- Exécuter `python -m pytest -q`.
+
+## IMPLEMENTATION_BOUNDARIES
+
+MIG-006 doit rester minimal :
+
+- pas d’extraction juridique ;
+- pas de Légifrance ;
+- pas de Judilibre ;
+- pas de scoring avancé ;
+- pas de graphe ;
+- pas de NLP ;
+- pas de dépendance externe ;
+- pas de modification des lots MIG-007 à MIG-010.
+
+Exemples acceptables de règles calculables minimales :
+
+- clause vide → `non_conforme` ;
+- clause sans contenu exploitable → `risque` ou `unknown` selon convention déterministe ;
+- clause avec `compliance_status` déjà renseigné → conversion déterministe vers `RuleCheckResult` ;
+- règle simple avec `rule_code` stable et message déterministe.
 
 ## OUT_OF_SCOPE
 
-- Ne pas modifier `src/`.
-- Ne pas modifier `tests/`.
 - Ne pas modifier `docs/architecture/`.
-- Ne pas modifier `DECISIONS.md` sauf si une contradiction factuelle bloquante est trouvée.
-- Ne pas modifier `AGENTS.md`.
 - Ne pas modifier `MIGRATION_POLICY.md`.
-- Ne pas créer `MIG-006`.
-- Ne pas ajouter de nouvelle capacité produit.
+- Ne pas modifier `AGENTS.md`.
+- Ne pas introduire de technologie nouvelle.
+- Ne pas créer `MIG-007` ou suivant.
+- Ne pas créer de backend, frontend, MCP, graphe, Open WebUI, connecteur Légifrance ou Judilibre.
 - Ne pas installer de dépendance.
 - Ne pas créer de branche.
 - Ne pas ouvrir de PR.
@@ -60,7 +89,10 @@ Cette tâche doit uniquement aligner les documents concernés avec ces preuves. 
 
 ## FILES_ALLOWED
 
-- README.md
+- src/lex_syndic/rules/**
+- tests/test_rules*.py
+- tests/test_rules_*.py
+- DECISIONS.md
 - STATUS.md
 - PLAN.md
 - PROMPTS_INDEX.md
@@ -72,25 +104,31 @@ Cette tâche doit uniquement aligner les documents concernés avec ces preuves. 
 ## FILES_READ_ALLOWED
 
 - AGENTS.md
-- README.md
-- STATUS.md
 - PLAN.md
-- PROMPTS_INDEX.md
+- STATUS.md
+- DECISIONS.md
+- MIGRATION_POLICY.md
 - OUTPUT_CONTRACT.md
+- PROMPTS_INDEX.md
 - pyproject.toml
+- src/lex_syndic/legal/models.py
+- src/lex_syndic/rules/**
+- tests/**
 - .codex/TASK.md
-- .codex/RESULT.md
-- .codex/PROOF.md
-- .codex/HANDOFF.md
 
 ## FILES_FORBIDDEN
 
-- src/**
-- tests/**
 - docs/architecture/**
 - AGENTS.md
 - MIGRATION_POLICY.md
-- DECISIONS.md sauf contradiction factuelle bloquante
+- pyproject.toml
+- src/lex_syndic/analysis/**
+- src/lex_syndic/comparison/**
+- src/lex_syndic/ingestion/**
+- src/lex_syndic/retrieval/**
+- src/lex_syndic/storage/**
+- src/lex_syndic/report/**
+- src/lex_syndic/interface/**
 - tout fichier du repo central `Drs926/agent-control-tower`
 
 ## COMMANDS_ALLOWED
@@ -100,23 +138,24 @@ Cette tâche doit uniquement aligner les documents concernés avec ces preuves. 
 - git pull
 - git rev-list --left-right --count origin/main...main
 - git diff --stat
-- git diff -- README.md STATUS.md PLAN.md PROMPTS_INDEX.md .codex/STATUS.md .codex/RESULT.md .codex/PROOF.md .codex/HANDOFF.md
+- git diff -- src/lex_syndic/rules tests DECISIONS.md STATUS.md PLAN.md PROMPTS_INDEX.md .codex/STATUS.md .codex/RESULT.md .codex/PROOF.md .codex/HANDOFF.md
 - type AGENTS.md
-- type README.md
-- type STATUS.md
 - type PLAN.md
-- type PROMPTS_INDEX.md
+- type STATUS.md
+- type DECISIONS.md
+- type MIGRATION_POLICY.md
 - type OUTPUT_CONTRACT.md
+- type PROMPTS_INDEX.md
 - type pyproject.toml
-- type .codex\RESULT.md
-- type .codex\PROOF.md
+- type src\lex_syndic\legal\models.py
 - python -m pytest -q
 
 ## COMMAND_RULES
 
 - Ne pas exécuter `pip install`.
 - Ne pas modifier l’environnement.
-- Si `python -m pytest -q` échoue, documenter l’échec au lieu de corriger.
+- Si `python -m pytest -q` échoue après modification, corriger uniquement dans le périmètre autorisé.
+- Si la correction exige un fichier interdit, STOP et documenter BLOCK.
 
 ## EXPECTED_RESULT_FILE
 
@@ -134,7 +173,9 @@ Cette tâche doit uniquement aligner les documents concernés avec ces preuves. 
 - diff stat ;
 - liste exacte des fichiers modifiés ;
 - résultat `python -m pytest -q` ;
-- confirmation qu’aucun fichier `src/`, `tests/`, `docs/architecture/`, `AGENTS.md`, `MIGRATION_POLICY.md` n’a été modifié.
+- confirmation que `RuleCheckResult` est utilisé ;
+- confirmation qu’aucune dépendance externe n’a été ajoutée ;
+- confirmation qu’aucun fichier interdit n’a été modifié.
 
 ## PR_RULES_IF_APPLICABLE
 
@@ -145,8 +186,10 @@ Aucune PR dans cette tâche.
 - Branche courante différente de `main`.
 - Working tree sale avant exécution.
 - Besoin de modifier un fichier interdit.
-- Besoin de créer ou préparer `MIG-006`.
 - Besoin d’installer une dépendance.
+- Besoin de changer l’architecture.
+- Besoin de créer une capacité hors MIG-006.
+- Tests absents ou impossibles à produire.
 
 ## NEXT_ACTION
 
