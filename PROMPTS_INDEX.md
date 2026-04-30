@@ -91,3 +91,16 @@ Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
 `.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
 Référence : sortie contractuelle de la session du 2026-04-30 pour
 `LXS2-20260429-004B`.
+
+## PROMPT-006 — MIG-008 cadrage storage sans implementation
+Date : 2026-04-30
+Mission : Prepararer `MIG-008` en mission de cadrage uniquement pour definir
+le perimetre `storage` avant toute implementation de code.
+Périmètre autorisé : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md` et fichiers `.codex/`.
+Verdict : OK
+Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md`, `.codex/TASK.md`, `.codex/STATUS.md`,
+`.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
+Référence : sortie contractuelle de la session du 2026-04-30 pour
+`LXS2-20260430-005`.

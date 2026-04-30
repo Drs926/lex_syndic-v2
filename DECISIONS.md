@@ -151,3 +151,18 @@ Conséquences :
 - Les futures missions doivent conserver un rôle unique.
 - Les preuves PASS du lot technique deviennent le prérequis de la mission de
   gouvernance correspondante.
+
+## DEC-010 — MIG-008 commence par un cadrage storage sans code
+Date : 2026-04-30
+Statut : Acceptée
+Contexte : `storage` reste vide et l'architecture autorise plusieurs options
+techniques possibles. Choisir une persistance avant d'avoir borne le périmètre
+creerait un risque d'implementation prematuree.
+Décision : La premiere mission `MIG-008` est documentaire et de gouvernance
+uniquement. Elle definit le perimetre exact du futur module `storage`, les
+invariants, les fichiers autorises/interdits, les tests attendus et les
+criteres PASS/BLOCK avant toute ligne de code. Aucune persistance technique
+n'est choisie sans ce perimetre valide.
+Conséquences :
+- `MIG-008A` devra rester une mission `Migrator` separee.
+- Aucun backend de persistance n'est implicitement autorise par cette decision.

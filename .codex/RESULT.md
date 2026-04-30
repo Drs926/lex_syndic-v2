@@ -1,7 +1,7 @@
 VERDICT:
 PASS
 RAISON UNIQUE:
-La gouvernance a ete alignee sur la reussite de `MIG-007A` dans le seul perimetre `Gouverneur` autorise.
+Le cadrage `MIG-008` a ete defini dans le seul perimetre de gouvernance autorise, sans aucune implementation `storage`.
 FILES READ:
 - `AGENTS.md`
 - `MIGRATION_POLICY.md`
@@ -10,7 +10,14 @@ FILES READ:
 - `DECISIONS.md`
 - `OUTPUT_CONTRACT.md`
 - `PROMPTS_INDEX.md`
+- `docs/architecture/software_architecture_v2.md`
+- `pyproject.toml`
+- `src/lex_syndic/legal/models.py`
+- `src/lex_syndic/retrieval/__init__.py`
+- `src/lex_syndic/retrieval/lexical.py`
+- `tests/test_retrieval_lexical.py`
 - `.codex/TASK.md`
+- `.codex/STATUS.md`
 - `.codex/RESULT.md`
 - `.codex/PROOF.md`
 - `.codex/HANDOFF.md`
@@ -35,10 +42,10 @@ PROOFS:
 - `git status --short` avant action -> propre hors warnings Git externes
 - `git pull` -> `Already up to date.`
 - `git rev-list --left-right --count origin/main...main` -> `0 0`
-- `git log --oneline -5` -> HEAD `d7278b7`
-- aucune modification de `src/**`, `tests/**`, `docs/**`, `AGENTS.md`, `MIGRATION_POLICY.md` ou `OUTPUT_CONTRACT.md`
+- `git log --oneline -7` -> HEAD `baabf22`
+- aucune modification de `src/**`, `tests/**`, `docs/**`, `AGENTS.md`, `MIGRATION_POLICY.md`, `OUTPUT_CONTRACT.md`, `pyproject.toml` ou `README.md`
 RISKS:
 - Le warning Git sur `C:\Users\Harib/.config/git/ignore` reste un bruit d'environnement.
-- Le warning `pytest_asyncio` reste un bruit non bloquant deja documente dans `STATUS.md`.
+- Le cadrage ne choisit encore aucune technologie de persistance; cette decision reste explicitement ouverte pour `MIG-008A`.
 NEXT ACTION:
 Verifier le diff autorise, stage les seuls fichiers de gouvernance et `.codex`, puis commit/push si le cache Git reste strictement conforme.
