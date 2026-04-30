@@ -1,13 +1,13 @@
 # Task
 
 TASK_ID:
-LXS2-20260430-007
+LXS2-20260430-007A
 
 TITLE:
-MIG-010 — interface scope definition
+MIG-010A — minimal interface implementation
 
 ROLE:
-Gouverneur / Architecte
+Migrator
 
 GOAL:
-Définir le périmètre exact du futur module `interface` avant implémentation, en précisant le type d’interface minimal, les entrées, les sorties, les invariants, les fichiers autorisés, les tests attendus et les critères PASS/BLOCK.
+Implémenter un module `interface` minimal, local, déterministe et sans dépendance externe, capable de recevoir une requête structurée simple et de produire une réponse structurée simple, sans couplage direct aux modules retrieval, storage ou report.
