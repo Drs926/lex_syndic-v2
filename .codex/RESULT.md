@@ -1,7 +1,7 @@
 VERDICT:
 PASS
 RAISON UNIQUE:
-La gouvernance a ete alignee sur la reussite de `MIG-009A` dans le seul perimetre `Gouverneur` autorise.
+Le cadrage `MIG-010` a ete prepare dans le seul perimetre `Gouverneur / Architecte` autorise, sans aucune modification de code.
 FILES READ:
 - `AGENTS.md`
 - `MIGRATION_POLICY.md`
@@ -10,6 +10,19 @@ FILES READ:
 - `DECISIONS.md`
 - `OUTPUT_CONTRACT.md`
 - `PROMPTS_INDEX.md`
+- `docs/architecture/software_architecture_v2.md`
+- `pyproject.toml`
+- `src/lex_syndic/legal/models.py`
+- `src/lex_syndic/retrieval/__init__.py`
+- `src/lex_syndic/retrieval/lexical.py`
+- `src/lex_syndic/storage/__init__.py`
+- `src/lex_syndic/storage/memory.py`
+- `src/lex_syndic/report/__init__.py`
+- `src/lex_syndic/report/text.py`
+- `tests/test_retrieval_lexical.py`
+- `tests/test_storage_minimal.py`
+- `tests/test_report_minimal.py`
+- `tests/test_package_import.py`
 - `.codex/TASK.md`
 - `.codex/STATUS.md`
 - `.codex/RESULT.md`
@@ -36,10 +49,9 @@ PROOFS:
 - `git status --short` avant action -> propre hors warnings Git externes
 - `git pull` -> `Already up to date.`
 - `git rev-list --left-right --count origin/main...main` -> `0 0`
-- `git log --oneline -10` -> HEAD `6b90ff4`
-- aucun fichier `src/**`, `tests/**`, `docs/**`, `AGENTS.md`, `MIGRATION_POLICY.md`, `OUTPUT_CONTRACT.md`, `pyproject.toml` ou `README.md` n'a ete modifie
+- `git log --oneline -12` -> HEAD `4006d42`
+- aucune modification de `src/**`, `tests/**`, `docs/**`, `AGENTS.md`, `MIGRATION_POLICY.md`, `OUTPUT_CONTRACT.md`, `pyproject.toml` ou `README.md`
 RISKS:
 - Le warning Git sur `C:\Users\Harib\.config\git\ignore` reste un bruit d'environnement.
-- Le warning `pytest_asyncio` reste documente comme bruit non bloquant dans `STATUS.md`.
 NEXT ACTION:
-Verifier le diff autorise, stage les seuls fichiers de gouvernance et `.codex`, puis commit/push si le cache Git reste strictement conforme.
+Verifier le diff autorise, stage les seuls fichiers de gouvernance et `.codex`, puis commit/push si le cache Git reste strictement conforme avant d'ouvrir `MIG-010A`.

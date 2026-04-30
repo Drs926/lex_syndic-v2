@@ -42,7 +42,7 @@ Chaque lot respecte `MIGRATION_POLICY.md` :
 | `MIG-007` | `retrieval` | Indexation et recherche lexicale interne minimale. | Recherche sur corpus de test reproductible. | **TERMINÉ** |
 | `MIG-008` | `storage` | Cadrage du périmètre storage, puis implémentation séparée. | Périmètre, invariants, fichiers autorisés/interdits, tests attendus et critères PASS/BLOCK définis avant code. | **TERMINÉ** |
 | `MIG-009` | `report` | Cadrage du périmètre report, puis implémentation séparée. | Module `report` minimal disponible avec structure simple et rendu texte déterministe testés. | **TERMINÉ** |
-| `MIG-010` | `interface` | Point d'entrée minimal (CLI). | Exécution pipeline complet sur exemple. | En attente |
+| `MIG-010` | `interface` | Cadrage du périmètre interface, puis implémentation séparée. | Périmètre fonctionnel, type d'interface minimal, entrées, sorties, fichiers autorisés/interdits, invariants, tests attendus et critères PASS/BLOCK définis avant code. | Cadrage prêt |
 
 ### Ordre des lots
 
@@ -86,7 +86,7 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 
 ### Prochaine préparation
 
-- Après `MIG-009`, la prochaine étape logique est la préparation séparée de
+- Après `MIG-009`, la prochaine étape logique est le cadrage séparé de
   `MIG-010` (`interface`) sans implémentation dans cette mission.
 
 ### Cadrage MIG-009
@@ -96,6 +96,20 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
   - périmètre fonctionnel report ;
   - entrées attendues ;
   - sortie minimale attendue ;
+  - fichiers autorisés pour la future mission d'implémentation ;
+  - fichiers interdits ;
+  - invariants ;
+  - tests attendus ;
+  - critères PASS/BLOCK.
+
+### Cadrage MIG-010
+
+- Cette mission de cadrage ne lance aucune implémentation `interface`.
+- Sorties attendues du cadrage :
+  - périmètre fonctionnel interface ;
+  - type d'interface minimal ;
+  - entrées attendues ;
+  - sorties attendues ;
   - fichiers autorisés pour la future mission d'implémentation ;
   - fichiers interdits ;
   - invariants ;

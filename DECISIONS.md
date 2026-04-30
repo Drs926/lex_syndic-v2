@@ -218,3 +218,21 @@ Conséquences :
   l'objet d'un cadrage explicite.
 - La gouvernance ne peut etre mise a jour qu'apres preuve PASS de la mission
   technique correspondante.
+
+## DEC-014 — MIG-010 commence par un cadrage interface sans code
+Date : 2026-04-30
+Statut : Acceptée
+Contexte : Le module `interface` reste a definir et plusieurs options
+d'interface sont possibles. Choisir une interface web, graphique ou un serveur
+API avant d'avoir borne le perimetre creerait un risque de surimplementation.
+Décision : La premiere mission `MIG-010` est documentaire et de gouvernance
+uniquement. Elle definit le perimetre exact du futur module `interface`, le
+type d'interface minimal, ses entrees, ses sorties, ses invariants, ses
+fichiers autorises/interdits, ses tests attendus et ses criteres PASS/BLOCK
+avant toute ligne de code. Aucune interface web, graphique ou serveur API
+n'est choisie a ce stade ; l'interface minimale doit d'abord rester une couche
+Python deterministe et testable.
+Conséquences :
+- Une future `MIG-010A` devra rester une mission `Migrator` separee.
+- Aucune dependance CLI ou framework d'interface n'est implicitement autorise
+  par cette decision.

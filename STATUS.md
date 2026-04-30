@@ -13,7 +13,7 @@ Dernière mise à jour : 2026-04-30.
 | Tests | **Opérationnels.** `python -m pytest tests/test_report_minimal.py tests/test_package_import.py -v -p no:cacheprovider` a passé : `26 passed in 0.19s` le 2026-04-30. |
 | Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'exécution locale de `pytest` a été revalidée le 2026-04-29. |
 | Gouvernance | **En place** (fichiers racine `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`, `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`). |
-| Migration V1 | **MIG-001 à MIG-009 terminés.** `MIG-010` non démarré. |
+| Migration V1 | **MIG-001 à MIG-009 terminés.** `MIG-010` est en cadrage. |
 | Audit V1→V2 | **Produit.** `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` — 42 fichiers classés, 10 lots ordonnés. |
 
 ## Détail par module canonique
@@ -48,7 +48,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-`MIG-009A` est PASS (`6b90ff4`). La prochaine action logique est le cadrage séparé de `MIG-010` pour `interface`, sans implémentation démarrée dans cette mission.
+`MIG-009` est fermé. Dernier commit connu : `4006d42`. La prochaine action logique est le cadrage séparé de `MIG-010` pour `interface`, sans implémentation démarrée dans cette mission.
 
 ## Notes d'execution
 
