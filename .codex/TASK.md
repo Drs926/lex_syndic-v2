@@ -1,13 +1,13 @@
 # Task
 
 TASK_ID:
-LXS2-20260430-005B
+LXS2-20260430-006
 
 TITLE:
-MIG-008B — Gouverneur
+MIG-009 — report scope definition
 
 ROLE:
-Gouverneur
+Gouverneur / Architecte
 
 GOAL:
-Mettre à jour la gouvernance racine et les traces `.codex` après la réussite prouvée de `MIG-008A`, sans modifier `src/`, `tests/` ni `docs/`.
+Définir le périmètre exact du futur module `report` avant implémentation, en précisant les entrées, la sortie minimale, les invariants, les fichiers autorisés, les tests attendus et les critères PASS/BLOCK.

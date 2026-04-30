@@ -183,3 +183,20 @@ Conséquences :
   nouveau cadrage explicite.
 - La gouvernance ne peut etre mise a jour qu'apres preuve PASS de la mission
   technique correspondante.
+
+## DEC-012 — MIG-009 commence par un cadrage report sans code
+Date : 2026-04-30
+Statut : Acceptée
+Contexte : Le module `report` reste a definir et plusieurs formes de sortie
+seraient possibles. Choisir un format ou un moteur de rendu avant d'avoir borne
+le besoin creerait un risque de surimplementation.
+Décision : La premiere mission `MIG-009` est documentaire et de gouvernance
+uniquement. Elle definit le perimetre exact du futur module `report`, ses
+entrees, sa sortie minimale, ses invariants, ses fichiers autorises/interdits,
+ses tests attendus et ses criteres PASS/BLOCK avant toute ligne de code. Aucun
+format de sortie complexe n'est choisi a ce stade ; le rapport minimal doit
+d'abord rester une structure deterministe et testable, pas un rendu final.
+Conséquences :
+- Une future `MIG-009A` devra rester une mission `Migrator` separee.
+- Aucun rendu PDF, DOCX, HTML ni moteur de template n'est implicitement
+  autorise par cette decision.
