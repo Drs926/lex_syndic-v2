@@ -1,9 +1,8 @@
 VERDICT:
 PASS
 RAISON UNIQUE:
-`MIG-007A` a ete implemente et valide dans le perimetre `Migrator` strict sans modifier de gouvernance racine ni de fichier interdit.
+La gouvernance a ete alignee sur la reussite de `MIG-007A` dans le seul perimetre `Gouverneur` autorise.
 FILES READ:
-- `.codex/TASK.md`
 - `AGENTS.md`
 - `MIGRATION_POLICY.md`
 - `PLAN.md`
@@ -11,23 +10,20 @@ FILES READ:
 - `DECISIONS.md`
 - `OUTPUT_CONTRACT.md`
 - `PROMPTS_INDEX.md`
-- `pyproject.toml`
-- `src/lex_syndic/legal/models.py`
-- `docs/architecture/software_architecture_v2.md`
-- `src/lex_syndic/retrieval/__init__.py`
-- `tests/test_package_import.py`
+- `.codex/TASK.md`
+- `.codex/RESULT.md`
+- `.codex/PROOF.md`
+- `.codex/HANDOFF.md`
 FILES CHANGED:
+- `PLAN.md`
+- `STATUS.md`
+- `DECISIONS.md`
+- `PROMPTS_INDEX.md`
 - `.codex/TASK.md`
 - `.codex/STATUS.md`
 - `.codex/RESULT.md`
 - `.codex/PROOF.md`
 - `.codex/HANDOFF.md`
-- `src/lex_syndic/retrieval/__init__.py`
-- `src/lex_syndic/retrieval/lexical.py`
-- `tests/test_retrieval_lexical.py`
-TESTS:
-- `python -m pytest tests/test_retrieval*.py tests/test_package_import.py -v -p no:cacheprovider` -> FAIL (`tests/test_retrieval*.py` non resolu par PowerShell)
-- `python -m pytest tests/test_retrieval_lexical.py tests/test_package_import.py -v -p no:cacheprovider` -> PASS (`22 passed in 0.19s`)
 DIFF_SCOPE:
 - en attente de `git diff --cached --name-only` apres staging
 COMMIT:
@@ -36,14 +32,13 @@ PUSH:
 none
 PROOFS:
 - `git branch --show-current` -> `main`
-- `git status --short` avant action -> modifications `.codex/*` uniquement
+- `git status --short` avant action -> propre hors warnings Git externes
 - `git pull` -> `Already up to date.`
 - `git rev-list --left-right --count origin/main...main` -> `0 0`
-- retrieval en memoire avec tokenisation lexicale simple, score par frequence et ordre stable
-- aucune dependance externe ajoutee
-- aucun fichier de gouvernance racine modifie
+- `git log --oneline -5` -> HEAD `d7278b7`
+- aucune modification de `src/**`, `tests/**`, `docs/**`, `AGENTS.md`, `MIGRATION_POLICY.md` ou `OUTPUT_CONTRACT.md`
 RISKS:
-- Le warning `PytestDeprecationWarning` emis par `pytest_asyncio` reste present et non traite.
-- La commande a motif `tests/test_retrieval*.py` n'est pas exploitable telle quelle sous PowerShell dans cet environnement.
+- Le warning Git sur `C:\Users\Harib/.config/git/ignore` reste un bruit d'environnement.
+- Le warning `pytest_asyncio` reste un bruit non bloquant deja documente dans `STATUS.md`.
 NEXT ACTION:
-Stage les fichiers autorises, verifier `git diff --cached --name-only`, puis commit et push direct si le perimetre reste propre.
+Verifier le diff autorise, stage les seuls fichiers de gouvernance et `.codex`, puis commit/push si le cache Git reste strictement conforme.

@@ -2,18 +2,18 @@
 
 État réel du dépôt V2 à date.
 
-Dernière mise à jour : 2026-04-29.
+Dernière mise à jour : 2026-04-30.
 
 ## Résumé
 
 | Domaine | État réel |
 |---------|-----------|
 | Architecture | **Documentée** (`docs/architecture/software_architecture_v2.md`). |
-| Code métier | **Partiellement migré.** Les modules `legal`, `ingestion`, `analysis`, `comparison` et `rules` disposent d'un socle minimal testé. |
-| Tests | **Opérationnels.** `python -m pytest -q` a passé : `52 passed in 0.17s` le 2026-04-29. |
+| Code métier | **Partiellement migré.** Les modules `legal`, `ingestion`, `analysis`, `comparison`, `rules` et `retrieval` disposent d'un socle minimal testé. |
+| Tests | **Opérationnels.** `python -m pytest tests/test_retrieval_lexical.py tests/test_package_import.py -v -p no:cacheprovider` a passé : `22 passed in 0.19s` le 2026-04-30. |
 | Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'exécution locale de `pytest` a été revalidée le 2026-04-29. |
 | Gouvernance | **En place** (fichiers racine `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`, `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`). |
-| Migration V1 | **MIG-001 à MIG-006 terminés.** `MIG-007` à `MIG-010` non démarrés. |
+| Migration V1 | **MIG-001 à MIG-007 terminés.** `MIG-008` à `MIG-010` non démarrés. |
 | Audit V1→V2 | **Produit.** `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` — 42 fichiers classés, 10 lots ordonnés. |
 
 ## Détail par module canonique
@@ -29,7 +29,7 @@ fonctionnelle (placeholders) :
 | `analysis` | MIG-004 terminé. Segmentation minimale déterministe en clauses candidates stabilisée sans analyse juridique, sans extraction et sans dépendance externe. |
 | `comparison` | MIG-005 terminé. Comparaison structurelle minimale entre documents déjà segmentés, par ordre de clauses, sans scoring ni interprétation juridique. |
 | `rules` | MIG-006 terminé. Evaluation déterministe minimale via `evaluate_clause_rule` et `evaluate_document_rules`, avec sortie `RuleCheckResult` testée sans dependance externe. |
-| `retrieval` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
+| `retrieval` | MIG-007A PASS. Retrieval lexical minimal disponible depuis le commit `d7278b7`, avec index en mémoire, score déterministe et ordre stable sans dépendance externe. |
 | `storage` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
 | `report` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
 | `interface` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
@@ -48,4 +48,11 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-`MIG-006` est verifie. Toute ouverture de `MIG-007` doit rester separee et explicite.
+`MIG-007A` est PASS (`d7278b7`). La prochaine action logique est le cadrage séparé de `MIG-008`.
+
+## Notes d'execution
+
+- Le warning `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` reste un
+  bruit non bloquant.
+- Le wildcard PowerShell `tests/test_retrieval*.py` n'est pas fiable sans
+  expansion explicite dans cet environnement.

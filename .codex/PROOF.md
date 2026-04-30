@@ -1,19 +1,19 @@
 # PROOF
 
-Task: `LXS2-20260429-004A`
+Task: `LXS2-20260429-004B`
 Date: `2026-04-30`
 Mode: `CODE_ACTION`
 
 ## Preflight
 
 - `git branch --show-current` -> `main`
-- `git status --short` -> modifications `.codex/*` avant reexecution
+- `git status --short` -> propre hors warnings Git externes
 - `git pull` -> `Already up to date.`
 - `git rev-list --left-right --count origin/main...main` -> `0 0`
+- `git log --oneline -5` -> HEAD `d7278b7`
 
-## Lecture obligatoire
+## Lectures obligatoires
 
-- `.codex/TASK.md`
 - `AGENTS.md`
 - `MIGRATION_POLICY.md`
 - `PLAN.md`
@@ -21,37 +21,24 @@ Mode: `CODE_ACTION`
 - `DECISIONS.md`
 - `OUTPUT_CONTRACT.md`
 - `PROMPTS_INDEX.md`
-- `pyproject.toml`
-- `src/lex_syndic/legal/models.py`
-- `docs/architecture/software_architecture_v2.md`
+- `.codex/TASK.md`
+- `.codex/RESULT.md`
+- `.codex/PROOF.md`
+- `.codex/HANDOFF.md`
 
-## Implementation MIG-007A
+## Mises a jour de gouvernance
 
-- `src/lex_syndic/retrieval/__init__.py` exporte `LexicalRetrievalIndex` et `RetrievalMatch`
-- `src/lex_syndic/retrieval/lexical.py` implemente :
-  - tokenisation lexicale locale et deterministe ;
-  - index en memoire ;
-  - recherche avec score stable base sur la frequence des termes ;
-  - ordre deterministe par score puis identifiant.
-- `tests/test_retrieval_lexical.py` couvre :
-  - correspondance positive ;
-  - absence de correspondance ;
-  - ordre deterministe ;
-  - requete vide ou quasi vide ;
-  - import package.
-
-## Tests
-
-- `python -m pytest tests/test_retrieval*.py tests/test_package_import.py -v -p no:cacheprovider`
-  - FAIL
-  - raison : `ERROR: file or directory not found: tests/test_retrieval*.py`
-- `python -m pytest tests/test_retrieval_lexical.py tests/test_package_import.py -v -p no:cacheprovider`
-  - PASS
-  - resultat : `22 passed in 0.19s`
+- `PLAN.md` : `MIG-007` marque termine et preparation factuelle de `MIG-008`
+- `STATUS.md` : `MIG-007A` PASS, commit `d7278b7`, retrieval lexical minimal disponible, commande de test validee, warning `pytest_asyncio` documente, wildcard PowerShell documente
+- `DECISIONS.md` : ajout de la separation `MIG-007A` / `MIG-007B`
+- `PROMPTS_INDEX.md` : ajout des entrees `PROMPT-004` et `PROMPT-005`
+- `.codex/TASK.md` : bascule vers `LXS2-20260429-004B`
 
 ## Contraintes respectees
 
-- aucune dependance externe ajoutee
-- aucun fichier de gouvernance racine modifie
-- aucun fichier interdit modifie
-- retrieval reproductible sur corpus de test via ordre et score deterministes
+- aucun fichier `src/**` modifie
+- aucun fichier `tests/**` modifie
+- aucun fichier `docs/**` modifie
+- `AGENTS.md` non modifie
+- `MIGRATION_POLICY.md` non modifie
+- `OUTPUT_CONTRACT.md` non modifie

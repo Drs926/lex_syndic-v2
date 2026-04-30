@@ -62,3 +62,32 @@ Fichiers modifiés : `src/lex_syndic/rules/__init__.py`,
 `.codex/HANDOFF.md`.
 Référence : sortie contractuelle de la session du 2026-04-29 pour
 `LXS2-20260429-003`.
+
+## PROMPT-004 — MIG-007A retrieval lexical minimal
+Date : 2026-04-30
+Mission : Executer `LXS2-20260429-004A` en role `Migrator` strict pour
+implementer un retrieval lexical minimal, local, deterministe et teste, sans
+modifier la gouvernance racine.
+Périmètre autorisé : `.codex/TASK.md`, `.codex/STATUS.md`, `.codex/RESULT.md`,
+`.codex/PROOF.md`, `.codex/HANDOFF.md`, `src/lex_syndic/retrieval/**`,
+`tests/test_retrieval*.py`.
+Verdict : OK
+Fichiers modifiés : `.codex/TASK.md`, `.codex/STATUS.md`, `.codex/RESULT.md`,
+`.codex/PROOF.md`, `.codex/HANDOFF.md`,
+`src/lex_syndic/retrieval/__init__.py`,
+`src/lex_syndic/retrieval/lexical.py`, `tests/test_retrieval_lexical.py`.
+Référence : commit `d7278b7` et sortie contractuelle de la session du
+2026-04-30 pour `LXS2-20260429-004A`.
+
+## PROMPT-005 — MIG-007B gouvernance après MIG-007A
+Date : 2026-04-30
+Mission : Executer la mission `Gouverneur` de mise a jour de la gouvernance
+apres la reussite de `MIG-007A`, sans modifier `src/`, `tests/` ou `docs/`.
+Périmètre autorisé : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md` et fichiers `.codex/`.
+Verdict : OK
+Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md`, `.codex/TASK.md`, `.codex/STATUS.md`,
+`.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
+Référence : sortie contractuelle de la session du 2026-04-30 pour
+`LXS2-20260429-004B`.

@@ -135,3 +135,19 @@ Conséquences :
   introduit.
 - Les sorties sont testées via `RuleCheckResult` avant l'ouverture de
   `MIG-007`.
+
+## DEC-009 — MIG-007 se découpe en validation technique puis gouvernance
+Date : 2026-04-30
+Statut : Acceptée
+Contexte : La première formulation de `MIG-007` mélangeait modifications
+`Migrator` (`src/`, `tests/`) et mises à jour de gouvernance racine, en
+contradiction avec `AGENTS.md`.
+Décision : `MIG-007` est séparé entre `MIG-007A` (rôle `Migrator`, validation
+technique du retrieval lexical minimal) et `MIG-007B` (rôle `Gouverneur`,
+mise à jour de la gouvernance après preuve PASS). Les missions mixtes
+`Migrator` + `Gouverneur` restent interdites et la validation technique
+précède toute mise à jour de gouvernance.
+Conséquences :
+- Les futures missions doivent conserver un rôle unique.
+- Les preuves PASS du lot technique deviennent le prérequis de la mission de
+  gouvernance correspondante.

@@ -39,7 +39,7 @@ Chaque lot respecte `MIGRATION_POLICY.md` :
 | `MIG-004` | `analysis` | Segmentation minimale en clauses candidates, sans analyse juridique ni extraction. | Segmentation déterministe testée sur `LegalDocument` issu de MIG-003. | **TERMINÉ** |
 | `MIG-005` | `comparison` | Comparaison minimale clause↔clause entre documents déjà segmentés, sans scoring ni jugement juridique. | Comparaison structurelle testée via `ComparisonResult` canonique et entrées ordonnées. | **TERMINÉ** |
 | `MIG-006` | `rules` | Règles calculables, seuils, validation conformité. | Sortie `RuleCheckResult` testée. | **TERMINÉ** |
-| `MIG-007` | `retrieval` | Indexation et recherche lexicale interne. | Recherche sur corpus de test reproductible. | En attente |
+| `MIG-007` | `retrieval` | Indexation et recherche lexicale interne minimale. | Recherche sur corpus de test reproductible. | **TERMINÉ** |
 | `MIG-008` | `storage` | Persistance fichier, métadonnées, résultats. | Round-trip lecture/écriture testé. | En attente |
 | `MIG-009` | `report` | Synthèse Markdown et JSON. | Génération déterministe testée. | En attente |
 | `MIG-010` | `interface` | Point d'entrée minimal (CLI). | Exécution pipeline complet sur exemple. | En attente |
@@ -67,3 +67,8 @@ Aucun lot ne couvre :
 - connecteurs Légifrance ou Judilibre.
 
 Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
+
+### Prochaine préparation
+
+- Après `MIG-007`, la prochaine étape logique est le cadrage séparé de
+  `MIG-008` (`storage`) sans implémentation dans cette mission.
