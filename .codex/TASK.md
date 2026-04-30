@@ -1,13 +1,13 @@
 # Task
 
 TASK_ID:
-LXS2-20260430-006
+LXS2-20260430-006A
 
 TITLE:
-MIG-009 — report scope definition
+MIG-009A — minimal report implementation
 
 ROLE:
-Gouverneur / Architecte
+Migrator
 
 GOAL:
-Définir le périmètre exact du futur module `report` avant implémentation, en précisant les entrées, la sortie minimale, les invariants, les fichiers autorisés, les tests attendus et les critères PASS/BLOCK.
+Implémenter un module `report` minimal, local, déterministe, sans dépendance externe, capable de construire une structure de rapport simple et de produire un rendu texte stable et testable.
