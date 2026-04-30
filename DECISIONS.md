@@ -166,3 +166,20 @@ n'est choisie sans ce perimetre valide.
 Conséquences :
 - `MIG-008A` devra rester une mission `Migrator` separee.
 - Aucun backend de persistance n'est implicitement autorise par cette decision.
+
+## DEC-011 — MIG-008 reste borne a un storage memoire minimal
+Date : 2026-04-30
+Statut : Acceptée
+Contexte : `MIG-008` a ete separe entre cadrage, implementation technique et
+mise a jour de gouvernance. `MIG-008A` prouve qu'un storage minimal suffit au
+pipeline courant sans persistance complexe.
+Décision : `MIG-008` est formellement decoupe entre `MIG-008` (cadrage),
+`MIG-008A` (implementation `Migrator`) et `MIG-008B` (gouvernance). Le
+storage reste volontairement en memoire a ce stade. Aucune persistance disque,
+base externe, vector DB, IA, LLM ou embedding n'est introduit. Les missions
+mixtes `Migrator` + `Gouverneur` restent interdites.
+Conséquences :
+- Toute evolution de `storage` au-dela de la memoire devra faire l'objet d'un
+  nouveau cadrage explicite.
+- La gouvernance ne peut etre mise a jour qu'apres preuve PASS de la mission
+  technique correspondante.

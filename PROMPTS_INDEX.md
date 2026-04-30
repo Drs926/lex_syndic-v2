@@ -104,3 +104,31 @@ Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
 `.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
 Référence : sortie contractuelle de la session du 2026-04-30 pour
 `LXS2-20260430-005`.
+
+## PROMPT-007 — MIG-008A storage minimal implementation
+Date : 2026-04-30
+Mission : Executer `LXS2-20260430-005A` en role `Migrator` strict pour
+implementer un storage minimal, local, deterministe et teste, sans modifier la
+gouvernance racine.
+Périmètre autorisé : `.codex/TASK.md`, `.codex/STATUS.md`, `.codex/RESULT.md`,
+`.codex/PROOF.md`, `.codex/HANDOFF.md`, `src/lex_syndic/storage/**`,
+`tests/test_storage*.py`.
+Verdict : OK
+Fichiers modifiés : `.codex/TASK.md`, `.codex/STATUS.md`, `.codex/RESULT.md`,
+`.codex/PROOF.md`, `.codex/HANDOFF.md`, `src/lex_syndic/storage/__init__.py`,
+`src/lex_syndic/storage/memory.py`, `tests/test_storage_minimal.py`.
+Référence : commit `f8dec95` et sortie contractuelle de la session du
+2026-04-30 pour `LXS2-20260430-005A`.
+
+## PROMPT-008 — MIG-008B gouvernance après MIG-008A
+Date : 2026-04-30
+Mission : Executer la mission `Gouverneur` de mise a jour de la gouvernance
+apres la reussite de `MIG-008A`, sans modifier `src/`, `tests/` ou `docs/`.
+Périmètre autorisé : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md` et fichiers `.codex/`.
+Verdict : OK
+Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md`, `.codex/TASK.md`, `.codex/STATUS.md`,
+`.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
+Référence : sortie contractuelle de la session du 2026-04-30 pour
+`LXS2-20260430-005B`.

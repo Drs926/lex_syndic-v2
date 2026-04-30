@@ -40,7 +40,7 @@ Chaque lot respecte `MIGRATION_POLICY.md` :
 | `MIG-005` | `comparison` | Comparaison minimale clause↔clause entre documents déjà segmentés, sans scoring ni jugement juridique. | Comparaison structurelle testée via `ComparisonResult` canonique et entrées ordonnées. | **TERMINÉ** |
 | `MIG-006` | `rules` | Règles calculables, seuils, validation conformité. | Sortie `RuleCheckResult` testée. | **TERMINÉ** |
 | `MIG-007` | `retrieval` | Indexation et recherche lexicale interne minimale. | Recherche sur corpus de test reproductible. | **TERMINÉ** |
-| `MIG-008` | `storage` | Cadrage du périmètre storage, puis implémentation séparée. | Périmètre, invariants, fichiers autorisés/interdits, tests attendus et critères PASS/BLOCK définis avant code. | Cadrage prêt |
+| `MIG-008` | `storage` | Cadrage du périmètre storage, puis implémentation séparée. | Périmètre, invariants, fichiers autorisés/interdits, tests attendus et critères PASS/BLOCK définis avant code. | **TERMINÉ** |
 | `MIG-009` | `report` | Synthèse Markdown et JSON. | Génération déterministe testée. | En attente |
 | `MIG-010` | `interface` | Point d'entrée minimal (CLI). | Exécution pipeline complet sur exemple. | En attente |
 
@@ -83,3 +83,8 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
   - invariants ;
   - tests attendus ;
   - critères PASS/BLOCK.
+
+### Prochaine préparation
+
+- Après `MIG-008A`, la prochaine étape logique est le cadrage séparé de
+  `MIG-009` (`report`) sans implémentation dans cette mission.

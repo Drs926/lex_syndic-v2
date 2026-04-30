@@ -9,11 +9,11 @@ Dernière mise à jour : 2026-04-30.
 | Domaine | État réel |
 |---------|-----------|
 | Architecture | **Documentée** (`docs/architecture/software_architecture_v2.md`). |
-| Code métier | **Partiellement migré.** Les modules `legal`, `ingestion`, `analysis`, `comparison`, `rules` et `retrieval` disposent d'un socle minimal testé. |
-| Tests | **Opérationnels.** `python -m pytest tests/test_retrieval_lexical.py tests/test_package_import.py -v -p no:cacheprovider` a passé : `22 passed in 0.19s` le 2026-04-30. |
+| Code métier | **Partiellement migré.** Les modules `legal`, `ingestion`, `analysis`, `comparison`, `rules`, `retrieval` et `storage` disposent d'un socle minimal testé. |
+| Tests | **Opérationnels.** `python -m pytest tests/test_storage_minimal.py tests/test_package_import.py -v -p no:cacheprovider` a passé : `25 passed in 0.11s` le 2026-04-30. |
 | Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'exécution locale de `pytest` a été revalidée le 2026-04-29. |
 | Gouvernance | **En place** (fichiers racine `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`, `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`). |
-| Migration V1 | **MIG-001 à MIG-007 terminés.** `MIG-008` en cadrage, `MIG-009` à `MIG-010` non démarrés. |
+| Migration V1 | **MIG-001 à MIG-008 terminés.** `MIG-009` à `MIG-010` non démarrés. |
 | Audit V1→V2 | **Produit.** `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` — 42 fichiers classés, 10 lots ordonnés. |
 
 ## Détail par module canonique
@@ -30,7 +30,7 @@ fonctionnelle (placeholders) :
 | `comparison` | MIG-005 terminé. Comparaison structurelle minimale entre documents déjà segmentés, par ordre de clauses, sans scoring ni interprétation juridique. |
 | `rules` | MIG-006 terminé. Evaluation déterministe minimale via `evaluate_clause_rule` et `evaluate_document_rules`, avec sortie `RuleCheckResult` testée sans dependance externe. |
 | `retrieval` | MIG-007A PASS. Retrieval lexical minimal disponible depuis le commit `d7278b7`, avec index en mémoire, score déterministe et ordre stable sans dépendance externe. |
-| `storage` | Cadrage MIG-008 en preparation. Aucune implementation storage demarree a ce stade. |
+| `storage` | MIG-008A PASS. Storage minimal disponible depuis le commit `f8dec95`, avec API memoire deterministe, aucun ajout de dependance et aucun couplage au retrieval. |
 | `report` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
 | `interface` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
 
@@ -48,7 +48,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-`MIG-007` est ferme. Dernier commit connu : `baabf22`. Prochaine action : cadrage `MIG-008` (`storage`) avant toute implementation.
+`MIG-008A` est PASS (`f8dec95`). La prochaine action logique est le cadrage séparé de `MIG-009`.
 
 ## Notes d'execution
 
@@ -56,3 +56,5 @@ sans décision dans `DECISIONS.md` :
   bruit non bloquant.
 - Le wildcard PowerShell `tests/test_retrieval*.py` n'est pas fiable sans
   expansion explicite dans cet environnement.
+- Le warning Git `C:\Users\Harib\.config\git\ignore` reste un bruit
+  d'environnement non bloquant.
