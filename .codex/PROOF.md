@@ -1,74 +1,57 @@
 # PROOF
 
-Task: `LXS2-20260429-003`
-Date: `2026-04-29`
+Task: `LXS2-20260429-004A`
+Date: `2026-04-30`
 Mode: `CODE_ACTION`
 
-## Branche courante
+## Preflight
 
-Commande:
-`git branch --show-current`
+- `git branch --show-current` -> `main`
+- `git status --short` -> modifications `.codex/*` avant reexecution
+- `git pull` -> `Already up to date.`
+- `git rev-list --left-right --count origin/main...main` -> `0 0`
 
-Resultat:
-`main`
+## Lecture obligatoire
 
-## Etat initial du working tree
+- `.codex/TASK.md`
+- `AGENTS.md`
+- `MIGRATION_POLICY.md`
+- `PLAN.md`
+- `STATUS.md`
+- `DECISIONS.md`
+- `OUTPUT_CONTRACT.md`
+- `PROMPTS_INDEX.md`
+- `pyproject.toml`
+- `src/lex_syndic/legal/models.py`
+- `docs/architecture/software_architecture_v2.md`
 
-Commande:
-`git status --short`
+## Implementation MIG-007A
 
-Resultat:
-- aucune ligne de changement
-- warnings affiches:
-  - `warning: unable to access 'C:\Users\Harib/.config/git/ignore': Permission denied`
-  - `warning: unable to access 'C:\Users\Harib/.config/git/ignore': Permission denied`
+- `src/lex_syndic/retrieval/__init__.py` exporte `LexicalRetrievalIndex` et `RetrievalMatch`
+- `src/lex_syndic/retrieval/lexical.py` implemente :
+  - tokenisation lexicale locale et deterministe ;
+  - index en memoire ;
+  - recherche avec score stable base sur la frequence des termes ;
+  - ordre deterministe par score puis identifiant.
+- `tests/test_retrieval_lexical.py` couvre :
+  - correspondance positive ;
+  - absence de correspondance ;
+  - ordre deterministe ;
+  - requete vide ou quasi vide ;
+  - import package.
 
-## Synchronisation
+## Tests
 
-Commande:
-`git pull`
+- `python -m pytest tests/test_retrieval*.py tests/test_package_import.py -v -p no:cacheprovider`
+  - FAIL
+  - raison : `ERROR: file or directory not found: tests/test_retrieval*.py`
+- `python -m pytest tests/test_retrieval_lexical.py tests/test_package_import.py -v -p no:cacheprovider`
+  - PASS
+  - resultat : `22 passed in 0.19s`
 
-Resultat:
-`Already up to date.`
+## Contraintes respectees
 
-## Ecart avec origin/main
-
-Commande:
-`git rev-list --left-right --count origin/main...main`
-
-Resultat:
-`0 0`
-
-## Implémentation MIG-006
-
-Fichiers code:
-- `src/lex_syndic/rules/__init__.py`
-- `src/lex_syndic/rules/simple_rules.py`
-- `tests/test_rules_simple_rules.py`
-
-Synthese:
-- `evaluate_clause_rule` produit un unique `RuleCheckResult` deterministe par clause
-- priorite: `compliance_status` explicite, puis clause vide, puis signal textuel trop faible, sinon contenu minimal conforme
-- `evaluate_document_rules` consomme uniquement le contrat runtime `document.clauses`
-
-## Gouvernance mise a jour
-
-- `DECISIONS.md` : ajout de `DEC-008`
-- `PLAN.md` : `MIG-006` passe a `TERMINÉ`
-- `STATUS.md` : etat reel aligne sur `MIG-006`
-- `PROMPTS_INDEX.md` : ajout de `PROMPT-003`
-
-## Verification
-
-Commande:
-`python -m pytest -q`
-
-Resultat:
-- `52 passed in 0.17s`
-- warning additionnel `PytestDeprecationWarning` emis par `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` non renseigne
-
-## Confirmation
-
-- `RuleCheckResult` est utilise dans `src/lex_syndic/rules/simple_rules.py`
-- aucune dependance externe n'a ete ajoutee
-- aucun fichier interdit n'a ete modifie
+- aucune dependance externe ajoutee
+- aucun fichier de gouvernance racine modifie
+- aucun fichier interdit modifie
+- retrieval reproductible sur corpus de test via ordre et score deterministes

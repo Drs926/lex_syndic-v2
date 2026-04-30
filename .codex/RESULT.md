@@ -1,7 +1,7 @@
 VERDICT:
-OK
+PASS
 RAISON UNIQUE:
-`MIG-006` a ete implemente de maniere minimale, testee et strictement bornee au module `rules` et aux mises a jour de gouvernance requises.
+`MIG-007A` a ete implemente et valide dans le perimetre `Migrator` strict sans modifier de gouvernance racine ni de fichier interdit.
 FILES READ:
 - `.codex/TASK.md`
 - `AGENTS.md`
@@ -13,29 +13,37 @@ FILES READ:
 - `PROMPTS_INDEX.md`
 - `pyproject.toml`
 - `src/lex_syndic/legal/models.py`
+- `docs/architecture/software_architecture_v2.md`
+- `src/lex_syndic/retrieval/__init__.py`
+- `tests/test_package_import.py`
 FILES CHANGED:
-- `src/lex_syndic/rules/__init__.py`
-- `src/lex_syndic/rules/simple_rules.py`
-- `tests/test_rules_simple_rules.py`
-- `DECISIONS.md`
-- `STATUS.md`
-- `PLAN.md`
-- `PROMPTS_INDEX.md`
+- `.codex/TASK.md`
 - `.codex/STATUS.md`
 - `.codex/RESULT.md`
 - `.codex/PROOF.md`
 - `.codex/HANDOFF.md`
+- `src/lex_syndic/retrieval/__init__.py`
+- `src/lex_syndic/retrieval/lexical.py`
+- `tests/test_retrieval_lexical.py`
+TESTS:
+- `python -m pytest tests/test_retrieval*.py tests/test_package_import.py -v -p no:cacheprovider` -> FAIL (`tests/test_retrieval*.py` non resolu par PowerShell)
+- `python -m pytest tests/test_retrieval_lexical.py tests/test_package_import.py -v -p no:cacheprovider` -> PASS (`22 passed in 0.19s`)
+DIFF_SCOPE:
+- en attente de `git diff --cached --name-only` apres staging
+COMMIT:
+none
+PUSH:
+none
 PROOFS:
 - `git branch --show-current` -> `main`
-- `git status --short` avant action -> aucune ligne de changement; seulement deux warnings Git sur `C:\Users\Harib/.config/git/ignore`
+- `git status --short` avant action -> modifications `.codex/*` uniquement
 - `git pull` -> `Already up to date.`
 - `git rev-list --left-right --count origin/main...main` -> `0 0`
-- `python -m pytest -q` -> `52 passed in 0.17s`
-- `RuleCheckResult` est utilise par `src/lex_syndic/rules/simple_rules.py` via `evaluate_clause_rule` et `evaluate_document_rules`
-- aucune dependance externe n'a ete ajoutee
-- aucun fichier interdit n'a ete modifie
+- retrieval en memoire avec tokenisation lexicale simple, score par frequence et ordre stable
+- aucune dependance externe ajoutee
+- aucun fichier de gouvernance racine modifie
 RISKS:
-- Le warning `PytestDeprecationWarning` emis par `pytest_asyncio` reste present et non traite dans ce lot.
-- Le warning Git sur `C:\Users\Harib/.config/git/ignore` reste un bruit d'environnement.
+- Le warning `PytestDeprecationWarning` emis par `pytest_asyncio` reste present et non traite.
+- La commande a motif `tests/test_retrieval*.py` n'est pas exploitable telle quelle sous PowerShell dans cet environnement.
 NEXT ACTION:
-Ouvrir une mission distincte si `MIG-007` doit etre engage, sans etendre le perimetre de `MIG-006`.
+Stage les fichiers autorises, verifier `git diff --cached --name-only`, puis commit et push direct si le perimetre reste propre.

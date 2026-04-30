@@ -1,29 +1,26 @@
 # HANDOFF
 
-Mission `LXS2-20260429-003` terminee en mode `CODE_ACTION`.
+Mission `LXS2-20260429-004A` prete pour commit `Migrator`.
 
 Etat transmis:
 - depot sur `main`
 - `origin/main` et `main` alignes
-- `MIG-006` implemente et teste
-- `python -m pytest -q` vert avec `52 passed in 0.17s`
+- retrieval lexical minimal implemente dans `src/lex_syndic/retrieval/`
+- tests cibles PASS via chemins explicites
 
 Fichiers modifies:
-- `src/lex_syndic/rules/__init__.py`
-- `src/lex_syndic/rules/simple_rules.py`
-- `tests/test_rules_simple_rules.py`
-- `DECISIONS.md`
-- `STATUS.md`
-- `PLAN.md`
-- `PROMPTS_INDEX.md`
+- `.codex/TASK.md`
 - `.codex/STATUS.md`
 - `.codex/RESULT.md`
 - `.codex/PROOF.md`
 - `.codex/HANDOFF.md`
+- `src/lex_syndic/retrieval/__init__.py`
+- `src/lex_syndic/retrieval/lexical.py`
+- `tests/test_retrieval_lexical.py`
 
 Points d'attention:
-- warning Git sur `C:\Users\Harib/.config/git/ignore`
-- warning `pytest_asyncio` non traite dans ce lot
+- la forme wildcard `tests/test_retrieval*.py` echoue telle quelle sous PowerShell dans cet environnement
+- warning `pytest_asyncio` non traite
 
 Prochaine action suggeree:
-- garder `MIG-007` separe dans une mission distincte si l'indexation interne doit etre ouverte.
+- stage controlle, verification `git diff --cached --name-only`, puis commit/push direct si le scope reste strictement autorise.

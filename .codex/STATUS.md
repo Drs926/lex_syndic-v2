@@ -1,12 +1,12 @@
 # STATUS
 
-TASK_ID: LXS2-20260429-004
-STATE: READY_FOR_AGENT
+TASK_ID: LXS2-20260429-004A
+STATE: DONE
 MODE: CODE_ACTION
-OWNER: codex
-UPDATED_AT: 2026-04-29
+VERDICT: PASS
+UPDATED_AT: 2026-04-30
 
 SUMMARY:
-- Tâche MIG-007 active pour implémenter le module `retrieval` minimal et testé.
-- Périmètre autorisé : `src/lex_syndic/retrieval/**`, tests retrieval, `DECISIONS.md`, `STATUS.md`, `PLAN.md`, `PROMPTS_INDEX.md`, traces `.codex`.
-- Aucun fichier interdit ne doit être modifié.
+- `.codex/TASK.md` a ete recrit en mission `Migrator` stricte pour `MIG-007A`.
+- `src/lex_syndic/retrieval/` contient maintenant un retrieval lexical minimal, local, deterministe et teste.
+- Le pytest cible passe et le perimetre reste limite aux fichiers autorises.
