@@ -42,7 +42,7 @@ Chaque lot respecte `MIGRATION_POLICY.md` :
 | `MIG-007` | `retrieval` | Indexation et recherche lexicale interne minimale. | Recherche sur corpus de test reproductible. | **TERMINÉ** |
 | `MIG-008` | `storage` | Cadrage du périmètre storage, puis implémentation séparée. | Périmètre, invariants, fichiers autorisés/interdits, tests attendus et critères PASS/BLOCK définis avant code. | **TERMINÉ** |
 | `MIG-009` | `report` | Cadrage du périmètre report, puis implémentation séparée. | Module `report` minimal disponible avec structure simple et rendu texte déterministe testés. | **TERMINÉ** |
-| `MIG-010` | `interface` | Cadrage du périmètre interface, puis implémentation séparée. | Périmètre fonctionnel, type d'interface minimal, entrées, sorties, fichiers autorisés/interdits, invariants, tests attendus et critères PASS/BLOCK définis avant code. | Cadrage prêt |
+| `MIG-010` | `interface` | Cadrage du périmètre interface, puis implémentation séparée. | Module `interface` minimal disponible avec requête structurée simple, réponse structurée simple et traitement local déterministe testés. | **TERMINÉ** |
 
 ### Ordre des lots
 
@@ -86,8 +86,8 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 
 ### Prochaine préparation
 
-- Après `MIG-009`, la prochaine étape logique est le cadrage séparé de
-  `MIG-010` (`interface`) sans implémentation dans cette mission.
+- Après `MIG-010`, aucune nouvelle implémentation n'est planifiée dans le
+  périmètre V2 courant sans nouveau cadrage explicite.
 
 ### Cadrage MIG-009
 

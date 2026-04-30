@@ -236,3 +236,22 @@ Conséquences :
 - Une future `MIG-010A` devra rester une mission `Migrator` separee.
 - Aucune dependance CLI ou framework d'interface n'est implicitement autorise
   par cette decision.
+
+## DEC-015 — MIG-010 reste borne a une interface Python minimale
+Date : 2026-04-30
+Statut : Acceptée
+Contexte : `MIG-010` a ete separe entre cadrage, implementation technique et
+mise a jour de gouvernance. `MIG-010A` prouve qu'un module `interface` minimal
+suffit au pipeline courant sans interface riche ni dependance externe.
+Décision : `MIG-010` est formellement decoupe entre `MIG-010` (cadrage),
+`MIG-010A` (implementation `Migrator`) et `MIG-010B` (gouvernance). Le module
+`interface` reste volontairement minimal. L'interface actuelle est une couche
+Python locale, deterministe et testable. Aucune interface web, graphique,
+serveur API, dependance CLI externe, IA, LLM, embedding ou service externe
+n'est introduit. Les missions mixtes `Migrator` + `Gouverneur` restent
+interdites.
+Conséquences :
+- Toute evolution de `interface` vers une interface plus riche devra faire
+  l'objet d'un cadrage explicite.
+- La gouvernance ne peut etre mise a jour qu'apres preuve PASS de la mission
+  technique correspondante.

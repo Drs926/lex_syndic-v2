@@ -1,22 +1,23 @@
 # HANDOFF
 
-Mission `LXS2-20260430-007A` prete pour validation `Migrator`.
+Mission `LXS2-20260430-007B` prete pour commit `Gouverneur`.
 
 Etat transmis:
 - depot sur `main`
 - `origin/main` et `main` alignes
-- module `interface` minimal implemente
-- aucun fichier de gouvernance racine modifie
+- gouvernance alignee sur la reussite de `MIG-010A`
+- aucun fichier technique modifie
 
 Fichiers modifies:
+- `PLAN.md`
+- `STATUS.md`
+- `DECISIONS.md`
+- `PROMPTS_INDEX.md`
 - `.codex/TASK.md`
 - `.codex/STATUS.md`
 - `.codex/RESULT.md`
 - `.codex/PROOF.md`
 - `.codex/HANDOFF.md`
-- `src/lex_syndic/interface/__init__.py`
-- `src/lex_syndic/interface/core.py`
-- `tests/test_interface_minimal.py`
 
 Prochaine action suggeree:
-- executer le pytest cible, verifier le diff scope stage, puis ouvrir `MIG-010B` `Gouverneur` si `MIG-010A` est PASS.
+- ouvrir une nouvelle mission uniquement si un nouveau cadrage explicite est requis au-dela du perimetre `MIG-010`.

@@ -9,11 +9,11 @@ Dernière mise à jour : 2026-04-30.
 | Domaine | État réel |
 |---------|-----------|
 | Architecture | **Documentée** (`docs/architecture/software_architecture_v2.md`). |
-| Code métier | **Partiellement migré.** Les modules `legal`, `ingestion`, `analysis`, `comparison`, `rules`, `retrieval`, `storage` et `report` disposent d'un socle minimal testé. |
-| Tests | **Opérationnels.** `python -m pytest tests/test_report_minimal.py tests/test_package_import.py -v -p no:cacheprovider` a passé : `26 passed in 0.19s` le 2026-04-30. |
+| Code métier | **Partiellement migré.** Les modules `legal`, `ingestion`, `analysis`, `comparison`, `rules`, `retrieval`, `storage`, `report` et `interface` disposent d'un socle minimal testé. |
+| Tests | **Opérationnels.** `python -m pytest tests/test_interface_minimal.py tests/test_package_import.py -v -p no:cacheprovider` a passé : `28 passed in 0.13s` le 2026-04-30. |
 | Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'exécution locale de `pytest` a été revalidée le 2026-04-29. |
 | Gouvernance | **En place** (fichiers racine `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`, `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`). |
-| Migration V1 | **MIG-001 à MIG-009 terminés.** `MIG-010` est en cadrage. |
+| Migration V1 | **MIG-001 à MIG-010 terminés.** |
 | Audit V1→V2 | **Produit.** `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` — 42 fichiers classés, 10 lots ordonnés. |
 
 ## Détail par module canonique
@@ -32,7 +32,7 @@ fonctionnelle (placeholders) :
 | `retrieval` | MIG-007A PASS. Retrieval lexical minimal disponible depuis le commit `d7278b7`, avec index en mémoire, score déterministe et ordre stable sans dépendance externe. |
 | `storage` | MIG-008A PASS. Storage minimal disponible depuis le commit `f8dec95`, avec API memoire deterministe, aucun ajout de dependance et aucun couplage au retrieval. |
 | `report` | MIG-009A PASS. Module minimal disponible depuis le commit `6b90ff4`, avec package `src/lex_syndic/report/`, structure de rapport simple, rendu texte deterministe, aucune dependance externe et aucun couplage `retrieval`/`storage`. |
-| `interface` | Squelette (`__init__.py`). Importable avec `src/` dans `sys.path`. |
+| `interface` | MIG-010A PASS. Module minimal disponible depuis le commit `1973e44`, avec package `src/lex_syndic/interface/`, requête structurée simple, réponse structurée simple, traitement local deterministe, aucune dependance externe et aucun couplage direct `retrieval`/`storage`/`report`. |
 
 ## Hors périmètre actuel
 
@@ -48,7 +48,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-`MIG-009` est fermé. Dernier commit connu : `4006d42`. La prochaine action logique est le cadrage séparé de `MIG-010` pour `interface`, sans implémentation démarrée dans cette mission.
+`MIG-010A` est PASS (`1973e44`). Aucune nouvelle mission d'implementation n'est ouverte dans le perimetre V2 courant ; toute suite exige un nouveau cadrage explicite.
 
 ## Notes d'execution
 
