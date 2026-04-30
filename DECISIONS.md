@@ -200,3 +200,21 @@ Conséquences :
 - Une future `MIG-009A` devra rester une mission `Migrator` separee.
 - Aucun rendu PDF, DOCX, HTML ni moteur de template n'est implicitement
   autorise par cette decision.
+
+## DEC-013 — MIG-009 reste borne a un report texte minimal
+Date : 2026-04-30
+Statut : Acceptée
+Contexte : `MIG-009` a ete separe entre cadrage, implementation technique et
+mise a jour de gouvernance. `MIG-009A` prouve qu'un module `report` minimal
+suffit au pipeline courant sans rendu complexe ni dependance externe.
+Décision : `MIG-009` est formellement decoupe entre `MIG-009` (cadrage),
+`MIG-009A` (implementation `Migrator`) et `MIG-009B` (gouvernance). Le module
+`report` reste volontairement minimal. Le rendu actuel est texte, local,
+deterministe et testable. Aucun export PDF, DOCX, HTML, template engine, IA,
+LLM, embedding ou service externe n'est introduit. Les missions mixtes
+`Migrator` + `Gouverneur` restent interdites.
+Conséquences :
+- Toute evolution de `report` vers un format de sortie plus riche devra faire
+  l'objet d'un cadrage explicite.
+- La gouvernance ne peut etre mise a jour qu'apres preuve PASS de la mission
+  technique correspondante.

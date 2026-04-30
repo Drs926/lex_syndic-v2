@@ -1,13 +1,13 @@
 # Task
 
 TASK_ID:
-LXS2-20260430-006A
+LXS2-20260430-006B
 
 TITLE:
-MIG-009A — minimal report implementation
+MIG-009B — Gouverneur
 
 ROLE:
-Migrator
+Gouverneur
 
 GOAL:
-Implémenter un module `report` minimal, local, déterministe, sans dépendance externe, capable de construire une structure de rapport simple et de produire un rendu texte stable et testable.
+Mettre à jour la gouvernance racine et les traces `.codex` après la réussite prouvée de `MIG-009A`, sans modifier `src/`, `tests/` ni `docs/`.

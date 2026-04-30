@@ -146,3 +146,31 @@ Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
 `.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
 Référence : sortie contractuelle de la session du 2026-04-30 pour
 `LXS2-20260430-006`.
+
+## PROMPT-010 — MIG-009A report minimal implementation
+Date : 2026-04-30
+Mission : Executer `LXS2-20260430-006A` en role `Migrator` strict pour
+implementer un module `report` minimal, local, deterministe et teste, sans
+modifier la gouvernance racine.
+Périmètre autorisé : `.codex/TASK.md`, `.codex/STATUS.md`, `.codex/RESULT.md`,
+`.codex/PROOF.md`, `.codex/HANDOFF.md`, `src/lex_syndic/report/**`,
+`tests/test_report*.py`.
+Verdict : OK
+Fichiers modifiés : `.codex/TASK.md`, `.codex/STATUS.md`, `.codex/RESULT.md`,
+`.codex/PROOF.md`, `.codex/HANDOFF.md`, `src/lex_syndic/report/__init__.py`,
+`src/lex_syndic/report/text.py`, `tests/test_report_minimal.py`.
+Référence : commit `6b90ff4` et sortie contractuelle de la session du
+2026-04-30 pour `LXS2-20260430-006A`.
+
+## PROMPT-011 — MIG-009B gouvernance après MIG-009A
+Date : 2026-04-30
+Mission : Executer la mission `Gouverneur` de mise a jour de la gouvernance
+apres la reussite de `MIG-009A`, sans modifier `src/`, `tests/` ou `docs/`.
+Périmètre autorisé : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md` et fichiers `.codex/`.
+Verdict : OK
+Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md`, `.codex/TASK.md`, `.codex/STATUS.md`,
+`.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
+Référence : sortie contractuelle de la session du 2026-04-30 pour
+`LXS2-20260430-006B`.

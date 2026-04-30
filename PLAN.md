@@ -41,7 +41,7 @@ Chaque lot respecte `MIGRATION_POLICY.md` :
 | `MIG-006` | `rules` | Règles calculables, seuils, validation conformité. | Sortie `RuleCheckResult` testée. | **TERMINÉ** |
 | `MIG-007` | `retrieval` | Indexation et recherche lexicale interne minimale. | Recherche sur corpus de test reproductible. | **TERMINÉ** |
 | `MIG-008` | `storage` | Cadrage du périmètre storage, puis implémentation séparée. | Périmètre, invariants, fichiers autorisés/interdits, tests attendus et critères PASS/BLOCK définis avant code. | **TERMINÉ** |
-| `MIG-009` | `report` | Cadrage du périmètre report, puis implémentation séparée. | Périmètre, entrées, sortie minimale, fichiers autorisés/interdits, invariants, tests attendus et critères PASS/BLOCK définis avant code. | Cadrage prêt |
+| `MIG-009` | `report` | Cadrage du périmètre report, puis implémentation séparée. | Module `report` minimal disponible avec structure simple et rendu texte déterministe testés. | **TERMINÉ** |
 | `MIG-010` | `interface` | Point d'entrée minimal (CLI). | Exécution pipeline complet sur exemple. | En attente |
 
 ### Ordre des lots
@@ -86,8 +86,8 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 
 ### Prochaine préparation
 
-- Après `MIG-008`, la prochaine étape logique est le cadrage séparé de
-  `MIG-009` (`report`) sans implémentation dans cette mission.
+- Après `MIG-009`, la prochaine étape logique est la préparation séparée de
+  `MIG-010` (`interface`) sans implémentation dans cette mission.
 
 ### Cadrage MIG-009
 
