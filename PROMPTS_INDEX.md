@@ -217,3 +217,15 @@ Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
 `.codex/RESULT.md`, `.codex/PROOF.md`, `.codex/HANDOFF.md`.
 Référence : sortie contractuelle de la session du 2026-04-30 pour
 `LXS2-20260430-007B`.
+
+## PROMPT-015 — RAIL-001 validation du rail ChatGPT → GitHub → Codex
+Date : 2026-05-01
+Mission : Valider le rail de travail ChatGPT → GitHub → Codex sur
+`lex_syndic_v2` via une modification documentaire minimale, sans créer de
+nouvelle brique produit ni élargir le périmètre fonctionnel de Lex-Syndic.
+Périmètre autorisé : fichiers de gouvernance racine strictement nécessaires.
+Verdict : OK
+Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
+`PROMPTS_INDEX.md`.
+Référence : sortie contractuelle de la session du 2026-05-01 pour
+`RAIL-001`.

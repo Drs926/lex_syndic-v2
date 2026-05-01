@@ -255,3 +255,19 @@ Conséquences :
   l'objet d'un cadrage explicite.
 - La gouvernance ne peut etre mise a jour qu'apres preuve PASS de la mission
   technique correspondante.
+
+## DEC-016 — Le dépôt V2 peut servir de support contrôlé de validation du rail
+Date : 2026-05-01
+Statut : Acceptée
+Contexte : Une séquence dédiée doit valider le rail ChatGPT → GitHub → Codex
+sans faire dériver le produit `lex_syndic_v2` hors de son périmètre minimal.
+Décision : Le dépôt `lex_syndic_v2` peut être utilisé comme dépôt support pour
+des missions de validation de rail, à condition que ces missions restent
+bornées à un diff minimal de gouvernance si aucun besoin produit n'est prouvé.
+Toute mission future de rail doit distinguer explicitement l'objectif rail,
+l'objectif produit, la preuve attendue, l'état GitHub, le retour Codex et le
+verdict ChatGPT.
+Conséquences :
+- Une mission de rail ne vaut pas ouverture implicite d'un nouveau lot produit.
+- L'absence de test produit est acceptable si la mission reste documentaire et
+  le justifie explicitement.

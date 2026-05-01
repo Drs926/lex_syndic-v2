@@ -50,6 +50,14 @@ sans décision dans `DECISIONS.md` :
 
 `MIG-010A` est PASS (`1973e44`). Aucune nouvelle mission d'implementation n'est ouverte dans le perimetre V2 courant ; toute suite exige un nouveau cadrage explicite.
 
+## Séquence rail en cours
+
+Le dépôt `lex_syndic_v2` sert désormais aussi de support contrôlé pour valider
+le rail ChatGPT → GitHub → Codex. Dans cette séquence, les lots fonctionnels
+Lex-Syndic restent secondaires par rapport à la preuve du rail. Toute mission
+future doit distinguer explicitement l'objectif rail, l'objectif produit, la
+preuve attendue, l'état GitHub, le retour Codex et le verdict ChatGPT.
+
 ## Notes d'execution
 
 - Le warning `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` reste un

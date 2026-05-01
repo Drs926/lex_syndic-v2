@@ -89,6 +89,16 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 - Après `MIG-010`, aucune nouvelle implémentation n'est planifiée dans le
   périmètre V2 courant sans nouveau cadrage explicite.
 
+### Séquence rail
+
+- `RAIL-001` utilise `lex_syndic_v2` comme dépôt support de validation du rail
+  ChatGPT → GitHub → Codex.
+- Dans cette séquence, l'objectif rail prime sur l'avancement fonctionnel du
+  produit.
+- Toute mission future de rail doit expliciter séparément l'objectif rail,
+  l'objectif produit, la preuve attendue, l'état GitHub, le retour Codex et le
+  verdict ChatGPT.
+
 ### Cadrage MIG-009
 
 - Cette mission de cadrage ne lance aucune implémentation `report`.
