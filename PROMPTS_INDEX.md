@@ -229,3 +229,14 @@ Fichiers modifiés : `PLAN.md`, `STATUS.md`, `DECISIONS.md`,
 `PROMPTS_INDEX.md`.
 Référence : sortie contractuelle de la session du 2026-05-01 pour
 `RAIL-001`.
+
+## PROMPT-016 — RAIL-005A trace locale issue → branche → preuve
+Date : 2026-05-01
+Mission : Ajouter une trace documentaire minimale de `RAIL-005` depuis le
+worktree sain `lex_syndic_v2_clean`, après création de l'issue GitHub `#4` et
+de la branche locale `rail/005-local-proof-issue-handoff`, sans changement
+produit.
+Périmètre autorisé : `STATUS.md` et `PROMPTS_INDEX.md` uniquement.
+Verdict : OK
+Fichiers modifiés : `STATUS.md`, `PROMPTS_INDEX.md`.
+Référence : sortie contractuelle de la session du 2026-05-01 pour `RAIL-005A`.
