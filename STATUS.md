@@ -69,6 +69,10 @@ ouvrir de développement produit.
 preuve locale → préparation PR, dans le seul périmètre gouvernance /
 traçabilité et sans changement produit.
 
+`RAIL-006` teste un cycle accéléré gouverné `#6` exécuté en une seule mission
+Codex : issue → branche dédiée → diff documentaire minimal → commit → push →
+PR, sans changement produit.
+
 ## Notes d'execution
 
 - Le warning `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` reste un

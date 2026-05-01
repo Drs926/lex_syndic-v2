@@ -240,3 +240,14 @@ Périmètre autorisé : `STATUS.md` et `PROMPTS_INDEX.md` uniquement.
 Verdict : OK
 Fichiers modifiés : `STATUS.md`, `PROMPTS_INDEX.md`.
 Référence : sortie contractuelle de la session du 2026-05-01 pour `RAIL-005A`.
+
+## PROMPT-017 — RAIL-006 cycle accéléré gouverné
+Date : 2026-05-01
+Mission : Exécuter en une seule mission le cycle `RAIL-006` depuis le
+worktree sain `lex_syndic_v2_clean` : issue GitHub `#6`, branche dédiée,
+diff documentaire minimal, commit, push et création de PR, sans changement
+produit ni merge.
+Périmètre autorisé : `STATUS.md` et `PROMPTS_INDEX.md` uniquement.
+Verdict : OK
+Fichiers modifiés : `STATUS.md`, `PROMPTS_INDEX.md`.
+Référence : sortie contractuelle de la session du 2026-05-01 pour `RAIL-006`.
