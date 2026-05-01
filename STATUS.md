@@ -61,6 +61,10 @@ preuve attendue, l'état GitHub, le retour Codex et le verdict ChatGPT.
 `RAIL-002` teste plus précisément un cycle propre avec branche dédiée, push de
 branche et préparation de PR, sans ouvrir de nouveau lot produit.
 
+`RAIL-004` teste le cycle issue GitHub #2 → branche dédiée → commit → push →
+PR, en conservant `lex_syndic_v2` comme support de validation du rail sans
+ouvrir de développement produit.
+
 ## Notes d'execution
 
 - Le warning `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` reste un
