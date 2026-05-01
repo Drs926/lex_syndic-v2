@@ -65,6 +65,10 @@ branche et préparation de PR, sans ouvrir de nouveau lot produit.
 PR, en conservant `lex_syndic_v2` comme support de validation du rail sans
 ouvrir de développement produit.
 
+`RAIL-005` ouvre le cycle issue GitHub `#4` → branche locale dédiée →
+preuve locale → préparation PR, dans le seul périmètre gouvernance /
+traçabilité et sans changement produit.
+
 ## Notes d'execution
 
 - Le warning `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` reste un
