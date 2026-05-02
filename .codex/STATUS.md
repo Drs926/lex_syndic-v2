@@ -1,17 +1,17 @@
 # STATUS
 
-TASK_ID: RAIL-007
+TASK_ID: RAIL-008
 STATE: DONE
 MODE: GOVERNANCE_DOC_ONLY
 VERDICT: PASS
 UPDATED_AT: 2026-05-02
 
 SUMMARY:
-- `.codex/*` realigned with the current root governance state.
-- Root files already record `MIG-001` to `MIG-010` as completed.
-- Root files already record the rail validation sequence through `RAIL-006`.
+- `RAIL-007` is PASS and merged on `main`.
+- `ACT-013-RECOVERY-AUDIT-LEX-SYNDIC-V2` was executed in `PROOF_ONLY` mode.
+- `main = origin/main = 6a83e27`.
 - No product implementation task is active.
-- No code, tests, architecture or dependency file was modified.
+- Root governance files and `.codex/*` are now aligned.
 
 NEXT_ACTION:
-- No development is authorized before an explicit new scoped mission.
+- No development is authorized before explicit new scoping.

@@ -1,18 +1,20 @@
 # HANDOFF
 
-Current repository state:
-- `MIG-001` to `MIG-010` are completed.
-- `MIG-010A` is PASS.
-- Rail validation traces are documented through `RAIL-006`.
+Final reconciled state:
+- `RAIL-007` is PASS and merged.
+- `ACT-013-RECOVERY-AUDIT-LEX-SYNDIC-V2` was executed in `PROOF_ONLY` mode.
+- `main = origin/main = 6a83e27`.
 - No active product implementation task is open.
 
-Current `.codex` role:
-- `.codex/*` now reflects the repository-level state instead of the older `MIG-010B` mission only.
+What was reconciled:
+- Root `STATUS.md` now traces `RAIL-007` and the executed `ACT-013` proof-only state.
+- `.codex/*` no longer stops at `RAIL-007` only; it now reflects the executed target task.
+
+Still forbidden:
+- product code changes
+- tests changes
+- dependency changes
+- any implementation without explicit new scoping
 
 Next authorized action:
-- No development action is authorized before a new scoped mission is explicitly created.
-
-BLOCK if:
-- a future task starts from stale `MIG-010B` state only;
-- root governance files and `.codex/*` diverge again;
-- code changes are attempted without a new scoped task.
+- Explicit new scoping via ChatGPT, or collection/next-step orchestration from agent-control-tower.

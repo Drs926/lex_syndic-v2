@@ -2,7 +2,7 @@
 
 État réel du dépôt V2 à date.
 
-Dernière mise à jour : 2026-04-30.
+Dernière mise à jour : 2026-05-02.
 
 ## Résumé
 
@@ -50,28 +50,24 @@ sans décision dans `DECISIONS.md` :
 
 `MIG-010A` est PASS (`1973e44`). Aucune nouvelle mission d'implementation n'est ouverte dans le perimetre V2 courant ; toute suite exige un nouveau cadrage explicite.
 
-## Séquence rail en cours
+## Séquence rail validée
 
 Le dépôt `lex_syndic_v2` sert désormais aussi de support contrôlé pour valider
 le rail ChatGPT → GitHub → Codex. Dans cette séquence, les lots fonctionnels
-Lex-Syndic restent secondaires par rapport à la preuve du rail. Toute mission
-future doit distinguer explicitement l'objectif rail, l'objectif produit, la
-preuve attendue, l'état GitHub, le retour Codex et le verdict ChatGPT.
+Lex-Syndic restent secondaires par rapport à la preuve du rail.
 
-`RAIL-002` teste plus précisément un cycle propre avec branche dédiée, push de
-branche et préparation de PR, sans ouvrir de nouveau lot produit.
+- `RAIL-002` a validé un cycle propre avec branche dédiée, push de branche et préparation de PR.
+- `RAIL-004` a validé le cycle issue GitHub `#2` → branche dédiée → commit → push → PR.
+- `RAIL-005` a validé le cycle issue GitHub `#4` → branche locale dédiée → preuve locale → préparation PR.
+- `RAIL-006` a validé un cycle accéléré gouverné `#6` exécuté en une seule mission Codex.
+- `RAIL-007` est PASS et mergé sur `main` via le merge commit `6a83e27`, avec réconciliation des traces racine et `.codex`.
 
-`RAIL-004` teste le cycle issue GitHub #2 → branche dédiée → commit → push →
-PR, en conservant `lex_syndic_v2` comme support de validation du rail sans
-ouvrir de développement produit.
+## État courant après ACT-013
 
-`RAIL-005` ouvre le cycle issue GitHub `#4` → branche locale dédiée →
-preuve locale → préparation PR, dans le seul périmètre gouvernance /
-traçabilité et sans changement produit.
-
-`RAIL-006` teste un cycle accéléré gouverné `#6` exécuté en une seule mission
-Codex : issue → branche dédiée → diff documentaire minimal → commit → push →
-PR, sans changement produit.
+- `main = origin/main = 6a83e27`
+- la tâche `ACT-013-RECOVERY-AUDIT-LEX-SYNDIC-V2` a été préparée puis exécutée en mode `PROOF_ONLY`
+- aucune tâche produit n'est active
+- aucun développement n'est autorisé sans nouveau cadrage explicite
 
 ## Notes d'execution
 
