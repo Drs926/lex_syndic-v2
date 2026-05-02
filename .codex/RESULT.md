@@ -1,45 +1,28 @@
-VERDICT:
-PASS
-RAISON UNIQUE:
-La gouvernance a ete alignee sur la reussite de `MIG-010A` dans le seul perimetre `Gouverneur` autorise.
-FILES READ:
-- `AGENTS.md`
-- `MIGRATION_POLICY.md`
-- `PLAN.md`
-- `STATUS.md`
-- `DECISIONS.md`
-- `OUTPUT_CONTRACT.md`
-- `PROMPTS_INDEX.md`
-- `.codex/TASK.md`
+# RESULT
+
+VERDICT: PASS
+
+MISSION:
+RAIL-007 — Reconcile `.codex` state with root governance state.
+
+SUMMARY:
+- Updated `.codex/*` to stop presenting `MIG-010B` as the latest global repository state.
+- Recorded that the repository root now includes rail validation traces through `RAIL-006`.
+- Confirmed that no new product implementation is active.
+- Confirmed that any future work requires explicit scoped planning.
+
+FILES_CHANGED:
 - `.codex/STATUS.md`
 - `.codex/RESULT.md`
 - `.codex/PROOF.md`
 - `.codex/HANDOFF.md`
-FILES CHANGED:
-- `PLAN.md`
-- `STATUS.md`
-- `DECISIONS.md`
-- `PROMPTS_INDEX.md`
-- `.codex/TASK.md`
-- `.codex/STATUS.md`
-- `.codex/RESULT.md`
-- `.codex/PROOF.md`
-- `.codex/HANDOFF.md`
-DIFF_SCOPE:
-- en attente de `git diff --cached --name-only` apres staging
-COMMIT:
-none
-PUSH:
-none
-PROOFS:
-- `git branch --show-current` -> `main`
-- `git status --short` avant action -> propre hors warnings Git externes
-- `git pull` -> `Already up to date.`
-- `git rev-list --left-right --count origin/main...main` -> `0 0`
-- `git log --oneline -12` -> HEAD `1973e44`
-- aucun fichier `src/**`, `tests/**`, `docs/**`, `AGENTS.md`, `MIGRATION_POLICY.md`, `OUTPUT_CONTRACT.md`, `pyproject.toml` ou `README.md` n'a ete modifie
-RISKS:
-- Le warning Git sur `C:\Users\Harib\.config\git\ignore` reste un bruit d'environnement.
-- Le warning `pytest_asyncio` reste documente comme bruit non bloquant dans `STATUS.md`.
-NEXT ACTION:
-Verifier le diff autorise, stage les seuls fichiers de gouvernance et `.codex`, puis commit/push si le cache Git reste strictement conforme.
+
+FILES_NOT_CHANGED:
+- `src/**`
+- `tests/**`
+- `docs/**`
+- root governance files
+- dependency files
+
+NEXT_ACTION:
+- Open a new scoped mission only after ChatGPT decision.

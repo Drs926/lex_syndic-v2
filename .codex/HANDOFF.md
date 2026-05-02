@@ -1,23 +1,18 @@
 # HANDOFF
 
-Mission `LXS2-20260430-007B` prete pour commit `Gouverneur`.
+Current repository state:
+- `MIG-001` to `MIG-010` are completed.
+- `MIG-010A` is PASS.
+- Rail validation traces are documented through `RAIL-006`.
+- No active product implementation task is open.
 
-Etat transmis:
-- depot sur `main`
-- `origin/main` et `main` alignes
-- gouvernance alignee sur la reussite de `MIG-010A`
-- aucun fichier technique modifie
+Current `.codex` role:
+- `.codex/*` now reflects the repository-level state instead of the older `MIG-010B` mission only.
 
-Fichiers modifies:
-- `PLAN.md`
-- `STATUS.md`
-- `DECISIONS.md`
-- `PROMPTS_INDEX.md`
-- `.codex/TASK.md`
-- `.codex/STATUS.md`
-- `.codex/RESULT.md`
-- `.codex/PROOF.md`
-- `.codex/HANDOFF.md`
+Next authorized action:
+- No development action is authorized before a new scoped mission is explicitly created.
 
-Prochaine action suggeree:
-- ouvrir une nouvelle mission uniquement si un nouveau cadrage explicite est requis au-dela du perimetre `MIG-010`.
+BLOCK if:
+- a future task starts from stale `MIG-010B` state only;
+- root governance files and `.codex/*` diverge again;
+- code changes are attempted without a new scoped task.
