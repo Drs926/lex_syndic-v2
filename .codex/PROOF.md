@@ -2,39 +2,35 @@
 
 ## Repository state
 
-- Branch expected: `main`
-- Local and remote must be aligned before this mission.
-- Worktree must be clean before this mission.
+- repo root: `C:\Users\Harib\CascadeProjects\lex_syndic_v2`
+- branch: `main`
+- HEAD: `6a83e27`
+- origin/main: `6a83e27`
+- status before RAIL-008: `M .codex/TASK.md`
 
-## Governance state used as source
+## RAIL-008 scope
 
-Root governance files declare:
-- `MIG-001` to `MIG-010` completed.
-- `MIG-010A PASS`.
-- Rail validation sequence documented through `RAIL-006`.
-- No active product implementation task.
-
-## Scope proof
-
-Allowed changed files:
+Modified files:
+- `STATUS.md`
+- `.codex/TASK.md`
 - `.codex/STATUS.md`
 - `.codex/RESULT.md`
 - `.codex/PROOF.md`
 - `.codex/HANDOFF.md`
 
-Forbidden changed files:
+Forbidden files not modified:
 - `src/**`
 - `tests/**`
-- `docs/**`
-- root governance files
+- `pyproject.toml`
+- product code
 - dependency files
 
-## Required post-change checks
+## Post-change checks
 
 Run:
 
-git diff --name-only
-git diff --stat
 git status --short
+git diff --stat
+git diff -- STATUS.md .codex/TASK.md .codex/STATUS.md .codex/RESULT.md .codex/PROOF.md .codex/HANDOFF.md
 
-PASS only if the diff is limited to the four allowed `.codex/*` files.
+PASS only if the diff is limited to the six allowed files.
