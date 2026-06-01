@@ -112,7 +112,8 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 | `LEX-029` | Audit maturité produit avant exposition externe : `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`. Évaluation contrats, couplages, limites métier, verdict API. | Audit produit. Aucune modification `src/` ni `tests/`. | **TERMINÉ** — PR #45 |
 | `LEX-030` | Couche API locale mono-utilisateur pure Python : `src/lex_syndic/api/local.py`. `LocalApiAnalysisRequest` → `submit_analysis()` → `LocalApiAnalysisResponse`. 7 tests verts. Sans serveur HTTP, sans dépendance externe. | 167 tests globaux verts. Aucun store global. | **TERMINÉ** — PR #47 |
 | `LEX-031` | Test d'acceptation API locale : `tests/test_acceptance_api_local.py`. 7 scénarios sur accord réaliste, record_id, store.get(), report_text, insufficient_data, isolation stores, absence FastAPI. | 174 tests globaux verts. Aucune modification `src/`. | **TERMINÉ** — PR #49 |
-| `LEX-032` | Découplage `storage → interface` : `InMemoryLegalResultStore` rendu générique via `Generic[T]`. Aucun import `lex_syndic.interface` dans `storage`. 2 tests de découplage ajoutés. | 176 tests globaux verts. Comportement inchangé. | **EN COURS** — issue #50 |
+| `LEX-032` | Découplage `storage → interface` : `InMemoryLegalResultStore` rendu générique via `Generic[T]`. Aucun import `lex_syndic.interface` dans `storage`. 2 tests de découplage ajoutés. | 176 tests globaux verts. Comportement inchangé. | **TERMINÉ** — PR #51 |
+| `LEX-033` | Cadrage FastAPI avant implémentation : `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`. Contrat API (`POST /v1/analyze`, `GET /v1/results/{record_id}`, `GET /health`), prérequis, risques, recommandation LEX-034. | Document de cadrage. Aucune modification `src/` ni `tests/`. | **EN COURS** — issue #52 |
 
 ### Hors plan à ce stade
 
@@ -121,8 +122,8 @@ Aucune décision n'est prise sur :
 - toute brique NLP, LLM, Légifrance, Judilibre ;
 - frontend, MCP utilisateur.
 
-L'API web réelle (FastAPI ou équivalent) exige un cadrage séparé dans
-`DECISIONS.md` après PASS de LEX-030, avec auth, UUID et thread-safety.
+LEX-034 est la prochaine étape recommandée : API FastAPI locale mono-utilisateur
+strictement bornée, après PASS de LEX-033.
 
 ### Séquence rail
 

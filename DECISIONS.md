@@ -666,3 +666,33 @@ Conséquences :
 - `storage` devient indépendant de `interface` — le risque de cycle est éliminé.
 - Les tests prouvent l'absence d'import `lex_syndic.interface` dans `storage`.
 - Toute API web réelle reste différée à un cadrage séparé.
+
+## DEC-040 — LEX-032 PASS : couplage storage → interface supprimé
+Date : 2026-06-02
+Statut : Acceptée
+Contexte : LEX-032 devait rendre `InMemoryLegalResultStore` indépendant de
+`interface` en le rendant générique, éliminant le risque de cycle identifié
+dans l'audit LEX-029.
+Décision : LEX-032 a rendu `InMemoryLegalResultStore` générique via `Generic[T]`
+dans `storage/legal_results.py`. L'import `lex_syndic.interface.report_handler`
+a été supprimé de `storage`. 2 tests de découplage ajoutés (source + import
+à froid). 176 tests globaux verts. Merge commit
+`115754c252ec4092d409416d1a92112e6086bfeb` sur main.
+Conséquences :
+- `storage` est désormais indépendant de `interface` — risque de cycle éliminé.
+- L'architecture est prête pour un cadrage API web réelle.
+
+## DEC-041 — LEX-033 : cadrage FastAPI avant toute implémentation
+Date : 2026-06-02
+Statut : Acceptée
+Contexte : Le couplage storage/interface est supprimé. La couche API locale
+pure Python est validée. FastAPI n'est pas encore une dépendance. Avant toute
+implémentation d'un serveur HTTP, un cadrage documentaire est obligatoire.
+Décision : LEX-033 produit `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`
+décrivant les conditions d'acceptabilité de FastAPI, le contrat API minimal,
+les prérequis bloquants, les risques et une recommandation unique pour LEX-034.
+Aucune modification de `src/`, `tests/` ou `pyproject.toml`.
+Conséquences :
+- Toute implémentation FastAPI exige un PASS de LEX-033 et une décision dans
+  `DECISIONS.md` référençant ce document.
+- La recommandation LEX-034 est unique et sans ambiguïté.
