@@ -292,3 +292,47 @@ Conséquences :
   cadrage explicite dans `DECISIONS.md` avant implémentation.
 - `storage`, `report` et `interface` restent hors périmètre du pipeline à ce
   stade.
+
+## DEC-018 — LEX-021 expose le pipeline juridique via la couche interface
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `run_legal_pipeline()` est disponible depuis LEX-020 mais ne
+dispose d'aucune entrée applicative. L'appelant doit construire lui-même
+`LegalDocument` et `expected_references`. Cette friction empêche la preuve
+d'un flux utilisateur réel.
+Décision : LEX-021 ajoute `analyze_legal_text()` dans
+`src/lex_syndic/interface/legal_handler.py`. Cette fonction accepte
+`LegalAnalysisRequest(text, expected_citations, title, rule_id)`, construit
+le document et les références, appelle `run_legal_pipeline()`, et retourne
+`LegalAnalysisResponse(document_id, decision_status, alert_level,
+justification, comparison_count, analyzed_clause_count, recommended_action)`.
+`analyze_legal_text()` devient l'entrée applicative minimale du système.
+Aucun frontend, aucun storage, aucun report, aucun MCP, aucune dépendance
+externe ne sont introduits.
+Conséquences :
+- Tout appel applicatif au pipeline doit passer par `analyze_legal_text()` ou
+  une couche équivalente décidée explicitement.
+- Toute extension vers un frontend, une API web, un stockage ou un rapport
+  exige un cadrage dans `DECISIONS.md` avant implémentation.
+- Le flux `texte + citations → LegalAnalysisResponse` est la surface
+  applicative de référence pour les prochains tests de comportement.
+
+## DEC-019 — LEX-022 est cadré comme scénario d'acceptation end-to-end
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : Le flux applicatif `texte + citations → LegalAnalysisResponse` est
+disponible mais n'a pas encore été éprouvé sur un scénario utilisateur réel
+complet. Avant d'ouvrir storage, report ou NLP, il faut prouver que le
+comportement observable est correct et stable de bout en bout.
+Décision : LEX-022 créera un test d'acceptation end-to-end couvrant le flux
+complet depuis un texte juridique réaliste (accord d'entreprise minimal) avec
+des citations attendues variées, sans mock, sans storage, sans LLM. Ce test
+prouve le comportement utilisateur réel avant toute extension du système.
+Aucune nouvelle brique fonctionnelle n'est créée dans LEX-022 : seul le test
+d'acceptation est produit.
+Conséquences :
+- LEX-022 reste borné à `tests/` uniquement.
+- Aucune modification de `src/` n'est autorisée dans LEX-022 sans bug
+  bloquant prouvé.
+- Le PASS de LEX-022 conditionne toute décision d'extension ultérieure
+  (storage, report, NLP, frontend).
