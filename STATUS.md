@@ -2,7 +2,7 @@
 
 État réel du dépôt V2 à date.
 
-Dernière mise à jour : 2026-05-02.
+Dernière mise à jour : 2026-06-01.
 
 ## Résumé
 
@@ -14,6 +14,7 @@ Dernière mise à jour : 2026-05-02.
 | Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'exécution locale de `pytest` a été revalidée le 2026-04-29. |
 | Gouvernance | **En place** (fichiers racine `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`, `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`). |
 | Migration V1 | **MIG-001 à MIG-010 terminés.** |
+| Pipeline juridique | **LEX-020 mergé.** `run_legal_pipeline()` disponible dans `src/lex_syndic/pipeline/`. |
 | Audit V1→V2 | **Produit.** `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` — 42 fichiers classés, 10 lots ordonnés. |
 
 ## Détail par module canonique
@@ -33,6 +34,7 @@ fonctionnelle (placeholders) :
 | `storage` | MIG-008A PASS. Storage minimal disponible depuis le commit `f8dec95`, avec API memoire deterministe, aucun ajout de dependance et aucun couplage au retrieval. |
 | `report` | MIG-009A PASS. Module minimal disponible depuis le commit `6b90ff4`, avec package `src/lex_syndic/report/`, structure de rapport simple, rendu texte deterministe, aucune dependance externe et aucun couplage `retrieval`/`storage`. |
 | `interface` | MIG-010A PASS. Module minimal disponible depuis le commit `1973e44`, avec package `src/lex_syndic/interface/`, requête structurée simple, réponse structurée simple, traitement local deterministe, aucune dependance externe et aucun couplage direct `retrieval`/`storage`/`report`. |
+| `pipeline` | LEX-020 PASS. Pipeline juridique minimal disponible depuis le commit `cba40ee`, avec `run_legal_pipeline()` orchestrant `analysis → comparison → rules`, contexte de comparaison construit automatiquement depuis les références extraites, sortie `PipelineResult` immuable, 117 tests verts, aucune dépendance externe. |
 
 ## Hors périmètre actuel
 
@@ -62,10 +64,11 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - `RAIL-006` a validé un cycle accéléré gouverné `#6` exécuté en une seule mission Codex.
 - `RAIL-007` est PASS et mergé sur `main` via le merge commit `6a83e27`, avec réconciliation des traces racine et `.codex`.
 
-## État courant après ACT-013
+## État courant après LEX-020
 
-- `main = origin/main = 6a83e27`
-- la tâche `ACT-013-RECOVERY-AUDIT-LEX-SYNDIC-V2` a été préparée puis exécutée en mode `PROOF_ONLY`
+- `main = origin/main = cba40ee1ff22bb27d115b0dbc47c318ac47d680f`
+- LEX-020 mergé via PR #18 — pipeline juridique minimal disponible
+- LEX-020B (gouvernance) en cours via PR #19
 - aucune tâche produit n'est active
 - aucun développement n'est autorisé sans nouveau cadrage explicite
 

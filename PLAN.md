@@ -89,6 +89,26 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 - Après `MIG-010`, aucune nouvelle implémentation n'est planifiée dans le
   périmètre V2 courant sans nouveau cadrage explicite.
 
+## Phase 3 — Pipeline juridique minimal (en cours)
+
+### LEX-020 — Pipeline analysis → comparison → rules
+
+| Lot | Contenu | Critère de sortie | État |
+|-----|---------|-------------------|------|
+| `LEX-020` | Création de `src/lex_syndic/pipeline/` avec `run_legal_pipeline()` et `PipelineResult`. Pipeline déterministe reliant analysis, comparison et rules sans dépendance externe. | 117 tests verts. Contexte de comparaison construit automatiquement depuis les références extraites. | **TERMINÉ** — merge commit `cba40ee` |
+| `LEX-020B` | Mise à jour de gouvernance post-LEX-020 : `DECISIONS.md` (DEC-017), `STATUS.md`, `PLAN.md`. | Seuls les fichiers de gouvernance modifiés. Aucun code produit touché. | **EN COURS** — PR #19 |
+
+### Hors plan à ce stade
+
+Aucune décision n'est prise sur :
+- persistance des résultats du pipeline (`storage`) ;
+- génération de rapport depuis le pipeline (`report`) ;
+- exposition du pipeline via une interface (`interface`) ;
+- toute brique d'analyse plus avancée (NLP, LLM, Légifrance, Judilibre).
+
+Ces sujets exigeraient un cadrage explicite dans `DECISIONS.md` (LEX-021 ou
+numérotation suivante).
+
 ### Séquence rail
 
 - `RAIL-001` utilise `lex_syndic_v2` comme dépôt support de validation du rail

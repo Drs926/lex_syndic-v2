@@ -271,3 +271,24 @@ Conséquences :
 - Une mission de rail ne vaut pas ouverture implicite d'un nouveau lot produit.
 - L'absence de test produit est acceptable si la mission reste documentaire et
   le justifie explicitement.
+
+## DEC-017 — LEX-020 crée un pipeline juridique minimal reliant analysis, comparison et rules
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : Les modules `analysis`, `comparison` et `rules` sont stables et
+testés depuis MIG-004 à MIG-006 / LEX-017 à LEX-019. Aucun glue code
+n'existait pour les chaîner de façon déterministe. La preuve de valeur
+juridique exige une orchestration bout-en-bout avant toute persistance ou
+interface riche.
+Décision : LEX-020 crée `src/lex_syndic/pipeline/` avec `run_legal_pipeline()`
+retournant un `PipelineResult` immuable (document_id, analyzed_clauses,
+comparisons, decision). Le pipeline construit automatiquement le contexte de
+comparaison depuis les références extraites par l'analyse, permettant un usage
+naturel par citation sans exposition des identifiants internes. Aucune
+dépendance externe, aucun couplage à `storage`, `report` ou `interface`.
+Conséquences :
+- Le pipeline est la seule entrée autorisée pour orchestrer les trois briques.
+- Toute extension du pipeline (persistance, rapport, interface) exige un
+  cadrage explicite dans `DECISIONS.md` avant implémentation.
+- `storage`, `report` et `interface` restent hors périmètre du pipeline à ce
+  stade.
