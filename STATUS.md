@@ -79,7 +79,7 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - LEX-026 mergé via PR #40 — `InMemoryLegalResultStore` disponible, 148 tests verts
 - LEX-027 mergé via PR #42 — `analyze_and_store_legal_text()` disponible, 154 tests verts
 - LEX-028 mergé via PR #44 — `tests/test_acceptance_session_flow.py` disponible, 160 tests verts
-- LEX-029 en cours via issue #43 — audit maturité `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`
+- LEX-029 en cours via PR #45 — audit maturité `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`
 - prochaine étape : merger PR LEX-029, puis cadrer API locale si décidé
 
 ## Notes d'execution

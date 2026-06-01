@@ -109,7 +109,7 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 | `LEX-026` | `InMemoryLegalResultStore` dans `src/lex_syndic/storage/legal_results.py`. API : `save`, `get`, `list_ids`, `clear`. 7 tests verts. | 148 tests globaux verts. Aucune écriture disque. Aucune dépendance externe. | **TERMINÉ** — PR #40 |
 | `LEX-027` | `analyze_and_store_legal_text()` dans `src/lex_syndic/interface/session_handler.py`. `LegalSessionResult` expose `record_id` + `result`. 6 tests verts. Store injecté par l'appelant. | 154 tests globaux verts. Aucun store global. Aucune dépendance externe. | **TERMINÉ** — PR #42 |
 | `LEX-028` | Test d'acceptation session complet : `tests/test_acceptance_session_flow.py`. 6 scénarios sur accord réaliste avec citations variées, isolation stores, cas insufficient_data. | 160 tests globaux verts. Aucune modification `src/`. | **TERMINÉ** — PR #44 |
-| `LEX-029` | Audit maturité produit avant exposition externe : `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`. Évaluation contrats, couplages, limites métier, verdict API. | Audit produit. Aucune modification `src/` ni `tests/`. | **EN COURS** — issue #43 |
+| `LEX-029` | Audit maturité produit avant exposition externe : `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`. Évaluation contrats, couplages, limites métier, verdict API. | Audit produit. Aucune modification `src/` ni `tests/`. | **EN COURS** — PR #45 |
 
 ### Hors plan à ce stade
 
