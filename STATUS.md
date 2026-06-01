@@ -46,7 +46,8 @@ fonctionnelle (placeholders) :
 | `audit` (LEX-029) | LEX-029 PASS. `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md` — audit maturité avant exposition externe. Contrats, couplages, limites et verdict par domaine. |
 | `api` (LEX-030) | LEX-030 PASS. `submit_analysis()` dans `src/lex_syndic/api/local.py`. `LocalApiAnalysisRequest` → `LocalApiAnalysisResponse` (record_id, decision_status, alert_level, report_text, recommended_action). Pure Python, sans serveur HTTP. 167 tests globaux verts. |
 | `acceptance` (LEX-031) | LEX-031 PASS. `tests/test_acceptance_api_local.py` — 7 scénarios API locale end-to-end. 174 tests globaux verts. Aucune modification `src/`. |
-| `storage` (LEX-032) | LEX-032 EN COURS. `InMemoryLegalResultStore` rendu générique via `Generic[T]` dans `storage/legal_results.py`. Couplage `storage → interface` éliminé. 176 tests globaux verts. |
+| `storage` (LEX-032) | LEX-032 PASS. `InMemoryLegalResultStore` rendu générique via `Generic[T]`. Couplage `storage → interface` éliminé. 176 tests globaux verts. |
+| `architecture` (LEX-033) | LEX-033 EN COURS. `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md` — cadrage FastAPI avant implémentation. Contrat API, prérequis, risques, recommandation LEX-034. |
 
 ## Hors périmètre actuel
 
@@ -62,7 +63,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-LEX-032 EN COURS. `InMemoryLegalResultStore` générique (Generic[T]), couplage storage→interface éliminé. 176 tests globaux verts. Toute API web réelle exige un cadrage séparé dans `DECISIONS.md`.
+LEX-033 EN COURS. Cadrage FastAPI dans `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`. 176 tests globaux verts. Recommandation : LEX-034 = API FastAPI locale mono-utilisateur strictement bornée.
 
 ## Séquence rail validée
 
@@ -85,8 +86,9 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - LEX-029 mergé via PR #45 — audit maturité disponible, API locale recommandée
 - LEX-030 mergé via PR #47 — `submit_analysis()` disponible, 167 tests verts
 - LEX-031 mergé via PR #49 — `tests/test_acceptance_api_local.py`, 174 tests verts
-- LEX-032 en cours via issue #50 — `InMemoryLegalResultStore` générique, couplage éliminé, 176 tests verts
-- prochaine étape : merger PR LEX-032, puis finaliser
+- LEX-032 mergé via PR #51 — `InMemoryLegalResultStore` générique, couplage storage→interface éliminé, 176 tests verts
+- LEX-033 en cours via issue #52 — cadrage FastAPI dans `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`
+- prochaine étape : ouvrir la PR depuis la branche lex-033-fastapi-exposure-framing, puis implémenter LEX-034 (API FastAPI locale)
 
 ## Notes d'execution
 
