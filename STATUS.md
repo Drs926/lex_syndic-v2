@@ -35,6 +35,7 @@ fonctionnelle (placeholders) :
 | `report` | MIG-009A PASS. Module minimal disponible depuis le commit `6b90ff4`, avec package `src/lex_syndic/report/`, structure de rapport simple, rendu texte deterministe, aucune dependance externe et aucun couplage `retrieval`/`storage`. |
 | `interface` | MIG-010A PASS. Module minimal disponible depuis le commit `1973e44`, avec package `src/lex_syndic/interface/`, requête structurée simple, réponse structurée simple, traitement local deterministe, aucune dependance externe et aucun couplage direct `retrieval`/`storage`/`report`. |
 | `pipeline` | LEX-020 PASS. Pipeline juridique minimal disponible depuis le commit `cba40ee`, avec `run_legal_pipeline()` orchestrant `analysis → comparison → rules`, contexte de comparaison construit automatiquement depuis les références extraites, sortie `PipelineResult` immuable, 117 tests verts, aucune dépendance externe. |
+| `interface` (LEX-021) | LEX-021 PASS. `analyze_legal_text()` disponible depuis le commit `3a8f4cf`, acceptant `LegalAnalysisRequest(text, expected_citations)` et retournant `LegalAnalysisResponse`, 123 tests verts, aucun couplage storage/report/MCP. |
 
 ## Hors périmètre actuel
 
@@ -64,13 +65,13 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - `RAIL-006` a validé un cycle accéléré gouverné `#6` exécuté en une seule mission Codex.
 - `RAIL-007` est PASS et mergé sur `main` via le merge commit `6a83e27`, avec réconciliation des traces racine et `.codex`.
 
-## État courant après LEX-020
+## État courant après LEX-021
 
-- `main = origin/main = cba40ee1ff22bb27d115b0dbc47c318ac47d680f`
-- LEX-020 mergé via PR #18 — pipeline juridique minimal disponible
-- LEX-020B (gouvernance) en cours via issue #19 / PR #20
-- aucune tâche produit n'est active
-- aucun développement n'est autorisé sans nouveau cadrage explicite
+- `main = origin/main = 3a8f4cf78019ac386551dde547d07d084e55fe13`
+- LEX-021 mergé via PR #22 — `analyze_legal_text()` disponible dans `src/lex_syndic/interface/`
+- LEX-021B/022 (gouvernance + cadrage) en cours via issue #23
+- prochaine étape : LEX-022 — test d'acceptation end-to-end
+- aucun développement hors `tests/` autorisé sans nouveau cadrage explicite
 
 ## Notes d'execution
 

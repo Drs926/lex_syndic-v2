@@ -96,18 +96,31 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 | Lot | Contenu | Critère de sortie | État |
 |-----|---------|-------------------|------|
 | `LEX-020` | Création de `src/lex_syndic/pipeline/` avec `run_legal_pipeline()` et `PipelineResult`. Pipeline déterministe reliant analysis, comparison et rules sans dépendance externe. | 117 tests verts. Contexte de comparaison construit automatiquement depuis les références extraites. | **TERMINÉ** — merge commit `cba40ee` |
-| `LEX-020B` | Mise à jour de gouvernance post-LEX-020 : `DECISIONS.md` (DEC-017), `STATUS.md`, `PLAN.md`. | Seuls les fichiers de gouvernance modifiés. Aucun code produit touché. | **EN COURS** — PR #19 |
+| `LEX-020B` | Mise à jour de gouvernance post-LEX-020 : `DECISIONS.md` (DEC-017), `STATUS.md`, `PLAN.md`. | Seuls les fichiers de gouvernance modifiés. Aucun code produit touché. | **TERMINÉ** — PR #20 |
+| `LEX-021` | Exposition du pipeline via `analyze_legal_text()` dans `src/lex_syndic/interface/legal_handler.py`. Entrée : `LegalAnalysisRequest`. Sortie : `LegalAnalysisResponse`. | 123 tests verts. Aucun couplage storage/report/MCP. | **TERMINÉ** — PR #22 |
+| `LEX-021B/022` | Gouvernance post-LEX-021 (DEC-018, DEC-019) + cadrage LEX-022 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **EN COURS** — issue #23 |
+
+### LEX-022 — Cadrage (décidé, pas encore implémenté)
+
+| Élément | Contenu |
+|---------|---------|
+| Objectif | Test d'acceptation end-to-end sur un accord d'entreprise réaliste |
+| Périmètre | `tests/` uniquement — aucune modification `src/` sans bug bloquant prouvé |
+| Entrée | Texte juridique réaliste + citations attendues variées |
+| Sortie vérifiée | `LegalAnalysisResponse` avec statuts `compliant`, `non_compliant`, `insufficient_data` selon les cas |
+| Décision | DEC-019 dans `DECISIONS.md` |
+| Condition de PASS | Tests verts sans mock, sans storage, sans LLM |
+| Condition d'extension | Le PASS de LEX-022 conditionne toute décision sur storage, report, NLP ou frontend |
 
 ### Hors plan à ce stade
 
 Aucune décision n'est prise sur :
-- persistance des résultats du pipeline (`storage`) ;
-- génération de rapport depuis le pipeline (`report`) ;
-- exposition du pipeline via une interface (`interface`) ;
-- toute brique d'analyse plus avancée (NLP, LLM, Légifrance, Judilibre).
+- persistance des résultats (`storage`) ;
+- génération de rapport (`report`) ;
+- toute brique NLP, LLM, Légifrance, Judilibre ;
+- frontend, API web, MCP utilisateur.
 
-Ces sujets exigeraient un cadrage explicite dans `DECISIONS.md` (LEX-021 ou
-numérotation suivante).
+Ces sujets exigent un cadrage explicite dans `DECISIONS.md` après PASS de LEX-022.
 
 ### Séquence rail
 
