@@ -481,3 +481,35 @@ Conséquences :
   les processus.
 - Toute persistance disque ou base de données exige un nouveau cadrage.
 - L'interface applicative (`analyze_legal_text_with_report`) n'est pas modifiée.
+
+## DEC-028 — LEX-026 PASS : InMemoryLegalResultStore disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : LEX-026 devait créer un stockage mémoire minimal pour conserver
+temporairement les résultats d'analyse `LegalAnalysisWithReportResponse` pendant
+une session applicative.
+Décision : LEX-026 a créé `src/lex_syndic/storage/legal_results.py` avec
+`InMemoryLegalResultStore` (API : `save`, `get`, `list_ids`, `clear`). Record_id
+monotone déterministe. 148 tests globaux verts. Merge commit
+`6516a4afa2377d71978136ad5d63fef4459f71ac` sur main. Aucune écriture disque,
+aucune dépendance externe.
+Conséquences :
+- Le store est un utilitaire de session uniquement — il ne persiste pas entre
+  les processus.
+- Toute persistance disque ou base de données exige un nouveau cadrage.
+
+## DEC-029 — LEX-027 est cadré comme flux session stockant le résultat complet
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `InMemoryLegalResultStore` est disponible mais il n'existe pas encore
+de point d'entrée applicatif combinant analyse + stockage en un seul appel.
+Décision : LEX-027 créera `src/lex_syndic/interface/session_handler.py` avec
+`LegalSessionResult` (record_id + result) et `analyze_and_store_legal_text(
+request, store) -> LegalSessionResult`. Le store est injecté par l'appelant —
+aucun store global. Aucune écriture disque, aucune API web, aucun frontend,
+aucune dépendance externe. Aucune modification de `InMemoryLegalResultStore`,
+`LegalAnalysisRequest` ou `LegalAnalysisWithReportResponse`.
+Conséquences :
+- Le flux session `request → analyse → stockage → record_id` est disponible
+  via un point d'entrée unique sans effet de bord global.
+- Toute extension vers une API web ou un frontend exige un nouveau cadrage.
