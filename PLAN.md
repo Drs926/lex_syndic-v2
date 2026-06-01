@@ -100,19 +100,21 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 | `LEX-021` | Exposition du pipeline via `analyze_legal_text()` dans `src/lex_syndic/interface/legal_handler.py`. Entrée : `LegalAnalysisRequest`. Sortie : `LegalAnalysisResponse`. | 123 tests verts. Aucun couplage storage/report/MCP. | **TERMINÉ** — PR #22 |
 | `LEX-021B/022` | Gouvernance post-LEX-021 (DEC-018, DEC-019) + cadrage LEX-022 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **TERMINÉ** — PR #24 |
 | `LEX-022` | Test d'acceptation end-to-end : `tests/test_acceptance_legal_pipeline.py`. 4 scénarios sur accord réaliste. 127 tests verts. | Tests verts, aucune modification `src/`. | **TERMINÉ** — PR #26 |
-| `LEX-022B/023` | Gouvernance post-LEX-022 (DEC-020, DEC-021) + cadrage LEX-023 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **EN COURS** — issue #27 |
+| `LEX-022B/023` | Gouvernance post-LEX-022 (DEC-020, DEC-021) + cadrage LEX-023 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **TERMINÉ** — PR #28 |
+| `LEX-023` | `format_legal_report()` dans `src/lex_syndic/report/legal_formatter.py`. Rapport texte court déterministe depuis `LegalAnalysisResponse`. 5 tests verts. | 132 tests globaux verts. Aucune dépendance externe. | **TERMINÉ** — PR #30 |
+| `LEX-023B/024` | Gouvernance post-LEX-023 (DEC-022, DEC-023) + cadrage LEX-024 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **EN COURS** — issue #31 |
 
-### LEX-023 — Cadrage (décidé, pas encore implémenté)
+### LEX-024 — Cadrage (décidé, pas encore implémenté)
 
 | Élément | Contenu |
 |---------|---------|
-| Objectif | Rapport minimal de preuve juridique lisible par l'utilisateur |
-| Périmètre | `src/lex_syndic/report/` + `tests/test_report*.py` uniquement |
-| Entrée | `LegalAnalysisResponse` |
-| Sortie | Chaîne de texte courte, structurée, déterministe (titre, statut, alerte, justification, action recommandée, compteurs) |
-| Décision | DEC-021 dans `DECISIONS.md` |
-| Interdits | PDF, UI, stockage, LLM, template engine externe |
-| Condition de PASS | Tests verts, sortie déterministe, aucune dépendance externe |
+| Objectif | Flux applicatif complet : texte + citations → réponse structurée + rapport lisible en un seul appel |
+| Périmètre | `src/lex_syndic/interface/` + `tests/test_interface*.py` uniquement |
+| Entrée | `LegalAnalysisRequest` |
+| Sortie | Tuple ou dataclass : `(LegalAnalysisResponse, str)` ou structure équivalente |
+| Décision | DEC-023 dans `DECISIONS.md` |
+| Interdits | Stockage, frontend, API web, PDF, LLM, dépendance externe |
+| Condition de PASS | Tests verts, flux enchaîné sans mock, aucune dépendance externe |
 
 ### Hors plan à ce stade
 
@@ -121,7 +123,7 @@ Aucune décision n'est prise sur :
 - toute brique NLP, LLM, Légifrance, Judilibre ;
 - frontend, API web, MCP utilisateur.
 
-Ces sujets exigent un cadrage explicite dans `DECISIONS.md` après PASS de LEX-023.
+Ces sujets exigent un cadrage explicite dans `DECISIONS.md` après PASS de LEX-024.
 
 ### Séquence rail
 

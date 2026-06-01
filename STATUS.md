@@ -37,6 +37,7 @@ fonctionnelle (placeholders) :
 | `pipeline` | LEX-020 PASS. Pipeline juridique minimal disponible depuis le commit `cba40ee`, avec `run_legal_pipeline()` orchestrant `analysis → comparison → rules`, contexte de comparaison construit automatiquement depuis les références extraites, sortie `PipelineResult` immuable, 117 tests verts, aucune dépendance externe. |
 | `interface` (LEX-021) | LEX-021 PASS. `analyze_legal_text()` disponible depuis le commit `3a8f4cf`, acceptant `LegalAnalysisRequest(text, expected_citations)` et retournant `LegalAnalysisResponse`, 123 tests verts, aucun couplage storage/report/MCP. |
 | `acceptance` (LEX-022) | LEX-022 PASS. `tests/test_acceptance_legal_pipeline.py` disponible depuis le commit `1d0ce87`. 4 scénarios end-to-end verts sur accord d'entreprise réaliste. 127 tests globaux verts. Aucune modification `src/`. |
+| `report` (LEX-023) | LEX-023 PASS. `format_legal_report()` disponible depuis le commit `4334814`. Rapport texte court déterministe depuis `LegalAnalysisResponse`. 132 tests globaux verts. Aucune dépendance externe. |
 
 ## Hors périmètre actuel
 
@@ -70,9 +71,10 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 
 - `main = origin/main = 1d0ce875b61311f20d6e2d345c6a14eaaecd7f1a`
 - LEX-022 mergé via PR #26 — `tests/test_acceptance_legal_pipeline.py` disponible, 127 tests verts
-- LEX-022B/023 (gouvernance + cadrage) en cours via issue #27
-- prochaine étape : LEX-023 — rapport minimal de preuve juridique
-- aucun développement hors `src/lex_syndic/report/` autorisé sans nouveau cadrage explicite
+- LEX-023 mergé via PR #30 — `format_legal_report()` disponible dans `src/lex_syndic/report/`
+- LEX-023B/024 (gouvernance + cadrage) en cours via issue #31
+- prochaine étape : LEX-024 — exposition du rapport via l'interface
+- aucun développement hors `src/lex_syndic/interface/` autorisé sans nouveau cadrage explicite
 
 ## Notes d'execution
 

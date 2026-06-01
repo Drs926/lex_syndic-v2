@@ -374,3 +374,40 @@ Conséquences :
 - Aucune modification de `legal/models.py`, `pipeline/`, `interface/` n'est
   autorisée dans LEX-023 sans bug bloquant prouvé.
 - Le rapport reste du texte brut déterministe et testable.
+
+## DEC-022 — LEX-023 PASS : format_legal_report() disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `LegalAnalysisResponse` était lisible par le code mais pas par
+l'utilisateur. Un formateur était nécessaire pour transformer la réponse
+structurée en texte compréhensible.
+Décision : LEX-023 a créé `src/lex_syndic/report/legal_formatter.py` avec
+`format_legal_report(response: LegalAnalysisResponse) -> str`. Le rapport
+contient titre, statut, niveau d'alerte, justification, action recommandée,
+compteurs de clauses et de comparaisons. Le couplage `report → interface`
+(import de `LegalAnalysisResponse`) est accepté comme formatage de surface
+sans logique métier. 132 tests globaux verts. Aucune dépendance externe.
+Conséquences :
+- `format_legal_report()` est la fonction de sortie lisible de référence.
+- Toute extension vers un format plus riche (PDF, HTML, Markdown structuré)
+  exige un nouveau cadrage dans `DECISIONS.md`.
+- Le couplage `report → interface` est acceptable tant que le rapport reste
+  un formateur pur sans logique métier.
+
+## DEC-023 — LEX-024 est cadré comme exposition du rapport via l'interface
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `analyze_legal_text()` retourne une `LegalAnalysisResponse` et
+`format_legal_report()` la transforme en texte lisible, mais ces deux
+fonctions ne sont pas encore chaînées dans un flux applicatif unique. Un
+utilisateur doit appeler les deux séparément.
+Décision : LEX-024 ajoutera une fonction dans `src/lex_syndic/interface/`
+qui enchaîne `analyze_legal_text()` et `format_legal_report()`, retournant
+à la fois la `LegalAnalysisResponse` structurée et le rapport texte en un
+seul appel. Aucun stockage, aucun frontend, aucune API web, aucun PDF, aucun
+LLM, aucune dépendance externe.
+Conséquences :
+- LEX-024 est borné à `src/lex_syndic/interface/` et `tests/test_interface*.py`.
+- Le flux complet `texte + citations → réponse structurée + rapport lisible`
+  devient l'entrée applicative de référence.
+- Toute extension vers une API web ou un frontend exige un nouveau cadrage.
