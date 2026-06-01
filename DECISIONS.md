@@ -411,3 +411,40 @@ Conséquences :
 - Le flux complet `texte + citations → réponse structurée + rapport lisible`
   devient l'entrée applicative de référence.
 - Toute extension vers une API web ou un frontend exige un nouveau cadrage.
+
+## DEC-024 — LEX-024 PASS : analyze_legal_text_with_report() disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `analyze_legal_text()` et `format_legal_report()` existaient
+séparément mais n'étaient pas chaînées. Un utilisateur devait effectuer deux
+appels distincts pour obtenir à la fois la réponse structurée et le rapport
+lisible.
+Décision : LEX-024 a créé `src/lex_syndic/interface/report_handler.py` avec
+`analyze_legal_text_with_report(request) -> LegalAnalysisWithReportResponse`.
+La dataclass `LegalAnalysisWithReportResponse` expose `analysis` et
+`report_text`. 137 tests globaux verts. Aucun stockage, aucun frontend,
+aucune API web, aucun PDF, aucun LLM, aucune dépendance externe.
+Conséquences :
+- `analyze_legal_text_with_report()` est l'entrée applicative de référence
+  pour un flux complet analyse + rapport.
+- Le flux `texte + citations → LegalAnalysisWithReportResponse` est stabilisé.
+- Toute extension vers une API web, un frontend ou un stockage exige un
+  nouveau cadrage dans `DECISIONS.md`.
+
+## DEC-025 — LEX-025 est cadré comme test d'acceptation du flux complet avec rapport
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `analyze_legal_text_with_report()` est disponible mais le flux
+complet analyse + rapport n'a pas encore été éprouvé sur un scénario
+utilisateur réaliste de bout en bout.
+Décision : LEX-025 créera un test d'acceptation dans `tests/test_acceptance*.py`
+couvrant le flux complet depuis un accord d'entreprise réaliste avec citations
+variées : vérification de `LegalAnalysisWithReportResponse`, cohérence de
+`LegalAnalysisResponse`, présence du titre dans le rapport texte, cas
+insufficient_data. Aucune modification de `src/`. Aucun mock, aucun storage,
+aucun LLM.
+Conséquences :
+- LEX-025 est borné à `tests/` uniquement.
+- Aucune modification de `src/` n'est autorisée dans LEX-025 sans bug
+  bloquant prouvé.
+- Le PASS de LEX-025 clôt la phase de validation du flux applicatif complet.
