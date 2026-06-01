@@ -41,7 +41,8 @@ fonctionnelle (placeholders) :
 | `interface` (LEX-024) | LEX-024 PASS. `analyze_legal_text_with_report()` disponible depuis le commit `8687a86`. `LegalAnalysisWithReportResponse` expose `analysis` + `report_text`. 137 tests globaux verts. Aucune dépendance externe. |
 | `acceptance` (LEX-025) | LEX-025 PASS. `tests/test_acceptance_full_flow.py` disponible depuis le commit `fe6e472`. 4 scénarios end-to-end verts sur accord réaliste. 141 tests globaux verts. Aucune modification `src/`. |
 | `storage` (LEX-026) | LEX-026 PASS. `InMemoryLegalResultStore` disponible dans `src/lex_syndic/storage/legal_results.py`. API : `save`, `get`, `list_ids`, `clear`. 148 tests globaux verts. Aucune écriture disque, aucune dépendance externe. |
-| `interface` (LEX-027) | LEX-027 EN COURS. `analyze_and_store_legal_text()` dans `src/lex_syndic/interface/session_handler.py`. `LegalSessionResult` expose `record_id` + `result`. 154 tests globaux verts. Aucun store global. Aucune dépendance externe. |
+| `interface` (LEX-027) | LEX-027 PASS. `analyze_and_store_legal_text()` dans `src/lex_syndic/interface/session_handler.py`. `LegalSessionResult` expose `record_id` + `result`. 154 tests globaux verts. Aucun store global. Aucune dépendance externe. |
+| `acceptance` (LEX-028) | LEX-028 EN COURS. `tests/test_acceptance_session_flow.py` — 6 scénarios session end-to-end. 160 tests globaux verts. Aucune modification `src/`. |
 
 ## Hors périmètre actuel
 
@@ -57,7 +58,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-LEX-027 EN COURS. `analyze_and_store_legal_text()` disponible dans `src/lex_syndic/interface/session_handler.py`. 154 tests globaux verts. Toute suite exige un nouveau cadrage explicite dans `DECISIONS.md`.
+LEX-028 EN COURS. `tests/test_acceptance_session_flow.py` disponible. 160 tests globaux verts. Toute suite exige un nouveau cadrage explicite dans `DECISIONS.md`.
 
 ## Séquence rail validée
 
@@ -75,8 +76,9 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 
 - `main = origin/main = 6516a4afa2377d71978136ad5d63fef4459f71ac` (base LEX-027)
 - LEX-026 mergé via PR #40 — `InMemoryLegalResultStore` disponible, 148 tests verts
-- LEX-027 en cours via issue #41 — `analyze_and_store_legal_text()` disponible, 154 tests verts
-- prochaine étape : merger PR LEX-027, puis finaliser
+- LEX-027 mergé via PR #42 — `analyze_and_store_legal_text()` disponible, 154 tests verts
+- LEX-028 en cours via issue #43 — `tests/test_acceptance_session_flow.py` disponible, 160 tests verts
+- prochaine étape : merger PR LEX-028, puis finaliser
 
 ## Notes d'execution
 
