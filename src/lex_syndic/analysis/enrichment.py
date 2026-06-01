@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 
 from lex_syndic.analysis.segmenter import segment_document
 from lex_syndic.legal.models import (
@@ -53,7 +54,14 @@ _MEDIUM_RISK_TERMS = (
 
 
 def _normalize_text(text: str) -> str:
-    return " ".join(text.lower().split())
+    lowered = text.lower()
+    decomposed = unicodedata.normalize("NFKD", lowered)
+    without_accents = "".join(
+        character
+        for character in decomposed
+        if not unicodedata.combining(character)
+    )
+    return " ".join(without_accents.split())
 
 
 def _reference_kind(text: str) -> NormKind:
@@ -64,7 +72,7 @@ def _reference_kind(text: str) -> NormKind:
         return "accord_entreprise"
     if "jurisprudence" in normalized or "cour de cassation" in normalized:
         return "jurisprudence"
-    if "decret" in normalized or "décret" in normalized:
+    if "decret" in normalized:
         return "decret"
     return "loi"
 

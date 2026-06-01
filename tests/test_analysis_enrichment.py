@@ -65,6 +65,24 @@ def test_analyze_clause_classifies_core_topics() -> None:
         assert analyzed_clause.topic == expected_topic
 
 
+def test_analyze_clause_classifies_accented_french_terms() -> None:
+    examples = (
+        ("Le télétravail est autorisé.", "teletravail", "low"),
+        ("La rémunération comprend une indemnité mensuelle.", "remuneration", "low"),
+        ("La durée du travail doit rester conforme.", "temps_travail", "medium"),
+        ("La santé et la sécurité font l'objet d'une prévention.", "sante_securite", "low"),
+        ("L'égalité professionnelle interdit toute discrimination.", "egalite_professionnelle", "low"),
+    )
+
+    for content, expected_topic, expected_risk in examples:
+        analyzed_clause, _ = analyze_clause(
+            Clause(clause_id=f"clause-{expected_topic}", content=content)
+        )
+
+        assert analyzed_clause.topic == expected_topic
+        assert analyzed_clause.risk_level == expected_risk
+
+
 def test_analyze_clause_assigns_high_risk_for_disciplinary_signal() -> None:
     clause = Clause(
         clause_id="clause-003",
