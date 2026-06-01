@@ -88,7 +88,7 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - LEX-031 mergé via PR #49 — `tests/test_acceptance_api_local.py`, 174 tests verts
 - LEX-032 mergé via PR #51 — `InMemoryLegalResultStore` générique, couplage storage→interface éliminé, 176 tests verts
 - LEX-033 en cours via issue #52 — cadrage FastAPI dans `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`
-- prochaine étape : merger PR LEX-033, puis implémenter LEX-034 (API FastAPI locale)
+- prochaine étape : ouvrir la PR depuis la branche lex-033-fastapi-exposure-framing, puis implémenter LEX-034 (API FastAPI locale)
 
 ## Notes d'execution
 
