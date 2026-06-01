@@ -513,3 +513,33 @@ Conséquences :
 - Le flux session `request → analyse → stockage → record_id` est disponible
   via un point d'entrée unique sans effet de bord global.
 - Toute extension vers une API web ou un frontend exige un nouveau cadrage.
+
+## DEC-030 — LEX-027 PASS : flux session analyze_and_store_legal_text() disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : LEX-027 devait créer un flux session combinant analyse et stockage
+en un seul appel, avec store injecté par l'appelant sans store global.
+Décision : LEX-027 a créé `src/lex_syndic/interface/session_handler.py` avec
+`analyze_and_store_legal_text(request, store) -> LegalSessionResult`.
+`LegalSessionResult` expose `record_id` + `result`. 154 tests globaux verts.
+Merge commit `060ed76770ce11cf556007f467398f5bf2e0e27a` sur main. Aucun store
+global, aucune écriture disque, aucune dépendance externe.
+Conséquences :
+- Le flux session `request → analyse → stockage → record_id` est disponible
+  via un point d'entrée unique sans effet de bord global.
+- Toute extension vers une API web ou un frontend exige un nouveau cadrage.
+
+## DEC-031 — LEX-028 est cadré comme test d'acceptation du flux session complet
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `analyze_and_store_legal_text()` est disponible mais le flux session
+complet n'a pas encore été éprouvé sur un scénario utilisateur réaliste de bout
+en bout avec vérification du store.
+Décision : LEX-028 créera `tests/test_acceptance_session_flow.py` couvrant :
+store séparé par test, accord réaliste avec citations variées, vérification
+`record_id` + `store.get()` + `report_text` + `decision_status`, cas
+`insufficient_data`, isolation entre stores. Aucune modification de `src/`.
+Conséquences :
+- LEX-028 est borné à `tests/` uniquement.
+- Aucune modification de `src/` n'est autorisée dans LEX-028 sans bug bloquant.
+- Le PASS de LEX-028 clôt la phase de validation du flux session complet.
