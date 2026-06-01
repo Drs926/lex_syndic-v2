@@ -72,7 +72,8 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 
 ## État courant après LEX-026
 
-- `main = origin/main = f8ca88f9d18a2ad43c67a9e489e2b80898c6c228`
+- Base avant merge LEX-026 : `f8ca88f9d18a2ad43c67a9e489e2b80898c6c228`
+- Le SHA `main = origin/main` sera confirmé après merge PR #40.
 - LEX-025 mergé via PR #38 — `tests/test_acceptance_full_flow.py` disponible, 141 tests verts
 - LEX-026 en cours via issue #39 — `InMemoryLegalResultStore` dans `src/lex_syndic/storage/legal_results.py`, 148 tests verts
 - prochaine étape : finaliser LEX-026 après merge PR
