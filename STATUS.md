@@ -45,7 +45,8 @@ fonctionnelle (placeholders) :
 | `acceptance` (LEX-028) | LEX-028 PASS. `tests/test_acceptance_session_flow.py` — 6 scénarios session end-to-end. 160 tests globaux verts. Aucune modification `src/`. |
 | `audit` (LEX-029) | LEX-029 PASS. `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md` — audit maturité avant exposition externe. Contrats, couplages, limites et verdict par domaine. |
 | `api` (LEX-030) | LEX-030 PASS. `submit_analysis()` dans `src/lex_syndic/api/local.py`. `LocalApiAnalysisRequest` → `LocalApiAnalysisResponse` (record_id, decision_status, alert_level, report_text, recommended_action). Pure Python, sans serveur HTTP. 167 tests globaux verts. |
-| `acceptance` (LEX-031) | LEX-031 EN COURS. `tests/test_acceptance_api_local.py` — 7 scénarios API locale end-to-end. 174 tests globaux verts. Aucune modification `src/`. |
+| `acceptance` (LEX-031) | LEX-031 PASS. `tests/test_acceptance_api_local.py` — 7 scénarios API locale end-to-end. 174 tests globaux verts. Aucune modification `src/`. |
+| `storage` (LEX-032) | LEX-032 EN COURS. `InMemoryLegalResultStore` rendu générique via `Generic[T]` dans `storage/legal_results.py`. Couplage `storage → interface` éliminé. 176 tests globaux verts. |
 
 ## Hors périmètre actuel
 
@@ -61,7 +62,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-LEX-031 EN COURS. `tests/test_acceptance_api_local.py` disponible. 174 tests globaux verts. Toute API web réelle exige un cadrage séparé dans `DECISIONS.md`.
+LEX-032 EN COURS. `InMemoryLegalResultStore` générique (Generic[T]), couplage storage→interface éliminé. 176 tests globaux verts. Toute API web réelle exige un cadrage séparé dans `DECISIONS.md`.
 
 ## Séquence rail validée
 
@@ -83,8 +84,9 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - LEX-028 mergé via PR #44 — `tests/test_acceptance_session_flow.py` disponible, 160 tests verts
 - LEX-029 mergé via PR #45 — audit maturité disponible, API locale recommandée
 - LEX-030 mergé via PR #47 — `submit_analysis()` disponible, 167 tests verts
-- LEX-031 en cours via issue #48 — `tests/test_acceptance_api_local.py`, 174 tests verts
-- prochaine étape : merger PR LEX-031, puis finaliser
+- LEX-031 mergé via PR #49 — `tests/test_acceptance_api_local.py`, 174 tests verts
+- LEX-032 en cours via issue #50 — `InMemoryLegalResultStore` générique, couplage éliminé, 176 tests verts
+- prochaine étape : merger PR LEX-032, puis finaliser
 
 ## Notes d'execution
 

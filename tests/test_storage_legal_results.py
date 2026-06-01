@@ -110,3 +110,48 @@ def test_legal_results_does_not_import_forbidden_modules() -> None:
         assert forbidden not in source, (
             f"legal_results must not use {forbidden!r}"
         )
+
+
+# ---------------------------------------------------------------------------
+# Test 8 — storage.legal_results n'importe pas lex_syndic.interface [LEX-032]
+# ---------------------------------------------------------------------------
+
+
+def test_legal_results_does_not_import_interface() -> None:
+    import lex_syndic.storage.legal_results as module
+
+    source_path = getattr(module, "__file__", "") or ""
+    with open(source_path, encoding="utf-8") as f:
+        source = f.read()
+
+    assert "lex_syndic.interface" not in source, (
+        "storage.legal_results must not import lex_syndic.interface (DEC-039)"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Test 9 — storage peut être importé seul sans charger interface [LEX-032]
+# ---------------------------------------------------------------------------
+
+
+def test_storage_importable_without_interface() -> None:
+    import importlib
+    import sys
+
+    # Purge all lex_syndic modules to simulate a cold import
+    to_remove = [k for k in sys.modules if k.startswith("lex_syndic")]
+    for k in to_remove:
+        del sys.modules[k]
+
+    # Import storage standalone — must not pull in interface
+    importlib.import_module("lex_syndic.storage.legal_results")
+
+    # interface.report_handler must NOT have been loaded as a side-effect
+    assert "lex_syndic.interface.report_handler" not in sys.modules, (
+        "storage import must not trigger interface.report_handler load"
+    )
+    # Positive check: the store is usable
+    from lex_syndic.storage.legal_results import InMemoryLegalResultStore
+    store = InMemoryLegalResultStore()
+    record_id = store.save("dummy")
+    assert store.get(record_id) == "dummy"

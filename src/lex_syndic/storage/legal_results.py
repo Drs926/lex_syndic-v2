@@ -1,24 +1,30 @@
-"""Minimal in-memory store for LegalAnalysisWithReportResponse [LEX-026]."""
+"""Generic in-memory store for legal analysis results [LEX-026 / LEX-032].
+
+Storage is intentionally decoupled from interface types (DEC-039).
+The caller is responsible for storing and retrieving correctly typed objects.
+"""
 
 from __future__ import annotations
 
-from lex_syndic.interface.report_handler import LegalAnalysisWithReportResponse
+from typing import Generic, TypeVar
+
+T = TypeVar("T")
 
 
-class InMemoryLegalResultStore:
-    """Session-scoped store for legal analysis results. No disk writes."""
+class InMemoryLegalResultStore(Generic[T]):
+    """Session-scoped generic store. No disk writes. No interface dependency."""
 
     def __init__(self) -> None:
-        self._records: dict[str, LegalAnalysisWithReportResponse] = {}
+        self._records: dict[str, T] = {}
         self._counter: int = 0
 
-    def save(self, result: LegalAnalysisWithReportResponse) -> str:
+    def save(self, result: T) -> str:
         self._counter += 1
         record_id = f"result-{self._counter:04d}"
         self._records[record_id] = result
         return record_id
 
-    def get(self, record_id: str) -> LegalAnalysisWithReportResponse | None:
+    def get(self, record_id: str) -> T | None:
         return self._records.get(record_id)
 
     def list_ids(self) -> tuple[str, ...]:
