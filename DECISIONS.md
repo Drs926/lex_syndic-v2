@@ -636,3 +636,33 @@ d'import FastAPI/HTTP. Aucune modification de `src/`.
 Conséquences :
 - LEX-031 est borné à `tests/` uniquement.
 - Le PASS de LEX-031 clôt la phase de validation de l'API locale.
+
+## DEC-038 — LEX-031 PASS : test d'acceptation API locale disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : LEX-031 devait créer un test d'acceptation end-to-end pour valider
+l'API locale pure Python sur un scénario utilisateur réaliste.
+Décision : LEX-031 a créé `tests/test_acceptance_api_local.py` avec 7 scénarios
+end-to-end verts. 174 tests globaux verts. Merge commit
+`15e154f54dec59d0a47d94ca308bc2ebc13d5d27` sur main. Aucune modification `src/`.
+Aucune dépendance HTTP/FastAPI.
+Conséquences :
+- L'API locale `submit_analysis()` est validée de bout en bout.
+- Le couplage `storage → interface` reste le prochain blocage avant API web réelle.
+
+## DEC-039 — LEX-032 : casser le couplage storage → interface
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : L'audit LEX-029 a identifié que `storage.legal_results` importe
+`LegalAnalysisWithReportResponse` depuis `interface.report_handler`. Si une
+future mission ajoute un import de `storage` dans `interface/legal_handler.py`
+ou `interface/report_handler.py`, un cycle se formerait.
+Décision : LEX-032 rend `InMemoryLegalResultStore` générique via `Generic[T]`
+(Python typing). Le store ne connaît plus aucun type de `interface`. Les callers
+(`session_handler`, `api/local`) gardent leur comportement. Aucun changement
+fonctionnel, aucune modification du format `record_id`, aucune modification
+de l'API publique `save/get/list_ids/clear`.
+Conséquences :
+- `storage` devient indépendant de `interface` — le risque de cycle est éliminé.
+- Les tests prouvent l'absence d'import `lex_syndic.interface` dans `storage`.
+- Toute API web réelle reste différée à un cadrage séparé.
