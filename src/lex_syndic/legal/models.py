@@ -1,6 +1,6 @@
 """Canonical legal models for LEX_SYNDIC_V2.
 
-This module intentionally stays small and deterministic in MIG-002.
+This module intentionally stays small and deterministic.
 It defines only typed, immutable legal data structures used as the
 canonical foundation for later ingestion, analysis, comparison, and rules.
 """
@@ -47,6 +47,16 @@ ComparisonType = Literal[
 ]
 RiskLevel = Literal["low", "medium", "high", "unknown"]
 RuleOutcome = Literal["conforme", "risque", "non_conforme", "unknown"]
+MemoFormat = Literal["markdown", "json", "text", "unknown"]
+AuditEventKind = Literal[
+    "ingestion",
+    "analysis",
+    "comparison",
+    "rule_check",
+    "report",
+    "manual_review",
+    "unknown",
+]
 
 _SOURCE_KINDS = {"accord", "projet", "reference", "unknown"}
 _COMPLIANCE_STATUSES = {"conforme", "risque", "non_conforme", "unknown"}
@@ -85,6 +95,16 @@ _COMPARISON_TYPES = {
 }
 _RISK_LEVELS = {"low", "medium", "high", "unknown"}
 _RULE_OUTCOMES = {"conforme", "risque", "non_conforme", "unknown"}
+_MEMO_FORMATS = {"markdown", "json", "text", "unknown"}
+_AUDIT_EVENT_KINDS = {
+    "ingestion",
+    "analysis",
+    "comparison",
+    "rule_check",
+    "report",
+    "manual_review",
+    "unknown",
+}
 
 
 def _validate_choice(field_name: str, value: str, allowed: set[str]) -> None:
@@ -111,6 +131,18 @@ class LegalDocument:
 
 
 @dataclass(frozen=True)
+class DocumentVersion:
+    """Canonical representation of one version of a legal document."""
+
+    version_id: str = ""
+    document_id: str = ""
+    version_label: str = ""
+    created_at: str = ""
+    source_document_id: str | None = None
+    change_summary: str = ""
+
+
+@dataclass(frozen=True)
 class Clause:
     """Canonical representation of one legal clause."""
 
@@ -133,6 +165,17 @@ class Clause:
 
 
 @dataclass(frozen=True)
+class MetadataTag:
+    """Canonical metadata tag attached to a legal object."""
+
+    tag_id: str = ""
+    target_id: str = ""
+    name: str = ""
+    value: str = ""
+    source: str = ""
+
+
+@dataclass(frozen=True)
 class LegalReference:
     """Reference extracted from or attached to a legal object."""
 
@@ -143,6 +186,23 @@ class LegalReference:
 
     def __post_init__(self) -> None:
         _validate_choice("kind", self.kind, _NORM_KINDS)
+
+
+@dataclass(frozen=True)
+class AnalyzedClause:
+    """Canonical deterministic analysis result for one clause."""
+
+    analysis_id: str = ""
+    clause_id: str = ""
+    document_id: str = ""
+    topic: CanonicalTopic = "autre"
+    extracted_reference_ids: tuple[str, ...] = field(default_factory=tuple)
+    risk_level: RiskLevel = "unknown"
+    summary: str = ""
+
+    def __post_init__(self) -> None:
+        _validate_choice("topic", self.topic, _CANONICAL_TOPICS)
+        _validate_choice("risk_level", self.risk_level, _RISK_LEVELS)
 
 
 @dataclass(frozen=True)
@@ -186,3 +246,45 @@ class RuleCheckResult:
 
     def __post_init__(self) -> None:
         _validate_choice("outcome", self.outcome, _RULE_OUTCOMES)
+
+
+@dataclass(frozen=True)
+class CaseFile:
+    """Canonical dossier grouping legal analysis artifacts."""
+
+    case_file_id: str = ""
+    project_id: str = ""
+    document_ids: tuple[str, ...] = field(default_factory=tuple)
+    comparison_result_ids: tuple[str, ...] = field(default_factory=tuple)
+    rule_check_result_ids: tuple[str, ...] = field(default_factory=tuple)
+    memo_ids: tuple[str, ...] = field(default_factory=tuple)
+
+
+@dataclass(frozen=True)
+class GeneratedMemo:
+    """Canonical generated memo attached to a legal dossier."""
+
+    memo_id: str = ""
+    case_file_id: str = ""
+    title: str = ""
+    format: MemoFormat = "unknown"
+    content: str = ""
+    source_result_ids: tuple[str, ...] = field(default_factory=tuple)
+
+    def __post_init__(self) -> None:
+        _validate_choice("format", self.format, _MEMO_FORMATS)
+
+
+@dataclass(frozen=True)
+class AuditEvent:
+    """Canonical trace event for auditable legal processing."""
+
+    event_id: str = ""
+    event_type: AuditEventKind = "unknown"
+    target_id: str = ""
+    actor: str = ""
+    occurred_at: str = ""
+    detail: str = ""
+
+    def __post_init__(self) -> None:
+        _validate_choice("event_type", self.event_type, _AUDIT_EVENT_KINDS)
