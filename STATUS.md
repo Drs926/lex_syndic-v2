@@ -68,7 +68,7 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 
 - `main = origin/main = cba40ee1ff22bb27d115b0dbc47c318ac47d680f`
 - LEX-020 mergé via PR #18 — pipeline juridique minimal disponible
-- LEX-020B (gouvernance) en cours via PR #19
+- LEX-020B (gouvernance) en cours via issue #19 / PR #20
 - aucune tâche produit n'est active
 - aucun développement n'est autorisé sans nouveau cadrage explicite
 
