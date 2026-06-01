@@ -138,16 +138,16 @@ def test_storage_importable_without_interface() -> None:
     import importlib
     import sys
 
-    # Remove cached storage modules to force a fresh import check
-    to_remove = [k for k in sys.modules if k.startswith("lex_syndic.storage")]
+    # Purge all lex_syndic modules to simulate a cold import
+    to_remove = [k for k in sys.modules if k.startswith("lex_syndic")]
     for k in to_remove:
         del sys.modules[k]
 
-    # Import storage standalone
+    # Import storage standalone — must not pull in interface
     importlib.import_module("lex_syndic.storage.legal_results")
 
-    # Verify interface was NOT loaded as a side-effect
-    assert "lex_syndic.interface.report_handler" not in sys.modules or True, (
+    # interface.report_handler must NOT have been loaded as a side-effect
+    assert "lex_syndic.interface.report_handler" not in sys.modules, (
         "storage import must not trigger interface.report_handler load"
     )
     # Positive check: the store is usable
