@@ -98,29 +98,30 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 | `LEX-020` | Création de `src/lex_syndic/pipeline/` avec `run_legal_pipeline()` et `PipelineResult`. Pipeline déterministe reliant analysis, comparison et rules sans dépendance externe. | 117 tests verts. Contexte de comparaison construit automatiquement depuis les références extraites. | **TERMINÉ** — merge commit `cba40ee` |
 | `LEX-020B` | Mise à jour de gouvernance post-LEX-020 : `DECISIONS.md` (DEC-017), `STATUS.md`, `PLAN.md`. | Seuls les fichiers de gouvernance modifiés. Aucun code produit touché. | **TERMINÉ** — PR #20 |
 | `LEX-021` | Exposition du pipeline via `analyze_legal_text()` dans `src/lex_syndic/interface/legal_handler.py`. Entrée : `LegalAnalysisRequest`. Sortie : `LegalAnalysisResponse`. | 123 tests verts. Aucun couplage storage/report/MCP. | **TERMINÉ** — PR #22 |
-| `LEX-021B/022` | Gouvernance post-LEX-021 (DEC-018, DEC-019) + cadrage LEX-022 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **EN COURS** — issue #23 |
+| `LEX-021B/022` | Gouvernance post-LEX-021 (DEC-018, DEC-019) + cadrage LEX-022 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **TERMINÉ** — PR #24 |
+| `LEX-022` | Test d'acceptation end-to-end : `tests/test_acceptance_legal_pipeline.py`. 4 scénarios sur accord réaliste. 127 tests verts. | Tests verts, aucune modification `src/`. | **TERMINÉ** — PR #26 |
+| `LEX-022B/023` | Gouvernance post-LEX-022 (DEC-020, DEC-021) + cadrage LEX-023 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **EN COURS** — issue #27 |
 
-### LEX-022 — Cadrage (décidé, pas encore implémenté)
+### LEX-023 — Cadrage (décidé, pas encore implémenté)
 
 | Élément | Contenu |
 |---------|---------|
-| Objectif | Test d'acceptation end-to-end sur un accord d'entreprise réaliste |
-| Périmètre | `tests/` uniquement — aucune modification `src/` sans bug bloquant prouvé |
-| Entrée | Texte juridique réaliste + citations attendues variées |
-| Sortie vérifiée | `LegalAnalysisResponse` avec statuts `compliant`, `non_compliant`, `insufficient_data` selon les cas |
-| Décision | DEC-019 dans `DECISIONS.md` |
-| Condition de PASS | Tests verts sans mock, sans storage, sans LLM |
-| Condition d'extension | Le PASS de LEX-022 conditionne toute décision sur storage, report, NLP ou frontend |
+| Objectif | Rapport minimal de preuve juridique lisible par l'utilisateur |
+| Périmètre | `src/lex_syndic/report/` + `tests/test_report*.py` uniquement |
+| Entrée | `LegalAnalysisResponse` |
+| Sortie | Chaîne de texte courte, structurée, déterministe (titre, statut, alerte, justification, action recommandée, compteurs) |
+| Décision | DEC-021 dans `DECISIONS.md` |
+| Interdits | PDF, UI, stockage, LLM, template engine externe |
+| Condition de PASS | Tests verts, sortie déterministe, aucune dépendance externe |
 
 ### Hors plan à ce stade
 
 Aucune décision n'est prise sur :
 - persistance des résultats (`storage`) ;
-- génération de rapport (`report`) ;
 - toute brique NLP, LLM, Légifrance, Judilibre ;
 - frontend, API web, MCP utilisateur.
 
-Ces sujets exigent un cadrage explicite dans `DECISIONS.md` après PASS de LEX-022.
+Ces sujets exigent un cadrage explicite dans `DECISIONS.md` après PASS de LEX-023.
 
 ### Séquence rail
 
