@@ -58,6 +58,13 @@ def run_legal_pipeline(
             decision=decision,
         )
 
+    # Build comparison context from extracted references when the caller
+    # supplies only citations (empty reference_id). This allows natural usage
+    # without requiring knowledge of internal reference IDs.
+    if context is None:
+        legal_references = getattr(enriched, "legal_references", ())
+        context = ClauseNormComparisonContext(known_references=legal_references)
+
     comparisons: list[ClauseNormComparison] = []
     for clause in analyzed_clauses:
         for expected_reference in expected_references:

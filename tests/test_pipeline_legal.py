@@ -53,30 +53,15 @@ def test_pipeline_result_has_required_fields() -> None:
 
 
 def test_pipeline_nominal_reference_present() -> None:
-    from lex_syndic.analysis.enrichment import analyze_document
-    from lex_syndic.comparison.clause_norm import ClauseNormComparisonContext
-
     doc = _doc(_TELEWORK_TEXT)
-    # Pre-run analysis to discover the extracted reference ID so the comparison
-    # engine can match citation by ID.
-    enriched = analyze_document(doc)
-    first_clause = enriched.analyzed_clauses[0]
-    extracted_ref_ids = first_clause.extracted_reference_ids
-    assert extracted_ref_ids, "Expected at least one extracted reference in clause 1"
-
-    known_ref = LegalReference(
-        reference_id=extracted_ref_ids[0],
-        citation="L1222-9",
-        kind="loi",
-    )
     expected_ref = LegalReference(reference_id="", citation="L1222-9", kind="loi")
-    context = ClauseNormComparisonContext(known_references=(known_ref,))
 
-    result = run_legal_pipeline(doc, (expected_ref,), context=context)
+    result = run_legal_pipeline(doc, (expected_ref,))
 
-    # Pipeline must have produced analysis, comparisons and a rule decision.
-    assert len(result.analyzed_clauses) > 0
-    assert len(result.comparisons) > 0
+    matched = {c.status for c in result.comparisons}
+    assert matched & {"match", "risk_attention"}, (
+        f"Expected at least one match or risk_attention, got: {matched}"
+    )
     assert result.decision.status != "insufficient_data"
 
 
