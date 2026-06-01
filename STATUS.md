@@ -36,6 +36,7 @@ fonctionnelle (placeholders) :
 | `interface` | MIG-010A PASS. Module minimal disponible depuis le commit `1973e44`, avec package `src/lex_syndic/interface/`, requête structurée simple, réponse structurée simple, traitement local deterministe, aucune dependance externe et aucun couplage direct `retrieval`/`storage`/`report`. |
 | `pipeline` | LEX-020 PASS. Pipeline juridique minimal disponible depuis le commit `cba40ee`, avec `run_legal_pipeline()` orchestrant `analysis → comparison → rules`, contexte de comparaison construit automatiquement depuis les références extraites, sortie `PipelineResult` immuable, 117 tests verts, aucune dépendance externe. |
 | `interface` (LEX-021) | LEX-021 PASS. `analyze_legal_text()` disponible depuis le commit `3a8f4cf`, acceptant `LegalAnalysisRequest(text, expected_citations)` et retournant `LegalAnalysisResponse`, 123 tests verts, aucun couplage storage/report/MCP. |
+| `acceptance` (LEX-022) | LEX-022 PASS. `tests/test_acceptance_legal_pipeline.py` disponible depuis le commit `1d0ce87`. 4 scénarios end-to-end verts sur accord d'entreprise réaliste. 127 tests globaux verts. Aucune modification `src/`. |
 
 ## Hors périmètre actuel
 
@@ -65,13 +66,13 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - `RAIL-006` a validé un cycle accéléré gouverné `#6` exécuté en une seule mission Codex.
 - `RAIL-007` est PASS et mergé sur `main` via le merge commit `6a83e27`, avec réconciliation des traces racine et `.codex`.
 
-## État courant après LEX-021
+## État courant après LEX-022
 
-- `main = origin/main = 3a8f4cf78019ac386551dde547d07d084e55fe13`
-- LEX-021 mergé via PR #22 — `analyze_legal_text()` disponible dans `src/lex_syndic/interface/`
-- LEX-021B/022 (gouvernance + cadrage) en cours via issue #23
-- prochaine étape : LEX-022 — test d'acceptation end-to-end
-- aucun développement hors `tests/` autorisé sans nouveau cadrage explicite
+- `main = origin/main = 1d0ce875b61311f20d6e2d345c6a14eaaecd7f1a`
+- LEX-022 mergé via PR #26 — `tests/test_acceptance_legal_pipeline.py` disponible, 127 tests verts
+- LEX-022B/023 (gouvernance + cadrage) en cours via issue #27
+- prochaine étape : LEX-023 — rapport minimal de preuve juridique
+- aucun développement hors `src/lex_syndic/report/` autorisé sans nouveau cadrage explicite
 
 ## Notes d'execution
 

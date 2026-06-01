@@ -336,3 +336,41 @@ Conséquences :
   bloquant prouvé.
 - Le PASS de LEX-022 conditionne toute décision d'extension ultérieure
   (storage, report, NLP, frontend).
+
+## DEC-020 — LEX-022 PASS : le flux utilisateur observable est validé
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `analyze_legal_text()` était disponible depuis LEX-021 mais aucun
+scénario utilisateur réaliste n'avait été exécuté de bout en bout.
+Décision : LEX-022 a créé `tests/test_acceptance_legal_pipeline.py` avec un
+accord d'entreprise réaliste (4 articles, référencements L.1222-9 et
+L.3121-1). Les 4 scénarios d'acceptation sont verts : citations présentes,
+citation absente → non_compliant, aucune citation → insufficient_data, shape
+stable. 127 tests globaux verts. Aucune modification de `src/`. Aucun mock,
+aucun storage, aucun LLM. Le flux `texte + citations → LegalAnalysisResponse`
+est désormais prouvé observable et stable.
+Conséquences :
+- Le flux applicatif est la référence de comportement pour toute extension.
+- L'extension vers un rapport lisible (LEX-023) est autorisée dans le périmètre
+  défini par DEC-021.
+- Toute autre extension (storage, NLP, frontend) exige un nouveau cadrage
+  avant implémentation.
+
+## DEC-021 — LEX-023 est cadré comme rapport minimal de preuve juridique
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : La `LegalAnalysisResponse` produite par `analyze_legal_text()` est
+structurée mais non lisible directement par un utilisateur. Les champs
+`decision_status`, `alert_level`, `justification` et `recommended_action`
+contiennent les données nécessaires à une restitution compréhensible.
+Décision : LEX-023 ajoutera une fonction `format_legal_report()` dans le
+module `report` existant, acceptant `LegalAnalysisResponse` et retournant une
+chaîne de texte courte, lisible et déterministe. Le rapport est structuré
+(titre, statut, niveau d'alerte, justification, action recommandée, compteurs)
+sans mise en page riche. Aucun PDF, aucune UI, aucun stockage, aucun LLM, aucun
+template engine externe.
+Conséquences :
+- LEX-023 est borné à `src/lex_syndic/report/` et `tests/test_report*.py`.
+- Aucune modification de `legal/models.py`, `pipeline/`, `interface/` n'est
+  autorisée dans LEX-023 sans bug bloquant prouvé.
+- Le rapport reste du texte brut déterministe et testable.
