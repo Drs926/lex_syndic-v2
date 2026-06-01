@@ -448,3 +448,36 @@ Conséquences :
 - Aucune modification de `src/` n'est autorisée dans LEX-025 sans bug
   bloquant prouvé.
 - Le PASS de LEX-025 clôt la phase de validation du flux applicatif complet.
+
+## DEC-026 — LEX-025 PASS : test d'acceptation flux complet avec rapport disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : LEX-025 devait créer un test d'acceptation end-to-end pour valider
+le flux complet `LegalAnalysisRequest → analyze_legal_text_with_report() →
+LegalAnalysisWithReportResponse` sur un accord d'entreprise réaliste avec
+citations variées.
+Décision : LEX-025 a créé `tests/test_acceptance_full_flow.py` avec 4 scénarios
+end-to-end verts. 141 tests globaux verts. Merge commit
+`f8ca88f9d18a2ad43c67a9e489e2b80898c6c228` sur main. Aucune modification `src/`.
+Conséquences :
+- Le cœur applicatif `texte + citations → analyse + rapport` est validé
+  de bout en bout sans mock, sans storage, sans LLM.
+- Toute extension (stockage, API web, frontend) exige un nouveau cadrage.
+
+## DEC-027 — LEX-026 est cadré comme stockage mémoire minimal des résultats d'analyse
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : Le flux produit une `LegalAnalysisWithReportResponse` exploitable
+mais il n'existe pas encore de frontière minimale pour conserver un résultat
+d'analyse pendant une session applicative.
+Décision : LEX-026 créera `InMemoryLegalResultStore` dans
+`src/lex_syndic/storage/legal_results.py`. Interface : `save(result) -> record_id`,
+`get(record_id) -> result | None`, `list_ids() -> tuple[str, ...]`, `clear() -> None`.
+Contraintes : aucune écriture disque, aucune sérialisation JSON, aucune base
+de données, aucune dépendance externe. `record_id` monotone simple. Aucune
+modification de l'interface applicative ni de `legal/models.py`.
+Conséquences :
+- Le store est un utilitaire de session uniquement — il ne persiste pas entre
+  les processus.
+- Toute persistance disque ou base de données exige un nouveau cadrage.
+- L'interface applicative (`analyze_legal_text_with_report`) n'est pas modifiée.

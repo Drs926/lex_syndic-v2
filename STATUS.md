@@ -39,6 +39,8 @@ fonctionnelle (placeholders) :
 | `acceptance` (LEX-022) | LEX-022 PASS. `tests/test_acceptance_legal_pipeline.py` disponible depuis le commit `1d0ce87`. 4 scénarios end-to-end verts sur accord d'entreprise réaliste. 127 tests globaux verts. Aucune modification `src/`. |
 | `report` (LEX-023) | LEX-023 PASS. `format_legal_report()` disponible depuis le commit `4334814`. Rapport texte court déterministe depuis `LegalAnalysisResponse`. 132 tests globaux verts. Aucune dépendance externe. |
 | `interface` (LEX-024) | LEX-024 PASS. `analyze_legal_text_with_report()` disponible depuis le commit `8687a86`. `LegalAnalysisWithReportResponse` expose `analysis` + `report_text`. 137 tests globaux verts. Aucune dépendance externe. |
+| `acceptance` (LEX-025) | LEX-025 PASS. `tests/test_acceptance_full_flow.py` disponible depuis le commit `fe6e472`. 4 scénarios end-to-end verts sur accord réaliste. 141 tests globaux verts. Aucune modification `src/`. |
+| `storage` (LEX-026) | LEX-026 PASS. `InMemoryLegalResultStore` disponible dans `src/lex_syndic/storage/legal_results.py`. API : `save`, `get`, `list_ids`, `clear`. 148 tests globaux verts. Aucune écriture disque, aucune dépendance externe. |
 
 ## Hors périmètre actuel
 
@@ -54,7 +56,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-`MIG-010A` est PASS (`1973e44`). Aucune nouvelle mission d'implementation n'est ouverte dans le perimetre V2 courant ; toute suite exige un nouveau cadrage explicite.
+LEX-026 PASS. `InMemoryLegalResultStore` disponible dans `src/lex_syndic/storage/legal_results.py`. 148 tests globaux verts. Toute suite exige un nouveau cadrage explicite dans `DECISIONS.md`.
 
 ## Séquence rail validée
 
@@ -68,17 +70,12 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - `RAIL-006` a validé un cycle accéléré gouverné `#6` exécuté en une seule mission Codex.
 - `RAIL-007` est PASS et mergé sur `main` via le merge commit `6a83e27`, avec réconciliation des traces racine et `.codex`.
 
-## État courant après LEX-022
+## État courant après LEX-026
 
-- `main = origin/main = 1d0ce875b61311f20d6e2d345c6a14eaaecd7f1a`
-- LEX-022 mergé via PR #26 — `tests/test_acceptance_legal_pipeline.py` disponible, 127 tests verts
-- LEX-023 mergé via PR #30 — `format_legal_report()` disponible dans `src/lex_syndic/report/`
-- LEX-023B/024 (gouvernance + cadrage) en cours via issue #31
-- prochaine étape : LEX-024 — exposition du rapport via l'interface
-- LEX-024 mergé via PR #34 — `analyze_legal_text_with_report()` disponible dans `src/lex_syndic/interface/`
-- LEX-024B/025 (gouvernance + cadrage) en cours via issue #35
-- prochaine étape : LEX-025 — test d'acceptation du flux complet avec rapport
-- aucun développement hors `tests/` autorisé sans nouveau cadrage explicite
+- `main = origin/main = f8ca88f9d18a2ad43c67a9e489e2b80898c6c228`
+- LEX-025 mergé via PR #38 — `tests/test_acceptance_full_flow.py` disponible, 141 tests verts
+- LEX-026 en cours via issue #39 — `InMemoryLegalResultStore` dans `src/lex_syndic/storage/legal_results.py`, 148 tests verts
+- prochaine étape : finaliser LEX-026 après merge PR
 
 ## Notes d'execution
 

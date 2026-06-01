@@ -104,29 +104,18 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 | `LEX-023` | `format_legal_report()` dans `src/lex_syndic/report/legal_formatter.py`. Rapport texte court déterministe depuis `LegalAnalysisResponse`. 5 tests verts. | 132 tests globaux verts. Aucune dépendance externe. | **TERMINÉ** — PR #30 |
 | `LEX-023B/024` | Gouvernance post-LEX-023 (DEC-022, DEC-023) + cadrage LEX-024 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **TERMINÉ** — PR #32 |
 | `LEX-024` | `analyze_legal_text_with_report()` dans `src/lex_syndic/interface/report_handler.py`. `LegalAnalysisWithReportResponse` expose `analysis` + `report_text`. 5 tests verts. | 137 tests globaux verts. Aucune dépendance externe. | **TERMINÉ** — PR #34 |
-| `LEX-024B/025` | Gouvernance post-LEX-024 (DEC-024, DEC-025) + cadrage LEX-025 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **EN COURS** — issue #35 |
-
-### LEX-025 — Cadrage (décidé, pas encore implémenté)
-
-| Élément | Contenu |
-|---------|---------|
-| Objectif | Test d'acceptation du flux complet analyse + rapport sur accord réaliste |
-| Périmètre | `tests/test_acceptance*.py` uniquement — aucune modification `src/` |
-| Entrée | `LegalAnalysisRequest` avec accord réaliste + citations variées |
-| Sortie vérifiée | `LegalAnalysisWithReportResponse` : `analysis` cohérente, `report_text` contenant le titre, cas insufficient_data |
-| Décision | DEC-025 dans `DECISIONS.md` |
-| Interdits | Mock, storage, LLM, modification `src/` |
-| Condition de PASS | Tests verts, flux bout-en-bout sans mock, aucune dépendance externe |
-| Portée | Clôt la phase de validation du flux applicatif complet |
+| `LEX-024B/025` | Gouvernance post-LEX-024 (DEC-024, DEC-025) + cadrage LEX-025 sans implémentation. | Seuls DECISIONS.md, STATUS.md, PLAN.md modifiés. | **TERMINÉ** — PR #36 |
+| `LEX-025` | Test d'acceptation flux complet : `tests/test_acceptance_full_flow.py`. 4 scénarios sur accord réaliste avec citations variées. | 141 tests verts. Aucune modification `src/`. | **TERMINÉ** — PR #38 |
+| `LEX-026` | `InMemoryLegalResultStore` dans `src/lex_syndic/storage/legal_results.py`. API : `save`, `get`, `list_ids`, `clear`. 7 tests verts. | 148 tests globaux verts. Aucune écriture disque. Aucune dépendance externe. | **EN COURS** — issue #39 |
 
 ### Hors plan à ce stade
 
 Aucune décision n'est prise sur :
-- persistance des résultats (`storage`) ;
+- persistance disque ou base de données des résultats ;
 - toute brique NLP, LLM, Légifrance, Judilibre ;
 - frontend, API web, MCP utilisateur.
 
-Ces sujets exigent un cadrage explicite dans `DECISIONS.md` après PASS de LEX-025.
+Ces sujets exigent un cadrage explicite dans `DECISIONS.md` après PASS de LEX-026.
 
 ### Séquence rail
 
