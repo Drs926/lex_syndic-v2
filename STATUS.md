@@ -42,7 +42,8 @@ fonctionnelle (placeholders) :
 | `acceptance` (LEX-025) | LEX-025 PASS. `tests/test_acceptance_full_flow.py` disponible depuis le commit `fe6e472`. 4 scénarios end-to-end verts sur accord réaliste. 141 tests globaux verts. Aucune modification `src/`. |
 | `storage` (LEX-026) | LEX-026 PASS. `InMemoryLegalResultStore` disponible dans `src/lex_syndic/storage/legal_results.py`. API : `save`, `get`, `list_ids`, `clear`. 148 tests globaux verts. Aucune écriture disque, aucune dépendance externe. |
 | `interface` (LEX-027) | LEX-027 PASS. `analyze_and_store_legal_text()` dans `src/lex_syndic/interface/session_handler.py`. `LegalSessionResult` expose `record_id` + `result`. 154 tests globaux verts. Aucun store global. Aucune dépendance externe. |
-| `acceptance` (LEX-028) | LEX-028 EN COURS. `tests/test_acceptance_session_flow.py` — 6 scénarios session end-to-end. 160 tests globaux verts. Aucune modification `src/`. |
+| `acceptance` (LEX-028) | LEX-028 PASS. `tests/test_acceptance_session_flow.py` — 6 scénarios session end-to-end. 160 tests globaux verts. Aucune modification `src/`. |
+| `audit` (LEX-029) | LEX-029 EN COURS. `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md` — audit maturité avant exposition externe. Contrats, couplages, limites et verdict par domaine. |
 
 ## Hors périmètre actuel
 
@@ -58,7 +59,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-LEX-028 EN COURS. `tests/test_acceptance_session_flow.py` disponible. 160 tests globaux verts. Toute suite exige un nouveau cadrage explicite dans `DECISIONS.md`.
+LEX-029 EN COURS. Audit maturité dans `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`. 160 tests globaux verts. Exposition API mono-utilisateur recommandée après cadrage explicite. API publique/multi-utilisateur BLOQUÉE sans auth + UUID + thread-safety.
 
 ## Séquence rail validée
 
@@ -77,8 +78,9 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - `main = origin/main = 6516a4afa2377d71978136ad5d63fef4459f71ac` (base LEX-027)
 - LEX-026 mergé via PR #40 — `InMemoryLegalResultStore` disponible, 148 tests verts
 - LEX-027 mergé via PR #42 — `analyze_and_store_legal_text()` disponible, 154 tests verts
-- LEX-028 en cours via issue #43 — `tests/test_acceptance_session_flow.py` disponible, 160 tests verts
-- prochaine étape : merger PR LEX-028, puis finaliser
+- LEX-028 mergé via PR #44 — `tests/test_acceptance_session_flow.py` disponible, 160 tests verts
+- LEX-029 en cours via PR #45 — audit maturité `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`
+- prochaine étape : merger PR LEX-029, puis cadrer API locale si décidé
 
 ## Notes d'execution
 

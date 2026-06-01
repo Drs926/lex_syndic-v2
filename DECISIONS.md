@@ -543,3 +543,34 @@ Conséquences :
 - LEX-028 est borné à `tests/` uniquement.
 - Aucune modification de `src/` n'est autorisée dans LEX-028 sans bug bloquant.
 - Le PASS de LEX-028 clôt la phase de validation du flux session complet.
+
+## DEC-032 — LEX-028 PASS : test d'acceptation session complet disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : LEX-028 devait créer un test d'acceptation end-to-end pour valider
+le flux session complet sur un accord réaliste avec vérification du store,
+du rapport et de l'isolation entre stores.
+Décision : LEX-028 a créé `tests/test_acceptance_session_flow.py` avec 6 scénarios
+end-to-end verts. Merge commit `302e0041790ddeb83362744c534fdadf6b2413c4` sur main.
+160 tests globaux verts. Aucune modification `src/`.
+Conséquences :
+- Le flux session `request → analyse → stockage → record_id` est validé
+  de bout en bout sans mock, sans disque, sans LLM.
+- Toute exposition externe (API, frontend) exige un audit préalable.
+
+## DEC-033 — LEX-029 : audit maturité obligatoire avant exposition externe
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : Le flux session est validé mais aucune API, frontend ni persistance
+disque n'est encore décidé. Avant toute exposition externe, un audit structuré
+est nécessaire pour identifier les blocages et les prérequis.
+Décision : LEX-029 produit `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`
+évaluant les contrats publics, les risques de couplage, les limites métier
+et les conditions d'exposition API. Aucune modification de `src/` ni `tests/`.
+Conséquences :
+- Toute API, frontend ou persistance disque exige une décision explicite dans
+  `DECISIONS.md` référençant les blocages identifiés dans LEX-029.
+- L'exposition API mono-utilisateur locale est la prochaine option recommandée,
+  sous réserve d'un cadrage explicite.
+- L'exposition API publique ou multi-utilisateur est BLOQUÉE sans auth, UUID
+  et thread-safety.
