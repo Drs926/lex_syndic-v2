@@ -608,3 +608,31 @@ Conséquences :
 - Toute API web réelle (FastAPI, Flask, etc.) exige un cadrage séparé.
 - Le module `api` devient le point d'entrée canonique pour les intégrations
   futures une fois les prérequis (auth, UUID, thread-safety) satisfaits.
+
+## DEC-036 — LEX-030 PASS : couche API locale pure Python disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : LEX-030 devait créer une couche API locale mono-utilisateur pure
+Python sans serveur HTTP, sans FastAPI et sans dépendance externe.
+Décision : LEX-030 a créé `src/lex_syndic/api/local.py` avec
+`submit_analysis(request, store) -> LocalApiAnalysisResponse`. Réponse API
+aplatie exposant record_id, decision_status, alert_level, report_text,
+recommended_action. FastAPI absent de pyproject.toml — aucune dépendance ajoutée.
+167 tests globaux verts. Merge commit `d2f4a7b0bfad3ac5d9fca237c79a8a188e037e9d`
+sur main. Aucun store global, aucune écriture disque.
+Conséquences :
+- `submit_analysis()` est le point d'entrée API canonique local.
+- Toute API web réelle exige un cadrage séparé avec auth, UUID, thread-safety.
+
+## DEC-037 — LEX-031 est cadré comme test d'acceptation de l'API locale
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : `submit_analysis()` est disponible mais le flux API local complet
+n'a pas encore été éprouvé sur un scénario utilisateur réaliste de bout en bout.
+Décision : LEX-031 créera `tests/test_acceptance_api_local.py` couvrant :
+accord réaliste avec citations variées, vérification record_id, store.get(),
+report_text, decision_status, insufficient_data, isolation stores, absence
+d'import FastAPI/HTTP. Aucune modification de `src/`.
+Conséquences :
+- LEX-031 est borné à `tests/` uniquement.
+- Le PASS de LEX-031 clôt la phase de validation de l'API locale.
