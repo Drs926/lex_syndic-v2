@@ -109,7 +109,8 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 | `LEX-026` | `InMemoryLegalResultStore` dans `src/lex_syndic/storage/legal_results.py`. API : `save`, `get`, `list_ids`, `clear`. 7 tests verts. | 148 tests globaux verts. Aucune écriture disque. Aucune dépendance externe. | **TERMINÉ** — PR #40 |
 | `LEX-027` | `analyze_and_store_legal_text()` dans `src/lex_syndic/interface/session_handler.py`. `LegalSessionResult` expose `record_id` + `result`. 6 tests verts. Store injecté par l'appelant. | 154 tests globaux verts. Aucun store global. Aucune dépendance externe. | **TERMINÉ** — PR #42 |
 | `LEX-028` | Test d'acceptation session complet : `tests/test_acceptance_session_flow.py`. 6 scénarios sur accord réaliste avec citations variées, isolation stores, cas insufficient_data. | 160 tests globaux verts. Aucune modification `src/`. | **TERMINÉ** — PR #44 |
-| `LEX-029` | Audit maturité produit avant exposition externe : `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`. Évaluation contrats, couplages, limites métier, verdict API. | Audit produit. Aucune modification `src/` ni `tests/`. | **EN COURS** — PR #45 |
+| `LEX-029` | Audit maturité produit avant exposition externe : `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`. Évaluation contrats, couplages, limites métier, verdict API. | Audit produit. Aucune modification `src/` ni `tests/`. | **TERMINÉ** — PR #45 |
+| `LEX-030` | Couche API locale mono-utilisateur pure Python : `src/lex_syndic/api/local.py`. `LocalApiAnalysisRequest` → `submit_analysis()` → `LocalApiAnalysisResponse`. 7 tests verts. Sans serveur HTTP, sans dépendance externe. | 167 tests globaux verts. Aucun store global. | **EN COURS** — issue #46 |
 
 ### Hors plan à ce stade
 
@@ -118,8 +119,8 @@ Aucune décision n'est prise sur :
 - toute brique NLP, LLM, Légifrance, Judilibre ;
 - frontend, MCP utilisateur.
 
-L'exposition API mono-utilisateur locale est la prochaine option recommandée
-par LEX-029, sous réserve d'un cadrage explicite dans `DECISIONS.md`.
+L'API web réelle (FastAPI ou équivalent) exige un cadrage séparé dans
+`DECISIONS.md` après PASS de LEX-030, avec auth, UUID et thread-safety.
 
 ### Séquence rail
 

@@ -574,3 +574,37 @@ Conséquences :
   sous réserve d'un cadrage explicite.
 - L'exposition API publique ou multi-utilisateur est BLOQUÉE sans auth, UUID
   et thread-safety.
+
+## DEC-034 — LEX-029 PASS : audit maturité produit disponible
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : LEX-029 devait produire un audit maturité avant toute exposition
+externe pour identifier les blocages et prérequis.
+Décision : LEX-029 a produit `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md`.
+Verdict : API locale mono-utilisateur acceptable avec cadrage. API publique/
+multi-utilisateur BLOQUÉE sans auth, UUID et thread-safety. Merge commit
+`2f824a65ce4a967154df1d3f97a499d3fb66a528` sur main. Aucune modification
+`src/` ni `tests/`.
+Conséquences :
+- Toute API publique exige auth, UUID, thread-safety — hors périmètre actuel.
+- API locale mono-utilisateur possible sous réserve de cadrage explicite.
+
+## DEC-035 — LEX-030 : couche API locale mono-utilisateur pure Python
+Date : 2026-06-01
+Statut : Acceptée
+Contexte : L'audit LEX-029 valide une API locale mono-utilisateur. FastAPI
+n'est pas dans les dépendances projet (pyproject.toml). Aucune dépendance
+externe ne doit être ajoutée.
+Décision : LEX-030 créera `src/lex_syndic/api/local.py` avec
+`LocalApiAnalysisRequest`, `LocalApiAnalysisResponse` et
+`submit_analysis(request, store) -> LocalApiAnalysisResponse`.
+Implémentation pure Python sans serveur web, sans endpoint HTTP, sans
+dépendance externe. Store injecté par l'appelant. Réponse API aplatie
+(record_id + decision_status + alert_level + report_text + recommended_action).
+Limites acceptées explicitement : mono-utilisateur, pas d'auth, pas de
+thread-safety, pas de persistance, pas d'UUID.
+Conséquences :
+- Aucun serveur HTTP n'est lancé — la couche API est un adaptateur local.
+- Toute API web réelle (FastAPI, Flask, etc.) exige un cadrage séparé.
+- Le module `api` devient le point d'entrée canonique pour les intégrations
+  futures une fois les prérequis (auth, UUID, thread-safety) satisfaits.
