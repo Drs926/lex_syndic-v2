@@ -1,0 +1,96 @@
+"""FastAPI local single-user HTTP API for lex_syndic [LEX-034].
+
+Constraints (from LEX-033 contract):
+- Bind to 127.0.0.1 only — no public network exposure.
+- Single worker, no concurrency (workers=1 imposed at launch).
+- InMemoryLegalResultStore — results lost on restart.
+- No authentication.
+- Text guard: len(text) > 50000 → HTTP 422 before calling pipeline.
+"""
+
+from __future__ import annotations
+
+from contextlib import asynccontextmanager
+from typing import AsyncIterator
+
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
+
+from lex_syndic.api.local import LocalApiAnalysisRequest, submit_analysis
+from lex_syndic.storage.legal_results import InMemoryLegalResultStore
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    app.state.store = InMemoryLegalResultStore()
+    yield
+
+
+app = FastAPI(
+    lifespan=lifespan,
+    # Disable automatic doc routes — not in LEX-033 contract (DEC-LEX-034).
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
+)
+
+
+class AnalyzeRequest(BaseModel):
+    text: str
+    expected_citations: list[str] = Field(default_factory=list)
+    title: str = "document"
+
+
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "ok"}
+
+
+@app.post("/v1/analyze")
+def analyze(body: AnalyzeRequest, request: Request) -> JSONResponse:
+    if not body.text.strip():
+        raise HTTPException(status_code=422, detail="text must not be empty")
+    if len(body.text) > 50000:
+        raise HTTPException(status_code=422, detail="text exceeds maximum length")
+
+    try:
+        api_request = LocalApiAnalysisRequest(
+            text=body.text,
+            expected_citations=tuple(body.expected_citations),
+            title=body.title,
+        )
+        response = submit_analysis(api_request, request.app.state.store)
+    except Exception:
+        raise HTTPException(status_code=500, detail="internal error")
+
+    return JSONResponse(
+        status_code=200,
+        content={
+            "record_id": response.record_id,
+            "decision_status": response.decision_status,
+            "alert_level": response.alert_level,
+            "report_text": response.report_text,
+            "recommended_action": response.recommended_action,
+        },
+    )
+
+
+@app.get("/v1/results/{record_id}")
+def get_result(record_id: str, request: Request) -> JSONResponse:
+    store: InMemoryLegalResultStore = request.app.state.store
+    record = store.get(record_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="record not found")
+
+    # record is LegalAnalysisWithReportResponse stored by submit_analysis
+    return JSONResponse(
+        status_code=200,
+        content={
+            "record_id": record_id,
+            "decision_status": record.analysis.decision_status,
+            "alert_level": record.analysis.alert_level,
+            "report_text": record.report_text,
+            "recommended_action": record.analysis.recommended_action,
+        },
+    )

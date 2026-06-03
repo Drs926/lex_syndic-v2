@@ -113,17 +113,17 @@ Ces sujets exigeraient une décision explicite dans `DECISIONS.md`.
 | `LEX-030` | Couche API locale mono-utilisateur pure Python : `src/lex_syndic/api/local.py`. `LocalApiAnalysisRequest` → `submit_analysis()` → `LocalApiAnalysisResponse`. 7 tests verts. Sans serveur HTTP, sans dépendance externe. | 167 tests globaux verts. Aucun store global. | **TERMINÉ** — PR #47 |
 | `LEX-031` | Test d'acceptation API locale : `tests/test_acceptance_api_local.py`. 7 scénarios sur accord réaliste, record_id, store.get(), report_text, insufficient_data, isolation stores, absence FastAPI. | 174 tests globaux verts. Aucune modification `src/`. | **TERMINÉ** — PR #49 |
 | `LEX-032` | Découplage `storage → interface` : `InMemoryLegalResultStore` rendu générique via `Generic[T]`. Aucun import `lex_syndic.interface` dans `storage`. 2 tests de découplage ajoutés. | 176 tests globaux verts. Comportement inchangé. | **TERMINÉ** — PR #51 |
-| `LEX-033` | Cadrage FastAPI avant implémentation : `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`. Contrat API (`POST /v1/analyze`, `GET /v1/results/{record_id}`, `GET /health`), prérequis, risques, recommandation LEX-034. | Document de cadrage. Aucune modification `src/` ni `tests/`. | **EN COURS** — issue #52 |
+| `LEX-033` | Cadrage FastAPI avant implémentation : `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`. Contrat API (`POST /v1/analyze`, `GET /v1/results/{record_id}`, `GET /health`), prérequis, risques, recommandation LEX-034. | Document de cadrage. Aucune modification `src/` ni `tests/`. | **TERMINÉ** — PR #53 |
+| `LEX-034` | API FastAPI locale mono-utilisateur : `src/lex_syndic/api/fastapi_app.py`. `POST /v1/analyze`, `GET /v1/results/{record_id}`, `GET /health`. Routes `/docs` `/redoc` `/openapi.json` désactivées. Guard texte (vide → 422, > 50 000 chars → 422). `fastapi` + `uvicorn[standard]` ajoutés. 7 fonctions de test / 10 cas FastAPI dans `tests/test_api_fastapi.py`. | 186 tests globaux verts. Aucune persistance, aucune auth, aucun DB. DEC-LEX-034 ajoutée. | **EN COURS** — PR #54, validation ChatGPT requise |
 
 ### Hors plan à ce stade
 
 Aucune décision n'est prise sur :
 - persistance disque ou base de données des résultats ;
 - toute brique NLP, LLM, Légifrance, Judilibre ;
-- frontend, MCP utilisateur.
-
-LEX-034 est la prochaine étape recommandée : API FastAPI locale mono-utilisateur
-strictement bornée, après PASS de LEX-033.
+- frontend, MCP utilisateur ;
+- exposition réseau (route publique ou TLS) — exige décision séparée dans DECISIONS.md ;
+- activation des routes de documentation FastAPI — exige décision séparée dans DECISIONS.md.
 
 ### Séquence rail
 

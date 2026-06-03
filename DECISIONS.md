@@ -696,3 +696,27 @@ Conséquences :
 - Toute implémentation FastAPI exige un PASS de LEX-033 et une décision dans
   `DECISIONS.md` référençant ce document.
 - La recommandation LEX-034 est unique et sans ambiguïté.
+
+## DEC-LEX-034 — LEX-034 : implémentation FastAPI locale mono-utilisateur
+Date : 2026-06-03
+Statut : Acceptée
+Référence : DEC-041 (LEX-033), `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`
+Contexte : LEX-033 a validé les conditions d'acceptabilité de FastAPI et défini
+le contrat API. DEC-041 exige une décision dans DECISIONS.md avant implémentation.
+Décision : LEX-034 implémente `src/lex_syndic/api/fastapi_app.py` — API FastAPI
+HTTP locale mono-utilisateur strictement bornée au contrat LEX-033.
+Périmètre exact :
+- Endpoints autorisés : POST /v1/analyze, GET /v1/results/{record_id}, GET /health.
+- Routes automatiques FastAPI désactivées : docs_url=None, redoc_url=None,
+  openapi_url=None — les routes /docs, /redoc et /openapi.json ne sont pas exposées.
+- Store : InMemoryLegalResultStore — mémoire uniquement, aucune persistance disque.
+- Exposition : locale uniquement (127.0.0.1), aucune exposition réseau publique.
+- Utilisateurs : mono-utilisateur, 1 worker uvicorn, pas de concurrence.
+- Authentification : aucune (usage local uniquement).
+- Base de données : aucune.
+- MCP, LLM, connecteurs externes : aucun.
+- Dépendances ajoutées : fastapi>=0.111,<1 et uvicorn[standard]>=0.29,<1 uniquement.
+Conséquences :
+- Toute exposition réseau exige une décision séparée dans DECISIONS.md.
+- Toute activation des routes de documentation exige une décision documentée.
+- Les résultats sont perdus au redémarrage du serveur — comportement attendu et documenté.
