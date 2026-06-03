@@ -75,3 +75,11 @@ def test_get_result_nonexistent(client: TestClient) -> None:
     response = client.get("/v1/results/result-9999")
     assert response.status_code == 404
     assert response.json()["detail"] == "record not found"
+
+
+# LEX-033 contract: only /health, POST /v1/analyze, GET /v1/results/{id} are exposed.
+# Automatic FastAPI doc routes are disabled (docs_url=None, redoc_url=None, openapi_url=None).
+@pytest.mark.parametrize("path", ["/docs", "/redoc", "/openapi.json"])
+def test_doc_routes_not_exposed(client: TestClient, path: str) -> None:
+    response = client.get(path)
+    assert response.status_code == 404

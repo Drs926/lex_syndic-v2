@@ -15,7 +15,7 @@ from typing import AsyncIterator
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from lex_syndic.api.local import LocalApiAnalysisRequest, submit_analysis
 from lex_syndic.storage.legal_results import InMemoryLegalResultStore
@@ -27,12 +27,18 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    lifespan=lifespan,
+    # Disable automatic doc routes — not in LEX-033 contract (DEC-LEX-034).
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
+)
 
 
 class AnalyzeRequest(BaseModel):
     text: str
-    expected_citations: list[str] = []
+    expected_citations: list[str] = Field(default_factory=list)
     title: str = "document"
 
 
