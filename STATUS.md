@@ -1,55 +1,102 @@
 # STATUS
 
-Etat reel du depot V2 a date.
+État réel du dépôt V2 à date.
 
-Derniere mise a jour : 2026-06-05.
+Dernière mise à jour : 2026-06-05.
 
-## Resume
+## Résumé
 
-| Domaine | Etat reel |
+| Domaine | État réel |
 |---------|-----------|
-| Architecture | **Documentee** (`docs/architecture/software_architecture_v2.md`). |
-| Code metier | **Partiellement migre et stabilise.** Les modules `legal`, `ingestion`, `analysis`, `comparison`, `rules`, `retrieval`, `storage`, `report`, `interface`, `pipeline` et `api` disposent d'un socle minimal documente ou teste. |
-| Tests | **Operationnels selon les preuves de cycles.** Derniere preuve produit detaillee dans ce fichier : LEX-034 avec 186 tests globaux verts. |
-| Packaging | **En place et verifie.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`. |
-| Gouvernance | **En place.** Ce fichier est reconcilié avec l'etat ACT jusqu'a LEX-040. |
-| Migration V1 | **MIG-001 a MIG-010 termines.** |
-| Pipeline juridique | **Disponible.** `run_legal_pipeline()` est disponible dans `src/lex_syndic/pipeline/`. |
-| API locale / FastAPI | **FastAPI locale mono-utilisateur cadree puis implementee dans le rail LEX-034.** Toute exposition publique reste hors perimetre sans decision separee. |
+| Architecture | **Documentée** (`docs/architecture/software_architecture_v2.md`). |
+| Code métier | **Partiellement migré.** Les modules `legal`, `ingestion`, `analysis`, `comparison`, `rules`, `retrieval`, `storage`, `report` et `interface` disposent d'un socle minimal testé. |
+| Tests | **Opérationnels.** `python -m pytest tests/test_interface_minimal.py tests/test_package_import.py -v -p no:cacheprovider` a passé : `28 passed in 0.13s` le 2026-04-30. |
+| Packaging | **En place et vérifié.** `pyproject.toml` existe, le backend editable est `setuptools.build_meta`, et l'exécution locale de `pytest` a été revalidée le 2026-04-29. |
+| Gouvernance | **En place** (fichiers racine `README`, `CONTEXT`, `AGENTS`, `PLAN`, `SPEC`, `OUTPUT_CONTRACT`, `DECISIONS`, `MIGRATION_POLICY`, `STATUS`, `PROMPTS_INDEX`). |
+| Migration V1 | **MIG-001 à MIG-010 terminés.** |
+| Pipeline juridique | **LEX-020 mergé.** `run_legal_pipeline()` disponible dans `src/lex_syndic/pipeline/`. |
+| Audit V1→V2 | **Produit.** `docs/audits/MIGRATION_AUDIT_V1_TO_V2.md` — 42 fichiers classés, 10 lots ordonnés. |
 
-## Etat courant apres LEX-040
+## Détail par module canonique
 
-- `main` est aligne sur le merge produit LEX-040 : `2b43145`.
-- LEX-040 correspond a la PR produit #60 : FastAPI local docs index.
-- Le cockpit ACT a enregistre LEX-040 comme cycle merge avec PR #60 et merge commit `2b43145`.
-- Lex-Syndic est pret pour un nouveau cycle controle.
+Modules présents en arborescence sous `src/lex_syndic/` mais sans logique
+fonctionnelle (placeholders) :
 
-## Derniers cycles suivis
+| Module | État |
+|--------|------|
+| `core` | Squelette (`config.py`, `exceptions.py`, `types.py`). Importable avec `src/` dans `sys.path`. |
+| `legal` | MIG-002 terminé. `models.py` contient les modèles canoniques immuables `LegalDocument`, `Clause`, `LegalReference`, `Norm`, `RuleCheckResult` et un `ComparisonResult` typé, avec tests dédiés verts. |
+| `ingestion` | MIG-003 terminé. Ingestion texte minimale stabilisée autour de `load_text_content` et `load_text_file`, sans dépendance externe ni segmentation avancée. |
+| `analysis` | MIG-004 terminé. Segmentation minimale déterministe en clauses candidates stabilisée sans analyse juridique, sans extraction et sans dépendance externe. |
+| `comparison` | MIG-005 terminé. Comparaison structurelle minimale entre documents déjà segmentés, par ordre de clauses, sans scoring ni interprétation juridique. |
+| `rules` | MIG-006 terminé. Evaluation déterministe minimale via `evaluate_clause_rule` et `evaluate_document_rules`, avec sortie `RuleCheckResult` testée sans dependance externe. |
+| `retrieval` | MIG-007A PASS. Retrieval lexical minimal disponible depuis le commit `d7278b7`, avec index en mémoire, score déterministe et ordre stable sans dépendance externe. |
+| `storage` | MIG-008A PASS. Storage minimal disponible depuis le commit `f8dec95`, avec API memoire deterministe, aucun ajout de dependance et aucun couplage au retrieval. |
+| `report` | MIG-009A PASS. Module minimal disponible depuis le commit `6b90ff4`, avec package `src/lex_syndic/report/`, structure de rapport simple, rendu texte deterministe, aucune dependance externe et aucun couplage `retrieval`/`storage`. |
+| `interface` | MIG-010A PASS. Module minimal disponible depuis le commit `1973e44`, avec package `src/lex_syndic/interface/`, requête structurée simple, réponse structurée simple, traitement local deterministe, aucune dependance externe et aucun couplage direct `retrieval`/`storage`/`report`. |
+| `pipeline` | LEX-020 PASS. Pipeline juridique minimal disponible depuis le commit `cba40ee`, avec `run_legal_pipeline()` orchestrant `analysis → comparison → rules`, contexte de comparaison construit automatiquement depuis les références extraites, sortie `PipelineResult` immuable, 117 tests verts, aucune dépendance externe. |
+| `interface` (LEX-021) | LEX-021 PASS. `analyze_legal_text()` disponible depuis le commit `3a8f4cf`, acceptant `LegalAnalysisRequest(text, expected_citations)` et retournant `LegalAnalysisResponse`, 123 tests verts, aucun couplage storage/report/MCP. |
+| `acceptance` (LEX-022) | LEX-022 PASS. `tests/test_acceptance_legal_pipeline.py` disponible depuis le commit `1d0ce87`. 4 scénarios end-to-end verts sur accord d'entreprise réaliste. 127 tests globaux verts. Aucune modification `src/`. |
+| `report` (LEX-023) | LEX-023 PASS. `format_legal_report()` disponible depuis le commit `4334814`. Rapport texte court déterministe depuis `LegalAnalysisResponse`. 132 tests globaux verts. Aucune dépendance externe. |
+| `interface` (LEX-024) | LEX-024 PASS. `analyze_legal_text_with_report()` disponible depuis le commit `8687a86`. `LegalAnalysisWithReportResponse` expose `analysis` + `report_text`. 137 tests globaux verts. Aucune dépendance externe. |
+| `acceptance` (LEX-025) | LEX-025 PASS. `tests/test_acceptance_full_flow.py` disponible depuis le commit `fe6e472`. 4 scénarios end-to-end verts sur accord réaliste. 141 tests globaux verts. Aucune modification `src/`. |
+| `storage` (LEX-026) | LEX-026 PASS. `InMemoryLegalResultStore` disponible dans `src/lex_syndic/storage/legal_results.py`. API : `save`, `get`, `list_ids`, `clear`. 148 tests globaux verts. Aucune écriture disque, aucune dépendance externe. |
+| `interface` (LEX-027) | LEX-027 PASS. `analyze_and_store_legal_text()` dans `src/lex_syndic/interface/session_handler.py`. `LegalSessionResult` expose `record_id` + `result`. 154 tests globaux verts. Aucun store global. Aucune dépendance externe. |
+| `acceptance` (LEX-028) | LEX-028 PASS. `tests/test_acceptance_session_flow.py` — 6 scénarios session end-to-end. 160 tests globaux verts. Aucune modification `src/`. |
+| `audit` (LEX-029) | LEX-029 PASS. `docs/audits/LEX_029_PRODUCT_MATURITY_AUDIT.md` — audit maturité avant exposition externe. Contrats, couplages, limites et verdict par domaine. |
+| `api` (LEX-030) | LEX-030 PASS. `submit_analysis()` dans `src/lex_syndic/api/local.py`. `LocalApiAnalysisRequest` → `LocalApiAnalysisResponse` (record_id, decision_status, alert_level, report_text, recommended_action). Pure Python, sans serveur HTTP. 167 tests globaux verts. |
+| `acceptance` (LEX-031) | LEX-031 PASS. `tests/test_acceptance_api_local.py` — 7 scénarios API locale end-to-end. 174 tests globaux verts. Aucune modification `src/`. |
+| `storage` (LEX-032) | LEX-032 PASS. `InMemoryLegalResultStore` rendu générique via `Generic[T]`. Couplage `storage → interface` éliminé. 176 tests globaux verts. |
+| `architecture` (LEX-033) | LEX-033 PASS. `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md` — cadrage FastAPI. Contrat API, prérequis, risques, recommandation LEX-034. |
+| `api` (LEX-034) | LEX-034 terminé dans le rail ACT. `src/lex_syndic/api/fastapi_app.py` — API FastAPI locale mono-utilisateur. POST /v1/analyze, GET /v1/results/{record_id}, GET /health. Routes /docs /redoc /openapi.json désactivées. 186 tests globaux verts (10 cas FastAPI) selon preuve de cycle. |
 
-| Cycle | Etat | Reference |
-|-------|------|-----------|
-| LEX-033 | Termine | Cadrage FastAPI, PR #53. |
-| LEX-034 | Termine dans le rail ACT | API FastAPI locale mono-utilisateur. |
-| LEX-037 | Termine dans le rail ACT | PR #57, merge `9acdcf1` selon cockpit ACT. |
-| LEX-038 | Termine dans le rail ACT | PR #58, merge `c58f4af` selon cockpit ACT. |
-| LEX-039 | Termine dans le rail ACT | PR #59, merge `49b86de` selon cockpit ACT. |
-| LEX-040 | Termine dans le rail ACT | PR #60, merge `2b43145`, FastAPI local docs index. |
-| LEX-041 | En cours | Reconciliation documentaire de `STATUS.md`, sans code produit. |
+## Hors périmètre actuel
 
-## Hors perimetre actuel
+Aucun des éléments suivants n'est présent dans V2 et aucun ne doit l'être
+sans décision dans `DECISIONS.md` :
 
-Aucun des elements suivants n'est autorise sans decision separee dans `DECISIONS.md` :
+- backend applicatif,
+- frontend,
+- serveur MCP,
+- graphe de connaissances,
+- Open WebUI,
+- connecteurs Légifrance / Judilibre.
 
-- exposition reseau publique ;
-- usage multi-utilisateur ;
-- base de donnees persistante ;
-- frontend ;
-- serveur MCP utilisateur ;
-- graphe de connaissances ;
-- Open WebUI ;
-- connecteurs juridiques externes ;
-- LLM, embeddings ou dependances IA.
+## Prochaine action de référence
 
-## Prochaine action de reference
+LEX-041 — réconciliation documentaire limitée de `STATUS.md` après LEX-040. Aucun code produit, aucun test et aucune dépendance ne doivent être modifiés dans ce cycle.
 
-LEX-041 doit rester une reconciliation documentaire limitee. Aucun code produit, aucun test et aucune dependance ne doivent etre modifies dans ce cycle.
+## Séquence rail validée
+
+Le dépôt `lex_syndic_v2` sert désormais aussi de support contrôlé pour valider
+le rail ChatGPT → GitHub → Codex. Dans cette séquence, les lots fonctionnels
+Lex-Syndic restent secondaires par rapport à la preuve du rail.
+
+- `RAIL-002` a validé un cycle propre avec branche dédiée, push de branche et préparation de PR.
+- `RAIL-004` a validé le cycle issue GitHub `#2` → branche dédiée → commit → push → PR.
+- `RAIL-005` a validé le cycle issue GitHub `#4` → branche locale dédiée → preuve locale → préparation PR.
+- `RAIL-006` a validé un cycle accéléré gouverné `#6` exécuté en une seule mission Codex.
+- `RAIL-007` est PASS et mergé sur `main` via le merge commit `6a83e27`, avec réconciliation des traces racine et `.codex`.
+
+## État courant après LEX-040
+
+- `main = origin/main = 2b43145faadb09459070b884518fa0eec6598d1c` (base LEX-040)
+- LEX-026 mergé via PR #40 — `InMemoryLegalResultStore` disponible, 148 tests verts
+- LEX-027 mergé via PR #42 — `analyze_and_store_legal_text()` disponible, 154 tests verts
+- LEX-028 mergé via PR #44 — `tests/test_acceptance_session_flow.py` disponible, 160 tests verts
+- LEX-029 mergé via PR #45 — audit maturité disponible, API locale recommandée
+- LEX-030 mergé via PR #47 — `submit_analysis()` disponible, 167 tests verts
+- LEX-031 mergé via PR #49 — `tests/test_acceptance_api_local.py`, 174 tests verts
+- LEX-032 mergé via PR #51 — `InMemoryLegalResultStore` générique, couplage storage→interface éliminé, 176 tests verts
+- LEX-033 mergé via PR #53 — `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`, cadrage FastAPI, DEC-041 ajoutée
+- LEX-034 terminé dans le rail ACT — `src/lex_syndic/api/fastapi_app.py`, API FastAPI locale mono-utilisateur, 186 tests verts (10 cas FastAPI), DEC-LEX-034 ajoutée
+- LEX-040 mergé via PR #60 — FastAPI local docs index, merge commit `2b43145`
+
+## Notes d'execution
+
+- Le warning `pytest_asyncio` sur `asyncio_default_fixture_loop_scope` reste un
+  bruit non bloquant.
+- Le wildcard PowerShell `tests/test_retrieval*.py` n'est pas fiable sans
+  expansion explicite dans cet environnement.
+- Le warning Git `C:\Users\Harib\.config\git\ignore` reste un bruit
+  d'environnement non bloquant.
