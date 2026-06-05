@@ -2,7 +2,7 @@
 
 État réel du dépôt V2 à date.
 
-Dernière mise à jour : 2026-06-03.
+Dernière mise à jour : 2026-06-05.
 
 ## Résumé
 
@@ -48,7 +48,7 @@ fonctionnelle (placeholders) :
 | `acceptance` (LEX-031) | LEX-031 PASS. `tests/test_acceptance_api_local.py` — 7 scénarios API locale end-to-end. 174 tests globaux verts. Aucune modification `src/`. |
 | `storage` (LEX-032) | LEX-032 PASS. `InMemoryLegalResultStore` rendu générique via `Generic[T]`. Couplage `storage → interface` éliminé. 176 tests globaux verts. |
 | `architecture` (LEX-033) | LEX-033 PASS. `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md` — cadrage FastAPI. Contrat API, prérequis, risques, recommandation LEX-034. |
-| `api` (LEX-034) | LEX-034 EN COURS — PR #54 ouverte. `src/lex_syndic/api/fastapi_app.py` — API FastAPI locale mono-utilisateur. POST /v1/analyze, GET /v1/results/{record_id}, GET /health. Routes /docs /redoc /openapi.json désactivées. 186 tests globaux verts (10 cas FastAPI). Validation ChatGPT requise avant merge. |
+| `api` (LEX-034) | LEX-034 terminé dans le rail ACT. `src/lex_syndic/api/fastapi_app.py` — API FastAPI locale mono-utilisateur. POST /v1/analyze, GET /v1/results/{record_id}, GET /health. Routes /docs /redoc /openapi.json désactivées. 186 tests globaux verts (10 cas FastAPI) selon preuve de cycle. |
 
 ## Hors périmètre actuel
 
@@ -64,7 +64,7 @@ sans décision dans `DECISIONS.md` :
 
 ## Prochaine action de référence
 
-LEX-034 EN COURS — PR #54 ouverte, validation ChatGPT requise avant merge. API FastAPI locale mono-utilisateur dans `src/lex_syndic/api/fastapi_app.py`. 186 tests globaux verts (10 cas FastAPI). DEC-LEX-034 ajoutée.
+LEX-041 — réconciliation documentaire limitée de `STATUS.md` après LEX-040. Aucun code produit, aucun test et aucune dépendance ne doivent être modifiés dans ce cycle.
 
 ## Séquence rail validée
 
@@ -78,9 +78,9 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - `RAIL-006` a validé un cycle accéléré gouverné `#6` exécuté en une seule mission Codex.
 - `RAIL-007` est PASS et mergé sur `main` via le merge commit `6a83e27`, avec réconciliation des traces racine et `.codex`.
 
-## État courant après LEX-027
+## État courant après LEX-040
 
-- `main = origin/main = 6516a4afa2377d71978136ad5d63fef4459f71ac` (base LEX-027)
+- `main = origin/main = 2b43145faadb09459070b884518fa0eec6598d1c` (base LEX-040)
 - LEX-026 mergé via PR #40 — `InMemoryLegalResultStore` disponible, 148 tests verts
 - LEX-027 mergé via PR #42 — `analyze_and_store_legal_text()` disponible, 154 tests verts
 - LEX-028 mergé via PR #44 — `tests/test_acceptance_session_flow.py` disponible, 160 tests verts
@@ -89,7 +89,8 @@ Lex-Syndic restent secondaires par rapport à la preuve du rail.
 - LEX-031 mergé via PR #49 — `tests/test_acceptance_api_local.py`, 174 tests verts
 - LEX-032 mergé via PR #51 — `InMemoryLegalResultStore` générique, couplage storage→interface éliminé, 176 tests verts
 - LEX-033 mergé via PR #53 — `docs/architecture/LEX_033_FASTAPI_EXPOSURE_FRAME.md`, cadrage FastAPI, DEC-041 ajoutée
-- LEX-034 EN COURS via PR #54 — `src/lex_syndic/api/fastapi_app.py`, API FastAPI locale mono-utilisateur, 186 tests verts (10 cas FastAPI), DEC-LEX-034 ajoutée, validation ChatGPT requise avant merge
+- LEX-034 terminé dans le rail ACT — `src/lex_syndic/api/fastapi_app.py`, API FastAPI locale mono-utilisateur, 186 tests verts (10 cas FastAPI), DEC-LEX-034 ajoutée
+- LEX-040 mergé via PR #60 — FastAPI local docs index, merge commit `2b43145`
 
 ## Notes d'execution
 
