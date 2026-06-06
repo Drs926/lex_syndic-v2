@@ -1,4 +1,4 @@
-"""FastAPI local single-user HTTP API for lex_syndic [LEX-034].
+"""FastAPI local single-user HTTP API for lex_syndic [LEX-034 / LEX-043].
 
 Constraints (from LEX-033 contract):
 - Bind to 127.0.0.1 only — no public network exposure.
@@ -6,6 +6,12 @@ Constraints (from LEX-033 contract):
 - InMemoryLegalResultStore — results lost on restart.
 - No authentication.
 - Text guard: len(text) > 50000 → HTTP 422 before calling pipeline.
+
+LEX-043 addition:
+- GET /v1/dossiers/{dossier_id}/status — lightweight juridical status for a
+  case file (dossier).  In the current single-document architecture a dossier_id
+  maps 1-to-1 to the record_id returned by POST /v1/analyze.  Returns only the
+  status fields; the full report text remains available via GET /v1/results/{id}.
 """
 
 from __future__ import annotations
@@ -91,6 +97,34 @@ def get_result(record_id: str, request: Request) -> JSONResponse:
             "decision_status": record.analysis.decision_status,
             "alert_level": record.analysis.alert_level,
             "report_text": record.report_text,
+            "recommended_action": record.analysis.recommended_action,
+        },
+    )
+
+
+@app.get("/v1/dossiers/{dossier_id}/status")
+def get_dossier_juridical_status(dossier_id: str, request: Request) -> JSONResponse:
+    """Return the lightweight juridical analysis status for a dossier [LEX-043].
+
+    In the current single-document architecture, dossier_id equals the record_id
+    returned by POST /v1/analyze.  Only status fields are returned; the full
+    analysis report remains available via GET /v1/results/{record_id}.
+
+    Returns:
+        200  {"dossier_id", "juridical_status", "alert_level", "recommended_action"}
+        404  {"detail": "dossier not found"}
+    """
+    store: InMemoryLegalResultStore = request.app.state.store
+    record = store.get(dossier_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="dossier not found")
+
+    return JSONResponse(
+        status_code=200,
+        content={
+            "dossier_id": dossier_id,
+            "juridical_status": record.analysis.decision_status,
+            "alert_level": record.analysis.alert_level,
             "recommended_action": record.analysis.recommended_action,
         },
     )
