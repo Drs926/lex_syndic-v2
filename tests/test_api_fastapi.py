@@ -13,6 +13,12 @@ SAMPLE_TEXT = (
     "Article 2 : Les salariés peuvent exercer leurs fonctions en télétravail deux jours par semaine."
 )
 
+SAMPLE_TEXT_2 = (
+    "Convention collective nationale de la métallurgie. "
+    "Article 3 : Les heures supplémentaires sont rémunérées conformément aux dispositions légales. "
+    "Article 4 : Les congés payés sont accordés selon les termes de la convention."
+)
+
 
 @pytest.fixture()
 def client() -> TestClient:
@@ -83,3 +89,73 @@ def test_get_result_nonexistent(client: TestClient) -> None:
 def test_doc_routes_not_exposed(client: TestClient, path: str) -> None:
     response = client.get(path)
     assert response.status_code == 404
+
+
+# ---------------------------------------------------------------------------
+# LEX-045: Acceptance tests — dossier listing and status endpoints
+# ---------------------------------------------------------------------------
+
+
+def test_dossiers_acceptance_list_contains_created_analyses(client: TestClient) -> None:
+    """Create two analyses; both dossier_ids must appear in GET /v1/dossiers."""
+    r1 = client.post("/v1/analyze", json={"text": SAMPLE_TEXT})
+    assert r1.status_code == 200
+    id1 = r1.json()["record_id"]
+
+    r2 = client.post("/v1/analyze", json={"text": SAMPLE_TEXT_2})
+    assert r2.status_code == 200
+    id2 = r2.json()["record_id"]
+
+    list_resp = client.get("/v1/dossiers")
+    assert list_resp.status_code == 200
+    dossiers = list_resp.json()["dossiers"]
+    listed_ids = [d["dossier_id"] for d in dossiers]
+    assert id1 in listed_ids
+    assert id2 in listed_ids
+
+
+def test_dossiers_acceptance_listed_ids_retrievable_via_status(client: TestClient) -> None:
+    """Every dossier_id returned by GET /v1/dossiers must resolve via GET /v1/dossiers/{id}/status."""
+    client.post("/v1/analyze", json={"text": SAMPLE_TEXT})
+    client.post("/v1/analyze", json={"text": SAMPLE_TEXT_2})
+
+    list_resp = client.get("/v1/dossiers")
+    assert list_resp.status_code == 200
+    dossiers = list_resp.json()["dossiers"]
+    assert len(dossiers) >= 2
+
+    for entry in dossiers:
+        dossier_id = entry["dossier_id"]
+        status_resp = client.get(f"/v1/dossiers/{dossier_id}/status")
+        assert status_resp.status_code == 200, f"Expected 200 for dossier_id={dossier_id}"
+        data = status_resp.json()
+        assert data["dossier_id"] == dossier_id
+        assert "juridical_status" in data
+        assert "alert_level" in data
+        assert "recommended_action" in data
+        assert "report_text" not in data
+
+
+def test_dossiers_acceptance_status_consistent_with_list(client: TestClient) -> None:
+    """Fields returned by GET /v1/dossiers match those from GET /v1/dossiers/{id}/status."""
+    client.post("/v1/analyze", json={"text": SAMPLE_TEXT})
+    client.post("/v1/analyze", json={"text": SAMPLE_TEXT_2})
+
+    list_resp = client.get("/v1/dossiers")
+    assert list_resp.status_code == 200
+
+    for entry in list_resp.json()["dossiers"]:
+        dossier_id = entry["dossier_id"]
+        status_resp = client.get(f"/v1/dossiers/{dossier_id}/status")
+        assert status_resp.status_code == 200
+        status_data = status_resp.json()
+        assert status_data["juridical_status"] == entry["juridical_status"]
+        assert status_data["alert_level"] == entry["alert_level"]
+        assert status_data["recommended_action"] == entry["recommended_action"]
+
+
+def test_dossiers_acceptance_unknown_id_returns_404(client: TestClient) -> None:
+    """An unknown dossier_id must return 404 with detail 'dossier not found'."""
+    response = client.get("/v1/dossiers/result-9999/status")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "dossier not found"
