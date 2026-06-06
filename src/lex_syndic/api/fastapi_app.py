@@ -1,4 +1,4 @@
-"""FastAPI local single-user HTTP API for lex_syndic [LEX-034 / LEX-043].
+"""FastAPI local single-user HTTP API for lex_syndic [LEX-034 / LEX-043 / LEX-044].
 
 Constraints (from LEX-033 contract):
 - Bind to 127.0.0.1 only — no public network exposure.
@@ -12,6 +12,12 @@ LEX-043 addition:
   case file (dossier).  In the current single-document architecture a dossier_id
   maps 1-to-1 to the record_id returned by POST /v1/analyze.  Returns only the
   status fields; the full report text remains available via GET /v1/results/{id}.
+
+LEX-044 addition:
+- GET /v1/dossiers — list all known dossiers with their juridical status summary.
+  Returns dossier_id, juridical_status, alert_level, recommended_action for every
+  stored dossier.  report_text is intentionally excluded.  Empty list when the
+  in-memory store contains no records.
 """
 
 from __future__ import annotations
@@ -100,6 +106,33 @@ def get_result(record_id: str, request: Request) -> JSONResponse:
             "recommended_action": record.analysis.recommended_action,
         },
     )
+
+
+@app.get("/v1/dossiers")
+def list_dossiers(request: Request) -> JSONResponse:
+    """Return the list of all dossiers with their juridical status summary [LEX-044].
+
+    Each entry contains only lightweight status fields; report_text is excluded.
+    Returns an empty list when no dossier has been analysed yet.
+
+    Returns:
+        200  {"dossiers": [{"dossier_id", "juridical_status", "alert_level",
+              "recommended_action"}, ...]}
+    """
+    store: InMemoryLegalResultStore = request.app.state.store
+    dossiers = []
+    for dossier_id in store.list_ids():
+        record = store.get(dossier_id)
+        if record is not None:
+            dossiers.append(
+                {
+                    "dossier_id": dossier_id,
+                    "juridical_status": record.analysis.decision_status,
+                    "alert_level": record.analysis.alert_level,
+                    "recommended_action": record.analysis.recommended_action,
+                }
+            )
+    return JSONResponse(status_code=200, content={"dossiers": dossiers})
 
 
 @app.get("/v1/dossiers/{dossier_id}/status")
