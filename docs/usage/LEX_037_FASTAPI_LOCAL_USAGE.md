@@ -1,8 +1,8 @@
 # LEX-037 — FastAPI Local API: Launch Documentation and Usage Contract
 
-DATE: 2026-06-04
-BASE: LEX-036 (PR #56), HEAD ae9464c
-TESTS: 194 passing
+DATE: 2026-06-08
+BASE: LEX-045 (PR #65), HEAD 8addd86
+TESTS: 222 passing
 
 ---
 
@@ -154,7 +154,73 @@ curl http://127.0.0.1:8000/v1/results/result-0001
 
 ---
 
-### 4.4 Disabled routes
+### 4.4 GET /v1/dossiers
+
+List all dossiers that have been analysed in the current session. Returns a
+lightweight status summary for each one; `report_text` is intentionally excluded.
+Returns an empty list when the in-memory store contains no records.
+
+**Request:** `GET http://127.0.0.1:8000/v1/dossiers`
+
+**Response 200:**
+
+```json
+{
+  "dossiers": [
+    {
+      "dossier_id": "result-0001",
+      "juridical_status": "compliant",
+      "alert_level": "low",
+      "recommended_action": "No action required."
+    }
+  ]
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `dossiers` | list | Ordered list of dossier summaries (empty if none stored) |
+| `dossier_id` | string | Equals the `record_id` returned by POST /v1/analyze |
+| `juridical_status` | string | One of: `compliant`, `non_compliant`, `attention_required`, `insufficient_data` |
+| `alert_level` | string | Severity indicator |
+| `recommended_action` | string | Recommended next step |
+
+**curl example:**
+```bash
+curl http://127.0.0.1:8000/v1/dossiers
+```
+
+---
+
+### 4.5 GET /v1/dossiers/{dossier_id}/status
+
+Retrieve the lightweight juridical status for a single dossier. In the current
+single-document architecture, `dossier_id` equals the `record_id` returned by
+POST /v1/analyze. Only status fields are returned; the full report text is
+available via GET /v1/results/{record_id}.
+
+**Response 200:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `dossier_id` | string | The requested identifier |
+| `juridical_status` | string | One of: `compliant`, `non_compliant`, `attention_required`, `insufficient_data` |
+| `alert_level` | string | Severity indicator |
+| `recommended_action` | string | Recommended next step |
+
+**Response 404:**
+```json
+{ "detail": "dossier not found" }
+```
+
+**curl example:**
+```bash
+curl http://127.0.0.1:8000/v1/dossiers/result-0001/status
+```
+
+---
+
+### 4.6 Disabled routes
 
 The following routes are **intentionally disabled** (return HTTP 404):
 
@@ -190,7 +256,7 @@ and the broader `api/` module.
 
 | Element | Rule |
 |---------|------|
-| Endpoint paths | `POST /v1/analyze`, `GET /v1/results/{record_id}`, `GET /health` are the only authorised paths. |
+| Endpoint paths | `POST /v1/analyze`, `GET /v1/results/{record_id}`, `GET /health`, `GET /v1/dossiers`, `GET /v1/dossiers/{dossier_id}/status` are the authorised paths. |
 | Disabled routes | `/docs`, `/redoc`, `/openapi.json` must remain disabled unless a new DECISIONS.md entry explicitly activates them. |
 | Host binding | Must remain `127.0.0.1`. Any non-localhost binding requires a new decision. |
 | Workers | Must remain 1. Multi-worker requires a thread-safe store and a new decision. |
@@ -240,5 +306,7 @@ Any modification to `fastapi_app.py` must:
 | FastAPI local maturity audit | `docs/audits/LEX_036_FASTAPI_LOCAL_MATURITY_AUDIT.md` |
 | Authorising decision | `DECISIONS.md` § DEC-LEX-034 |
 | FastAPI application source | `src/lex_syndic/api/fastapi_app.py` |
-| Unit tests | `tests/test_api_fastapi.py` |
-| Acceptance tests | `tests/test_acceptance_fastapi_local.py` |
+| Unit tests (core) | `tests/test_api_fastapi.py` |
+| Unit tests (dossiers list) | `tests/test_api_list_dossiers.py` |
+| Acceptance tests (FastAPI) | `tests/test_acceptance_fastapi_local.py` |
+| Acceptance tests (juridical status) | `tests/test_acceptance_juridical_status.py` |

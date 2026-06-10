@@ -1,8 +1,8 @@
 # LEX-039 — FastAPI Local API: Smoke Test Guide
 
-DATE: 2026-06-04
-BASE: LEX-038 (PR #58), HEAD c58f4af
-TESTS: 194 passing
+DATE: 2026-06-08
+BASE: LEX-045 (PR #65), HEAD 8addd86
+TESTS: 222 passing
 
 ---
 
@@ -33,7 +33,7 @@ INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 ```
 
 If you do not see `Application startup complete.`, stop here and consult
-[§4 Quick failure interpretation](#4-quick-failure-interpretation).
+[§7 Quick failure interpretation](#7-quick-failure-interpretation).
 
 ---
 
@@ -80,19 +80,63 @@ functioning correctly.
 
 ---
 
-## 5. Signs of success
+## 5. Dossiers endpoint checks
+
+After step 4, the store holds one record. Confirm the dossiers endpoints are
+reachable and consistent with the analysis result.
+
+### 5.1 List all dossiers
+
+```bash
+curl http://127.0.0.1:8000/v1/dossiers
+```
+
+**Expected: HTTP 200 with a JSON body containing:**
+
+- `dossiers` — a list with at least one entry
+- Each entry has `dossier_id`, `juridical_status`, `alert_level`, `recommended_action`
+- `report_text` must **not** appear in any entry
+
+### 5.2 Query a single dossier status
+
+Use the `record_id` from step 4 as `DOSSIER_ID`:
+
+```bash
+curl http://127.0.0.1:8000/v1/dossiers/DOSSIER_ID/status
+```
+
+**Expected: HTTP 200 with a JSON body containing:**
+
+- `dossier_id` — equals `DOSSIER_ID`
+- `juridical_status`, `alert_level`, `recommended_action` — same values as in the list above
+- `report_text` must **not** appear
+
+### 5.3 Unknown dossier returns 404
+
+```bash
+curl http://127.0.0.1:8000/v1/dossiers/dossier-unknown-0000/status
+```
+
+**Expected: HTTP 404** with body `{"detail":"dossier not found"}`.
+
+---
+
+## 6. Signs of success
 
 | Check | Expected sign |
 |-------|--------------|
 | Server starts | `Application startup complete.` in the uvicorn log |
 | Health endpoint | HTTP 200, `{"status":"ok"}` |
 | Analysis endpoint | HTTP 200, JSON body with `record_id` and `decision_status` |
+| List dossiers | HTTP 200, `{"dossiers":[{...}]}` with at least one entry |
+| Dossier status | HTTP 200, `dossier_id`, `juridical_status`, `alert_level`, `recommended_action` |
+| Unknown dossier | HTTP 404, `{"detail":"dossier not found"}` |
 
-If all three pass, the local API is working correctly.
+If all six pass, the local API is working correctly.
 
 ---
 
-## 6. Quick failure interpretation
+## 7. Quick failure interpretation
 
 ### Server not started
 
@@ -165,7 +209,7 @@ to get a new `record_id`.
 
 ---
 
-## 7. Reference
+## 8. Reference
 
 | Document | Path |
 |----------|------|
