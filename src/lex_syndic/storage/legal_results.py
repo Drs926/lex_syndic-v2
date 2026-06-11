@@ -1,4 +1,4 @@
-"""Generic in-memory store for legal analysis results [LEX-026 / LEX-032].
+"""Generic in-memory store for legal analysis results [LEX-026 / LEX-032 / LEX-047].
 
 Storage is intentionally decoupled from interface types (DEC-039).
 The caller is responsible for storing and retrieving correctly typed objects.
@@ -29,6 +29,13 @@ class InMemoryLegalResultStore(Generic[T]):
 
     def list_ids(self) -> tuple[str, ...]:
         return tuple(self._records.keys())
+
+    def delete(self, record_id: str) -> bool:
+        """Remove a record by id. Returns True if deleted, False if not found."""
+        if record_id in self._records:
+            del self._records[record_id]
+            return True
+        return False
 
     def clear(self) -> None:
         self._records.clear()

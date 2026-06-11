@@ -1,4 +1,4 @@
-"""FastAPI local single-user HTTP API for lex_syndic [LEX-034 / LEX-043 / LEX-044].
+"""FastAPI local single-user HTTP API for lex_syndic [LEX-034 / LEX-043 / LEX-044 / LEX-047].
 
 Constraints (from LEX-033 contract):
 - Bind to 127.0.0.1 only — no public network exposure.
@@ -18,6 +18,10 @@ LEX-044 addition:
   Returns dossier_id, juridical_status, alert_level, recommended_action for every
   stored dossier.  report_text is intentionally excluded.  Empty list when the
   in-memory store contains no records.
+
+LEX-047 addition:
+- DELETE /v1/dossiers/{dossier_id} — remove a single dossier from the in-memory
+  store.  Returns 204 on success.  Returns 404 when the dossier_id is unknown.
 """
 
 from __future__ import annotations
@@ -133,6 +137,20 @@ def list_dossiers(request: Request) -> JSONResponse:
                 }
             )
     return JSONResponse(status_code=200, content={"dossiers": dossiers})
+
+
+@app.delete("/v1/dossiers/{dossier_id}", status_code=204)
+def delete_dossier(dossier_id: str, request: Request) -> None:
+    """Remove a dossier from the in-memory store [LEX-047].
+
+    Returns:
+        204  on successful deletion
+        404  {"detail": "dossier not found"} when dossier_id is unknown
+    """
+    store: InMemoryLegalResultStore = request.app.state.store
+    deleted = store.delete(dossier_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="dossier not found")
 
 
 @app.get("/v1/dossiers/{dossier_id}/status")
