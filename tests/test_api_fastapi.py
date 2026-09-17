@@ -2,15 +2,17 @@
 
 from __future__ import annotations
 
-import pytest
-from starlette.testclient import TestClient
+import logging
 
+import pytest
 from lex_syndic.api.fastapi_app import app
+from starlette.testclient import TestClient
 
 SAMPLE_TEXT = (
     "Accord d'entreprise relatif au télétravail. "
     "Article 1 : Le télétravail est mis en place conformément aux dispositions légales. "
-    "Article 2 : Les salariés peuvent exercer leurs fonctions en télétravail deux jours par semaine."
+    "Article 2 : Les salariés peuvent exercer leurs fonctions en télétravail "
+    "deux jours par semaine."
 )
 
 SAMPLE_TEXT_2 = (
@@ -115,7 +117,9 @@ def test_dossiers_acceptance_list_contains_created_analyses(client: TestClient) 
 
 
 def test_dossiers_acceptance_listed_ids_retrievable_via_status(client: TestClient) -> None:
-    """Every dossier_id returned by GET /v1/dossiers must resolve via GET /v1/dossiers/{id}/status."""
+    """Every dossier_id returned by GET /v1/dossiers must resolve via
+    GET /v1/dossiers/{id}/status.
+    """
     client.post("/v1/analyze", json={"text": SAMPLE_TEXT})
     client.post("/v1/analyze", json={"text": SAMPLE_TEXT_2})
 
@@ -159,3 +163,66 @@ def test_dossiers_acceptance_unknown_id_returns_404(client: TestClient) -> None:
     response = client.get("/v1/dossiers/result-9999/status")
     assert response.status_code == 404
     assert response.json()["detail"] == "dossier not found"
+
+
+def test_analyze_internal_error_is_logged_without_input_leak(
+    client: TestClient,
+    monkeypatch: pytest.MonkeyPatch,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    secret_text = "CONFIDENTIAL LEGAL INPUT 49"
+    secret_title = "CONFIDENTIAL TITLE 49"
+    secret_citation = "CONFIDENTIAL CITATION 49"
+
+    def fail_submit(*args: object, **kwargs: object) -> object:
+        raise RuntimeError("synthetic backend failure")
+
+    monkeypatch.setattr(
+        "lex_syndic.api.fastapi_app.submit_analysis",
+        fail_submit,
+    )
+    caplog.set_level(logging.ERROR, logger="lex_syndic.api.fastapi_app")
+
+    response = client.post(
+        "/v1/analyze",
+        json={
+            "text": secret_text,
+            "title": secret_title,
+            "expected_citations": [secret_citation],
+        },
+    )
+
+    assert response.status_code == 500
+    assert response.json() == {"detail": "internal error"}
+
+    records = [
+        record
+        for record in caplog.records
+        if record.name == "lex_syndic.api.fastapi_app"
+        and record.levelno >= logging.ERROR
+    ]
+    assert len(records) == 1
+    record = records[0]
+    assert record.exc_info is not None
+    message = record.getMessage()
+    assert message == "Unexpected error while processing legal analysis"
+    assert secret_text not in message
+    assert secret_title not in message
+    assert secret_citation not in message
+
+
+def test_validation_422_does_not_emit_internal_error_log(
+    client: TestClient,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    caplog.set_level(logging.ERROR, logger="lex_syndic.api.fastapi_app")
+
+    response = client.post("/v1/analyze", json={"text": "   "})
+
+    assert response.status_code == 422
+    assert not [
+        record
+        for record in caplog.records
+        if record.name == "lex_syndic.api.fastapi_app"
+        and record.levelno >= logging.ERROR
+    ]
