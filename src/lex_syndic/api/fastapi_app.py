@@ -26,8 +26,9 @@ LEX-047 addition:
 
 from __future__ import annotations
 
+import logging
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -35,6 +36,8 @@ from pydantic import BaseModel, Field
 
 from lex_syndic.api.local import LocalApiAnalysisRequest, submit_analysis
 from lex_syndic.storage.legal_results import InMemoryLegalResultStore
+
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -78,7 +81,8 @@ def analyze(body: AnalyzeRequest, request: Request) -> JSONResponse:
         )
         response = submit_analysis(api_request, request.app.state.store)
     except Exception:
-        raise HTTPException(status_code=500, detail="internal error")
+        logger.exception("Unexpected error while processing legal analysis")
+        raise HTTPException(status_code=500, detail="internal error") from None
 
     return JSONResponse(
         status_code=200,
