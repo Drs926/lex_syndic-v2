@@ -234,6 +234,28 @@ Re-enabling these routes requires a new decision in `DECISIONS.md`.
 
 ---
 
+### 4.7 HTTP error contract
+
+The FastAPI v1 error contract is documented in
+`docs/architecture/LEX_050_FASTAPI_ERROR_CONTRACT.md`.
+
+Frozen client-visible errors:
+
+| Request case | HTTP status | Response body |
+|--------------|-------------|---------------|
+| `POST /v1/analyze` with empty `text` | 422 | `{ "detail": "text must not be empty" }` |
+| `POST /v1/analyze` with whitespace-only `text` | 422 | `{ "detail": "text must not be empty" }` |
+| `POST /v1/analyze` with `text` longer than 50,000 characters | 422 | `{ "detail": "text exceeds maximum length" }` |
+| `GET /v1/results/{record_id}` with an unknown id | 404 | `{ "detail": "record not found" }` |
+| `GET /v1/dossiers/{dossier_id}/status` with an unknown id | 404 | `{ "detail": "dossier not found" }` |
+| `DELETE /v1/dossiers/{dossier_id}` with an unknown id | 404 | `{ "detail": "dossier not found" }` |
+| Unexpected `submit_analysis` failure during `POST /v1/analyze` | 500 | `{ "detail": "internal error" }` |
+
+Unexpected internal exception messages are not part of the public HTTP
+contract and must not be exposed in responses.
+
+---
+
 ## 5. Known constraints and limitations
 
 | Constraint | Detail |
