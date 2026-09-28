@@ -22,7 +22,7 @@ SAMPLE_TEXT_2 = (
 
 @pytest.fixture()
 def client() -> TestClient:
-    with TestClient(app) as c:
+    with TestClient(app, client=("127.0.0.1", 50000)) as c:
         yield c
 
 

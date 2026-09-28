@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import AsyncIterator
+from ipaddress import ip_address
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
@@ -53,6 +54,25 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None,
 )
+
+
+def _is_loopback_peer(request: Request) -> bool:
+    """Return True only for an actual loopback ASGI peer address."""
+    client = request.client
+    if client is None:
+        return False
+    try:
+        return ip_address(client.host).is_loopback
+    except ValueError:
+        return False
+
+
+@app.middleware("http")
+async def enforce_local_only(request: Request, call_next):
+    """Fail closed when the socket peer is outside the local host."""
+    if not _is_loopback_peer(request):
+        return JSONResponse(status_code=403, content={"detail": "local access only"})
+    return await call_next(request)
 
 
 class AnalyzeRequest(BaseModel):

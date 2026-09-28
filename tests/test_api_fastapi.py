@@ -24,7 +24,7 @@ SAMPLE_TEXT_2 = (
 
 @pytest.fixture()
 def client() -> TestClient:
-    with TestClient(app) as c:
+    with TestClient(app, client=("127.0.0.1", 50000)) as c:
         yield c
 
 
@@ -32,6 +32,38 @@ def test_health(client: TestClient) -> None:
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
+
+
+@pytest.mark.parametrize("peer_host", ["127.0.0.1", "::1"])
+def test_loopback_peers_are_accepted(peer_host: str) -> None:
+    with TestClient(app, client=(peer_host, 50000)) as local_client:
+        response = local_client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
+
+
+def test_non_loopback_peer_is_rejected_before_endpoint_logic() -> None:
+    with TestClient(app, client=("198.51.100.10", 50000)) as remote_client:
+        response = remote_client.get("/health")
+
+    assert response.status_code == 403
+    assert response.json() == {"detail": "local access only"}
+
+
+def test_forwarded_loopback_header_does_not_bypass_remote_peer_rejection() -> None:
+    with TestClient(app, client=("198.51.100.10", 50000)) as remote_client:
+        response = remote_client.get(
+            "/health",
+            headers={
+                "x-forwarded-for": "127.0.0.1",
+                "x-real-ip": "127.0.0.1",
+                "forwarded": "for=127.0.0.1",
+            },
+        )
+
+    assert response.status_code == 403
+    assert response.json() == {"detail": "local access only"}
 
 
 def test_analyze_valid(client: TestClient) -> None:
